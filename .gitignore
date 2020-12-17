@@ -1,2 +1,5 @@
 # 環境変数 mysqlやphpのパスワードなど、ポート番号など
-.env
+/.env
+
+# memoを除外
+/memo.md
