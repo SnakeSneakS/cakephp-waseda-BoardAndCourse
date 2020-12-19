@@ -3,3 +3,6 @@
 
 # memoを除外
 /memo.md
+
+# mysqlの中身データを除外
+/mysql
