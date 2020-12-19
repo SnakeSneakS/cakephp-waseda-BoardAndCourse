@@ -6,11 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <header>
-        Hello World!
-    </header>
-    <body>
-        <a href="./waseda/mypages/index">Click here</a>
-    </body>
+    <h1>Hello world</h1>
+    <?php debug($users); ?>
 </body>
 </html>

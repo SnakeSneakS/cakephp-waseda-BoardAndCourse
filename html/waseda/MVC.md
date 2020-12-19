@@ -29,6 +29,7 @@
 
 # Stunctures
 ## Model
+詳しくはdetailsをみるべし
 ~~~
 Model(Model/User.php) - mysql table users
 Model(Model/Department.php) - mysql table departments
@@ -37,7 +38,7 @@ Model(Model/CourseSelection.php) - mysql table courseSelections
 ~~~
 
 ## Controller
-- Controller(Controller/MypageController.php)
+- Controller(Controller/MypagesController.php)
     - in waseda/mypage/
 
 | name | parameter | description
@@ -65,7 +66,7 @@ Model(Model/CourseSelection.php) - mysql table courseSelections
 | ranking/course/ | user-id , now-course-id , new-course-id |学科選択の人数や自分の順位、行けそうかどうかを表示
 -->
 
-- Controller(Controller/RankingController.php)
+- Controller(Controller/RankingsController.php)
     - in waseda/ranking/
 
 | name | parameter | description
@@ -93,25 +94,34 @@ View(View/Posts/)
 
 | name | type   | options | description |
 ---|---|---|--
-| id | int32   | primary, auto increment| ユーザID
-| username      | string  |            | ユーザネーム
-| password  | string  |            | パスワード
-| year      | int     |            | 学年 
-| department| int     | null       | 学部ID（e.g. 基幹理工学部)
-| course    | int     | null       | 学科ID (e.g. 学系○, 〇〇学科)
-| GPA       | float   | null       | 平均GPA 
-| comment   | string  | null       | プロフィールコメント(e.g. こんにちは)
-| image     | blob    | null       | profile image
-| created   | time    | now()      | 作成日時
-| modified  | time    | now()      | 更新日時
+| id | int | primary, auto increment| ユーザID
+| name      | varchar(8)  |            | ユーザネーム
+| password  | varchar(32) |            | パスワード
+| created   | datetime | now()      | 作成日時
+| modified  | datetime | now()      | 更新日時
 
+
+- Model(Model/Grade.php)
+    - mysql table grades
+
+| name | type   | options | description |
+---|---|---|--
+| user_id | int | primary| ユーザID
+| year      | YEAR     | null       | 入学年度
+|department_id| int     | null       | 学部ID（e.g. 基幹理工学部)
+| course_id  | int     | null       | 学科ID (e.g. 学系○, 〇〇学科)
+| gpa       | decimal   | null       | 平均GPA 
+| comment   | text | null       | プロフィールコメント(e.g. こんにちは)
+| image     | blob    | null       | profile image
+| created   | datetime | now()      | 作成日時
+| modified  | datetime | now()      | 更新日時
 
 - Model(Model/Department.php)
     - mysql table departments
 
  name | type | options | description |
 --|--|--|--
-| id        | int32   | primary, auto increment| 学部ID
+| id | int32   | primary, auto increment| 学部ID
 | department| string  |            | e.g. 基幹理工学部
 
 - Model(Model/Course.php)
@@ -119,7 +129,7 @@ View(View/Posts/)
 
  name | type | options | description |
 --|--|--|--
-| id        | int32   | primary, auto increment| 学科ID
+| id | int32   | primary, auto increment| 学科ID
 | course    | string  |            | e.g. 学系○、　〇〇学科
 
 - Model(Model/CourseSelection.php)
@@ -127,10 +137,10 @@ View(View/Posts/)
 
 | name | type | options | description |
 --|--|--|--
-| id          | int32   | primary, auto increment|
-| department  | int     |            | 学部ID
-| now course  | int     |            | 学科ID (now)
-| next course | int     | null       | 学科ID (can select)
-| num         | int     | null       | 人数
+| id   | int32   | primary, auto increment|
+| department_id | int     |            | 学部ID
+|now_course_id| int     |            | 学科ID (now)
+|next_course_id| int     | null       | 学科ID (can select)
+| max_num    | int     | null       | 人数
 
 
