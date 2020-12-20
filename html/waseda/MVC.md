@@ -97,8 +97,8 @@ View(View/Posts/)
 | id | int | primary, auto increment| ユーザID
 | name      | varchar(8)  |            | ユーザネーム
 | password  | varchar(32) |            | パスワード
-| created   | datetime | now()      | 作成日時
-| modified  | datetime | now()      | 更新日時
+| created   | datetime | CURRENT_TIMESTAMP now()      | 作成日時
+| modified  | datetime | CURRENT_TIMESTAMP now()      | 更新日時
 
 
 - Model(Model/Grade.php)
@@ -107,40 +107,39 @@ View(View/Posts/)
 | name | type   | options | description |
 ---|---|---|--
 | user_id | int | primary| ユーザID
-| year      | YEAR     | null       | 入学年度
+| enter_year      | YEAR     | null       | 入学年度
 |department_id| int     | null       | 学部ID（e.g. 基幹理工学部)
 | course_id  | int     | null       | 学科ID (e.g. 学系○, 〇〇学科)
 | gpa       | decimal   | null       | 平均GPA 
 | comment   | text | null       | プロフィールコメント(e.g. こんにちは)
 | image     | blob    | null       | profile image
-| created   | datetime | now()      | 作成日時
-| modified  | datetime | now()      | 更新日時
+| modified  | datetime | CURRENT_TIMESTAMP now()      | 更新日時
 
 - Model(Model/Department.php)
     - mysql table departments
 
  name | type | options | description |
 --|--|--|--
-| id | int32   | primary, auto increment| 学部ID
-| department| string  |            | e.g. 基幹理工学部
+| id | int   | primary, auto increment| 学部ID
+| department| varchar(255)  |            | e.g. 基幹理工学部
 
 - Model(Model/Course.php)
     - mysql table courses
 
  name | type | options | description |
 --|--|--|--
-| id | int32   | primary, auto increment| 学科ID
-| course    | string  |            | e.g. 学系○、　〇〇学科
+| id | int   | primary, auto increment| 学科ID
+| course    | varchar(255)  |            | e.g. 学系○、　〇〇学科
 
 - Model(Model/CourseSelection.php)
-    - mysql table courseSelections
+    - mysql table course_selections
 
 | name | type | options | description |
 --|--|--|--
-| id   | int32   | primary, auto increment|
+| id   | int  | primary, auto increment|
 | department_id | int     |            | 学部ID
 |now_course_id| int     |            | 学科ID (now)
-|next_course_id| int     | null       | 学科ID (can select)
-| max_num    | int     | null       | 人数
+|next_course_id| int     |            | 学科ID (can select)
+| max_num    | int     |            | 人数
 
 

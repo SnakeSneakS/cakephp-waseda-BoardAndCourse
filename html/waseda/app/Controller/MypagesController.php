@@ -1,6 +1,9 @@
 <?php
 
 class MypagesController extends AppController{
+
+    public $uses=array("User");//model 指定 CourseSelection, User
+
     //public $scaffold;//localhost/blog/postsでもう管理画面みたいなのが既にできてる。でもこれだとカスタマイズはできないよね〜〜
     public $helpers = array('Html','Form');//htmlと入力formをこれから扱うZE
 

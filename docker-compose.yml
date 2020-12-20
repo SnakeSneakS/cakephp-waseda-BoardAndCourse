@@ -15,6 +15,7 @@ services:
   mysql:
     image: mysql:5.7
     volumes:
+      - ./mysql/my.conf:/etc/mysql/conf.d/my.cnf
       - ./mysql:/var/lib/mysql
     ports:
       - ${MYSQL_PORT}:3306

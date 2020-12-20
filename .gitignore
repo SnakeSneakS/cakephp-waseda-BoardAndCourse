@@ -6,3 +6,4 @@
 
 # mysqlの中身データを除外
 /mysql/*
+!/mysql/my.conf

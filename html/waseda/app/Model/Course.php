@@ -1,4 +1,4 @@
 <?php
-class Course extends AppModel{
+class Course extends AppModel{//table courses
 
 }
