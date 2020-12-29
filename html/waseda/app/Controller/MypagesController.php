@@ -13,7 +13,7 @@ class MypagesController extends AppController{
             'limit' => 2 //何件検索するか
             //他にもいろいろなパラメータあり https://api.cakephp.org/2.10/class-Model.html#_find
         );*/
-        $this->set('users',$this->User->find('all',array('order' => 'user_id asc')) );//このコントローラで使っているPostモデルに対しデータを全て取得. htmlファイルでの変数postsに配列でデータをいれる
+        $this->set('users',$this->User->find('all',array('order' => 'user.id asc','recursive'=>'2')) );//recursiveによって誰だけ深くまでfindするか決める
     }
 
     public function add() {

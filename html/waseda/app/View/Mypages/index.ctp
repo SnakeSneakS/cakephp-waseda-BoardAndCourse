@@ -56,9 +56,9 @@
                 <td> <?php echo($user["Grade"]["user_id"]) ?> </td>
                 <td> <?php echo($user["Grade"]["enter_year"]) ?> </td>
                 <td> <?php echo($user["Grade"]["department_id"]) ?> </td>
-                <td> <?php echo($user["Department"]["department"]) ?> </td>
+                <td> <?php echo($user["Grade"]["Department"]["department"]) ?> </td>
                 <td> <?php echo($user["Grade"]["course_id"]) ?> </td>
-                <td> <?php echo($user["Course"]["course"]) ?> </td>
+                <td> <?php echo($user["Grade"]["Course"]["course"]) ?> </td>
                 <td> <?php echo($user["Grade"]["gpa"]) ?> </td>
                 <td> <?php echo($user["Grade"]["comment"]) ?> </td>
                 <td> <?php echo($user["Grade"]["modified"]) ?> </td>            
