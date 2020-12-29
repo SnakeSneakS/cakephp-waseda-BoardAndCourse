@@ -31,10 +31,8 @@
 ## Model
 詳しくはdetailsをみるべし
 ~~~
-Model(Model/User.php) - mysql table users
-Model(Model/Department.php) - mysql table departments
-Model(Model/Course.php) - mysql table courses
-Model(Model/CourseSelection.php) - mysql table courseSelections
+Model(Model/User.php) - mysql table users, departments, courses
+Model(Model/CourseSelection.php) - mysql table courseSelections, departments, courses
 ~~~
 
 ## Controller
@@ -47,7 +45,7 @@ Model(Model/CourseSelection.php) - mysql table courseSelections
 | login |               | ログイン画面
 | add   |               | 新規申請
 | edit  |               | プロフィール編集
-| delete|               | アカウント削除
+|(delete)|               | アカウント削除
 
 <!-- 
 ~~下のようにcakephpの命名規則に従う場合、色々省略できる。今回はcontrollerを機能ごとに区別したいため、またcakephpが裏でどんな風にmvcを繋げているかを学ぶため、命名規則に従わない。~~
@@ -73,7 +71,7 @@ Model(Model/CourseSelection.php) - mysql table courseSelections
 --|--|--
 | index |  | 下のどれを使うか選択。パラメータはセッションキーで？
 | grade/ | user-id (,department) |gpaでのランキングを表示(学科や学部ごとも？)
-| course/ | user-id , now-course-id , new-course-id |学科選択の人数や自分の順位、行けそうかどうか等グラフ等表示
+| new_course/ | user-id , now-course-id , new-course-id |学科選択の人数や自分の順位、行けそうかどうか等グラフ等表示
 
 
 ## View

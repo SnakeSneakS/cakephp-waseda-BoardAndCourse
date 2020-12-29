@@ -1,5 +1,6 @@
 <?php
 class CourseSelection extends AppModel{//table course_selections
+    public $primaryKey = "id";
     var $belongsTo = array( //table user has foreign key "department_id" and "course_id". 多対一の関係
         'Department' => array(
             'className' => 'Department',
@@ -20,4 +21,6 @@ class CourseSelection extends AppModel{//table course_selections
             'foreignKey' => 'next_course_id'
         )
     );
+
+    //$hasAndBelongsToMany の方がいい？
 }

@@ -13,8 +13,86 @@ class MypagesController extends AppController{
             'limit' => 2 //何件検索するか
             //他にもいろいろなパラメータあり https://api.cakephp.org/2.10/class-Model.html#_find
         );*/
-        $this->set('users',$this->User->find('all'/*,$params*/));//このコントローラで使っているPostモデルに対しデータを全て取得. htmlファイルでの変数postsに配列でデータをいれる
-        //$this->set('title_forlayout','記事一覧');//headerを指定して表示
+        $this->set('users',$this->User->find('all',array('order' => 'user_id asc')) );//このコントローラで使っているPostモデルに対しデータを全て取得. htmlファイルでの変数postsに配列でデータをいれる
+    }
+
+    public function add() {
+        if ($this->request->is('post')) {
+            $this->User->create();
+            if ($this->User->save($this->request->data/*["User"]*/)) { //table名とformの名前が等しい時はdata後の["${name}"]を省略できる?
+                $this->Flash->success('The user has been saved');
+                return $this->redirect(array('action' => 'index'));
+            }else{
+                //debug($this->User->validationErrors);
+                $this->Flash->error('The user could not be saved. Please, try again.');
+            }
+            
+        }
+    }
+
+    public function edit($id=null){
+        if (/*!isset($this->request->data) || */$id==null) { 
+            $this->Flash->error('error: argument was not set...');
+            return $this->redirect(array('action' => 'index'));  
+        }
+
+        //$this->request->data["Grade"]["user_id"]=$id;
+        //debug($this->request->data);
+
+        if($this->request->is('get')){ /*GET*/
+            $data=$this->User->findById($id);
+            if($data){
+                $this->Flash->success('Load data success!');
+                $this->set('user',$data); //$this->User->find('first',array("conditions"=>array("User.id"=>$id)) でも良い 
+            }else{
+                $this->Flash->error('load Failed');
+                return $this->redirect(array('action' => 'index')); 
+            }
+        }else if ($this->request->is('post')) { /*POST*/
+            //urlとdataが違う時、エラーを出して操作中止
+            if($this->request->data["User"]["id"]!=$id){
+                $this->Flash->error('error: $i ≠ data>User>id');
+                debug($this->request->data);
+                return;
+            }
+            
+            //error: 
+            if($id==0){
+                $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+                //$this->Flash->error('error: '.$this->request->data["User"]["id"].' = '.$id);
+                //$this->Flash->error('error: '.$this->request->data["User"]["id"]!=$id);
+                return;   
+            }
+
+            if(!empty($this->request->data["Grade"]["image"]["tmp_name"])){ //image set
+                debug($this->request->data["Grade"]);
+                $this->request->data["Grade"]["image"]=file_get_contents($this->request->data["Grade"]["image"]["tmp_name"]);
+            }else{//画像が未選択の場合元のまま or なし
+                $image=$this->User->Grade->findByUserId($id)["Grade"]["image"];
+                if(!empty($image)){
+                    $this->request->data["Grade"]["image"]=$image;
+                }else{
+                    $this->request->data["Grade"]["image"]="";
+                }
+            }
+            $saved=$this->User->saveAssociated($this->request->data); //これか下のコメントアウトかどちらか
+            /*$user=$this->User->save($this->request->data);
+            if(!empty($user)){
+                if($this->User->Grade->save($this->request->data)){
+                    $this->Flash->success('edit grade success!');
+                }else{
+                    $this->Flash->error('edit grade failed!');
+                }
+            }*/
+
+            if (!empty($saved)) { 
+                $this->Flash->success('edit success!');
+                //return $this->redirect(array('action' => 'edit',$id));  
+            }else{
+                $this->Flash->error('edit Failed');
+                return $this->redirect(array('action' => 'index'));  
+            }
+        } 
     }
 
 }
