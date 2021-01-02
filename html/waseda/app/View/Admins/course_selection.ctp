@@ -86,9 +86,9 @@
             <td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","class"=>"departmentInputArea")); ?> </td>  <?php // phpの場合、<td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","options"=>$departmentKV,"value"=>$departmentKV, "empty"=>"(choose one)","class"=>"departmentInputArea")); ?> 
             <td> <?php echo $this->Form->input("CourseSelection.now_course_id",array("label"=>"","class"=>"nowCourseInputArea")); ?> </td>
             <td> <?php echo $this->Form->input("CourseSelection.next_course_id",array("label"=>"","class"=>"nextCourseInputArea")); ?> </td>
-            <td> <?php echo $this->Form->input("CourseSelection.max_num",array("default"=>$courseSelection["CourseSelection"]["max_num"],"label"=>"")); ?> </td>
-            <td> <?php echo $this->Form->checkbox("CourseSelection.delete",array("value"=>true)) ?> </td>
-            <td> <?php echo $this->Form->end("change") ?> </td>
+            <td> <?php echo $this->Form->input("CourseSelection.max_num",array("default"=>0,"label"=>"")); ?> </td>
+            <td> <?php echo $this->Form->checkbox("CourseSelection.delete",array("value"=>true,"hidden"=>true)) ?> </td>
+            <td> <?php echo $this->Form->end("new") ?> </td>
         </tr>   
         -->
         
@@ -111,9 +111,9 @@
         let nowCourseInputAreas=document.getElementsByClassName("nowCourseInputArea");
         let nextCourseInputAreas=document.getElementsByClassName("nextCourseInputArea");
         for(let i=0;i<departmentInputAreas.length;i++){
-            CreateOptions(departmentInputAreas[i],departments,courseSelections[i]["CourseSelection"]["department_id"]);
-            CreateOptions(nowCourseInputAreas[i],courses,courseSelections[i]["CourseSelection"]["now_course_id"]);
-            CreateOptions(nextCourseInputAreas[i],courses,courseSelections[i]["CourseSelection"]["next_course_id"]);
+            CreateOptions(departmentInputAreas[i],departments,i<courseSelections.length?courseSelections[i]["CourseSelection"]["department_id"]:-1);
+            CreateOptions(nowCourseInputAreas[i],courses,i<courseSelections.length?courseSelections[i]["CourseSelection"]["now_course_id"]:-1);
+            CreateOptions(nextCourseInputAreas[i],courses,i<courseSelections.length?courseSelections[i]["CourseSelection"]["next_course_id"]:-1);
         }
         
     </script>

@@ -16,7 +16,7 @@ function CreateOptions(htmlElement,array,initialId){  //初期値を付けたい
 
 function EncodeJsonForOpinion(RowArray,modelName,fieldName,idName){
     var arr=new Array();
-    console.log(arr);
+    //console.log(arr);
     for(var i=0;i<RowArray.length;i++){
         var index=RowArray[i][modelName][idName];
         arr[index]=RowArray[i][modelName][fieldName];

@@ -173,7 +173,7 @@ class AdminsController extends AppController{
                     return $this->redirect(array('action' => 'courseSelection'));  
                 }
             }else{
-                $saved=$this->courseSelection->save($this->request->data); //これか下のコメントアウトかどちらか
+                $saved=$this->CourseSelection->save($this->request->data); //これか下のコメントアウトかどちらか
                 if (!empty($saved)) { 
                     $this->Flash->success('change success!');
                     return $this->redirect(array('action' => 'courseSelection'));  
