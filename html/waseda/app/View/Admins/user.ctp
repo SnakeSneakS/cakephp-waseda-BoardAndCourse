@@ -35,13 +35,13 @@
         </thead>   
         <?php foreach ($users as $user) : ?>
             <tr>
-                <td> <?php echo($user["User"]["id"]) ?> </td>
-                <td> <?php echo('<img src="data:image/jpg;base64,'.base64_encode($user["Grade"]["image"]).'" height="30px"/>'); ?> </td>
-                <td> <?php echo($user["User"]["name"]) ?> </td>
-                <td> <?php echo($user["User"]["password"]) ?> </td>
-                <td> <?php echo($user["User"]["created"]) ?> </td>
-                <td> <?php echo($user["User"]["modified"]) ?> </td>   
-                <td> <?php echo($this->Html->link("edit",["controller"=>"Admins","action"=>"userEdit",$user["User"]["id"]])) ?> </td>
+                <td> <?php echo $user["User"]["id"];  ?> </td>
+                <td> <?php echo '<img src="data:image/jpg;base64,'.base64_encode($user["Grade"]["image"]).'" height="30px"/>'; ?> </td>
+                <td> <?php echo $user["User"]["name"]; ?> </td>
+                <td> <?php echo $user["User"]["password"]; ?> </td>
+                <td> <?php echo $user["User"]["created"]; ?> </td>
+                <td> <?php echo $user["User"]["modified"]; ?> </td>   
+                <td> <?php echo $this->Html->link("edit",["controller"=>"Admins","action"=>"userEdit",$user["User"]["id"]]); ?> </td>
             </tr>         
         <?php endforeach ?>
     </table>
@@ -63,6 +63,7 @@
                 if(isset($user["Grade"]["user_id"])){
                     echo "<td>".$user["Grade"]["user_id"]."</td>";               
                     echo "<td>".$user["Grade"]["enter_year"]."</td>";
+                    echo "<td>".$user["Grade"]["department_id"]."</td>";
                     echo "<td>".$user["Grade"]["Department"]["department"]."</td>";
                     echo "<td>".$user["Grade"]["course_id"]."</td>";
                     echo "<td>".$user["Grade"]["Course"]["course"]."</td>";
@@ -70,7 +71,7 @@
                     echo "<td>".$user["Grade"]["comment"]."</td>";
                     echo "<td>".$user["Grade"]["modified"]."</td>";
                 }else{
-                    echo "<td></td>";               
+                    echo "<td>".$user["User"]["id"]."</td>";               
                     echo "<td></td>";
                     echo "<td></td>";
                     echo "<td></td>";
