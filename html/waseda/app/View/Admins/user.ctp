@@ -12,12 +12,14 @@
 
     <?php 
         //blobはデータ量多いからdebugで表示されない？debugで表示される様にblobデータをnullにしている
+        /*
         $num=count($users);
         for($i=0;$i<$num;$i++){ 
             $users[$i]["Grade"]["image"]=null; 
             echo($users[$i]["Grade"]["image"]); 
         } 
         debug($users[0]); 
+        */
     ?>
 
 
@@ -57,16 +59,29 @@
             <th>modified</th>
         </thead>   
         <?php foreach ($users as $user) : ?>
+            <?php 
+                if(isset($user["Grade"]["user_id"])){
+                    echo "<td>".$user["Grade"]["user_id"]."</td>";               
+                    echo "<td>".$user["Grade"]["enter_year"]."</td>";
+                    echo "<td>".$user["Grade"]["Department"]["department"]."</td>";
+                    echo "<td>".$user["Grade"]["course_id"]."</td>";
+                    echo "<td>".$user["Grade"]["Course"]["course"]."</td>";
+                    echo "<td>".$user["Grade"]["gpa"]."</td>";
+                    echo "<td>".$user["Grade"]["comment"]."</td>";
+                    echo "<td>".$user["Grade"]["modified"]."</td>";
+                }else{
+                    echo "<td></td>";               
+                    echo "<td></td>";
+                    echo "<td></td>";
+                    echo "<td></td>";
+                    echo "<td></td>";
+                    echo "<td></td>";
+                    echo "<td></td>";
+                    echo "<td></td>";
+                }
+            ?>
             <tr>
-                <td> <?php echo($user["Grade"]["user_id"]) ?> </td>
-                <td> <?php echo($user["Grade"]["enter_year"]) ?> </td>
-                <td> <?php echo($user["Grade"]["department_id"]) ?> </td>
-                <td> <?php echo($user["Grade"]["Department"]["department"]) ?> </td>
-                <td> <?php echo($user["Grade"]["course_id"]) ?> </td>
-                <td> <?php echo($user["Grade"]["Course"]["course"]) ?> </td>
-                <td> <?php echo($user["Grade"]["gpa"]) ?> </td>
-                <td> <?php echo($user["Grade"]["comment"]) ?> </td>
-                <td> <?php echo($user["Grade"]["modified"]) ?> </td>            
+                          
             </tr>  
         <?php endforeach ?>
     </table>
