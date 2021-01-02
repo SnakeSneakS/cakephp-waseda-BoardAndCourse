@@ -10,13 +10,13 @@ class CourseSelection extends AppModel{//table course_selections
         ),
         'NowCourse' => array (                // ここから追加
             'className' => 'Course',
-            'conditions' => 'NowCourse.id = CourseSelection.now_course_id',
+            //'conditions' => 'NowCourse.id = CourseSelection.now_course_id',
             //'order' => 'Course.id ASC',
             'foreignKey' => 'now_course_id'
         ),
         'NextCourse' => array (                // ここから追加
             'className' => 'Course',
-            'conditions' => 'NextCourse.id = CourseSelection.next_course_id',
+            //'conditions' => 'NextCourse.id = CourseSelection.next_course_id',
             //'order' => 'Course.id ASC',
             'foreignKey' => 'next_course_id'
         )
