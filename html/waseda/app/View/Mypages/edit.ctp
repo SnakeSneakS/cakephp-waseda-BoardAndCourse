@@ -19,7 +19,7 @@ echo $this->Html->link("index",array("action"=>"index"));
 <?php
 debug($user);
 
-echo $this->Form->create("User",array("enctype"=>"multipart/form-data"));
+echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*/"type"=>"file"));
 echo $this->Html->tag("h3","Basic"/*,array("class"=>"sub-title")*/ );
 echo $this->Form->hidden("User.id",array("default"=>$user["User"]["id"]));
 echo $this->Form->input("User.name",array("default"=>$user["User"]["name"]));
