@@ -38,8 +38,8 @@
             新規追加
         <tr>
             <?php echo $this->Form->create("Department") ?>
-            <?php echo $this->Form->hidden("Department.id",array("default"=>count($departments)) ); ?>
-            <td> <?php echo $this->Html->tag("span",count($departments)) ?> </td>
+            <?php echo $this->Form->hidden("Department.id",array("default"=>1+$departments[count($departments)-1]["Department"]["id"]) ); ?>
+            <td> <?php echo $this->Html->tag("span",1+$departments[count($departments)-1]["Department"]["id"]) ?> </td>
             <td> <?php echo $this->Form->input("Department.department",array("default"=>"これは一通り作り終わったら消す","type"=>"text","label"=>"")); ?> </td>
             <td> <?php echo $this->Form->checkbox("Department.delete",array("value"=>true,"hidden"=>true)) ?> </td>
             <td> <?php echo $this->Form->end("New") ?> </td>

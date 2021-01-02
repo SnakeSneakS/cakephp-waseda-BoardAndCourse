@@ -81,8 +81,8 @@
             新規追加つき
         <tr>
             <?php echo $this->Form->create("CourseSelection") ?>
-            <?php echo $this->Form->hidden("CourseSelection.id",array("default"=>count($courseSelections))); ?>
-            <td> <?php echo $this->Html->tag("span",count($courseSelections)) ?> </td>
+            <?php echo $this->Form->hidden("CourseSelection.id",array("default"=>1+$courseSelections[count($courseSelections)-1]["CourseSelection"]["id"])); ?>
+            <td> <?php echo $this->Html->tag("span",1+$courseSelections[count($courseSelections)-1]["CourseSelection"]["id"]) ?> </td>
             <td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","class"=>"departmentInputArea")); ?> </td>  <?php // phpの場合、<td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","options"=>$departmentKV,"value"=>$departmentKV, "empty"=>"(choose one)","class"=>"departmentInputArea")); ?> 
             <td> <?php echo $this->Form->input("CourseSelection.now_course_id",array("label"=>"","class"=>"nowCourseInputArea")); ?> </td>
             <td> <?php echo $this->Form->input("CourseSelection.next_course_id",array("label"=>"","class"=>"nextCourseInputArea")); ?> </td>
