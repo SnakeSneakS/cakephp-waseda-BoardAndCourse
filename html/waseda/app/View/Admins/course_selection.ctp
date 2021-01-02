@@ -68,27 +68,28 @@
                 <?php echo $this->Form->create("CourseSelection") ?>
                 <?php echo $this->Form->hidden("CourseSelection.id",array("default"=>$courseSelection["CourseSelection"]["id"])); ?>
                 <td> <?php echo $this->Html->tag("span",$courseSelection["CourseSelection"]["id"]) ?> </td>
-                <td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","options"=>array(),"class"=>"departmentInputArea")); ?> </td>  <?php // phpの場合、<td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","options"=>$departmentKV,"value"=>$departmentKV, "empty"=>"(choose one)","class"=>"departmentInputArea")); ?> 
-                <td> <?php echo $this->Form->input("CourseSelection.now_course_id",array("default"=>$courseSelection["NowCourse"]["id"],"label"=>"", "empty"=>"(choose one)")); ?> </td>
-                <td> <?php echo $this->Form->input("CourseSelection.next_course_id",array("default"=>$courseSelection["NextCourse"]["id"],"label"=>"", "empty"=>"(choose one)")); ?> </td>
+                <td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","class"=>"departmentInputArea")); ?> </td>  <?php // phpの場合、<td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","options"=>$departmentKV,"value"=>$departmentKV, "empty"=>"(choose one)","class"=>"departmentInputArea")); ?> 
+                <td> <?php echo $this->Form->input("CourseSelection.now_course_id",array("label"=>"","class"=>"nowCourseInputArea")); ?> </td>
+                <td> <?php echo $this->Form->input("CourseSelection.next_course_id",array("label"=>"","class"=>"nextCourseInputArea")); ?> </td>
                 <td> <?php echo $this->Form->input("CourseSelection.max_num",array("default"=>$courseSelection["CourseSelection"]["max_num"],"label"=>"")); ?> </td>
                 <td> <?php echo $this->Form->checkbox("CourseSelection.delete",array("value"=>true)) ?> </td>
                 <td> <?php echo $this->Form->end("change") ?> </td>
             </tr>         
         <?php endforeach ?>
 
-        <!--
+        <!-
             新規追加つき
         <tr>
-                <?php echo $this->Form->create("CourseSelection") ?>
-                <?php echo $this->Form->hidden("CourseSelection.id",array("default"=>$courseSelection["CourseSelection"]["id"])); ?>
-                <td> <?php echo $this->Html->tag("span",count($courseSelections)) ?> </td>
-                <td> <?php echo $this->Form->input("Department.department",array("default"=>"","type"=>"text","label"=>"")); ?> </td>
-                <td> <?php echo $this->Form->input("Department.department",array("default"=>"","type"=>"text","label"=>"")); ?> </td>
-                <td> <?php echo $this->Form->input("Department.department",array("default"=>"","type"=>"text","label"=>"")); ?> </td>
-                <td> <?php echo $this->Form->checkbox("CourseSelection.delete",array("value"=>true,"hidden"=>true)) ?> </td>
-                <td> <?php echo $this->Form->end("change") ?> </td>
-        </tr>  
+            <?php echo $this->Form->create("CourseSelection") ?>
+            <?php echo $this->Form->hidden("CourseSelection.id",array("default"=>count($courseSelections))); ?>
+            <td> <?php echo $this->Html->tag("span",count($courseSelections)) ?> </td>
+            <td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","class"=>"departmentInputArea")); ?> </td>  <?php // phpの場合、<td> <?php echo $this->Form->input("CourseSelection.department_id",array("label"=>"","options"=>$departmentKV,"value"=>$departmentKV, "empty"=>"(choose one)","class"=>"departmentInputArea")); ?> 
+            <td> <?php echo $this->Form->input("CourseSelection.now_course_id",array("label"=>"","class"=>"nowCourseInputArea")); ?> </td>
+            <td> <?php echo $this->Form->input("CourseSelection.next_course_id",array("label"=>"","class"=>"nextCourseInputArea")); ?> </td>
+            <td> <?php echo $this->Form->input("CourseSelection.max_num",array("default"=>$courseSelection["CourseSelection"]["max_num"],"label"=>"")); ?> </td>
+            <td> <?php echo $this->Form->checkbox("CourseSelection.delete",array("value"=>true)) ?> </td>
+            <td> <?php echo $this->Form->end("change") ?> </td>
+        </tr>   
         -->
         
 
@@ -100,12 +101,19 @@
         let courses=<?php echo json_encode($courses) ?>;
         let departments=<?php echo json_encode($departments) ?>;
         
-        console.log( EncodeJsonForOpinion(courses) );
+        courses=EncodeJsonForOpinion(courses,"Course","course","id");
+        departments=EncodeJsonForOpinion(departments,"Department","department","id");
 
-        //display available departments first
+        console.log(departments);
+
+        //display available departments first //nowCourseInputArea
         let departmentInputAreas=document.getElementsByClassName("departmentInputArea");
+        let nowCourseInputAreas=document.getElementsByClassName("nowCourseInputArea");
+        let nextCourseInputAreas=document.getElementsByClassName("nextCourseInputArea");
         for(let i=0;i<departmentInputAreas.length;i++){
-            CreateOptions(departmentInputAreas[i],departments,"Department","department","id",courseSelections[i]["CourseSelection"]["department_id"]);
+            CreateOptions(departmentInputAreas[i],departments,courseSelections[i]["CourseSelection"]["department_id"]);
+            CreateOptions(nowCourseInputAreas[i],courses,courseSelections[i]["CourseSelection"]["now_course_id"]);
+            CreateOptions(nextCourseInputAreas[i],courses,courseSelections[i]["CourseSelection"]["next_course_id"]);
         }
         
     </script>
