@@ -3,19 +3,6 @@
 class User extends AppModel{
     public $primaryKey = "id";
 
-    /*
-    //これ全くわからーーーーん
-    public $hasAndBelongsToMany = array(
-        "Grade" => array(
-            "className" => "Grade",
-            "joinTable"=>"departments",
-            'foreignKey' => 'department_id',
-            //'dependent' => true,
-            "associationForeignKey"=>"department_id"
-        )
-    );
-    */
-
     public $hasOne = array(
         "Grade" => array(
             "className" => "Grade",

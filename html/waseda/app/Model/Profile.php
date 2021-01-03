@@ -1,5 +1,5 @@
 <?php
-class Grade extends AppModel{
+class Profile extends AppModel{
     public $primaryKey = "user_id"; //これ必要。error: saveAssociated Integrity constraint violation: 1062 Duplicate entry '2' for key 'PRIMARY'
     public $belongsTo = array( //table user has foreign key "department_id" and "course_id". 多対一の関係
         'Department' => array(
@@ -15,10 +15,6 @@ class Grade extends AppModel{
     );
 
     public $validate=array(//error check 
-        /*"gpa"=>array(
-            "rule"=>array("decimal",3), //小数点以下桁数を限定
-            'message' => '小数点以下3桁まで入力して下さい。',
-            'allowEmpty' => true  //空白許可
-        )*/
+
     );
 }
