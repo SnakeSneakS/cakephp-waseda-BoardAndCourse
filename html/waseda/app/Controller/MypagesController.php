@@ -36,7 +36,7 @@ class MypagesController extends AppController{
             return $this->redirect(array('action' => 'index'));  
         }
 
-        //$this->request->data["Grade"]["user_id"]=$id;
+        //$this->request->data["Profile"]["user_id"]=$id;
         //debug($this->request->data);
 
         if($this->request->is('get')){ /*GET*/
@@ -64,24 +64,24 @@ class MypagesController extends AppController{
                 return;   
             }
 
-            if(!empty($this->request->data["Grade"]["image"]["tmp_name"])){ //image set
-                debug($this->request->data["Grade"]);
-                $this->request->data["Grade"]["image"]=file_get_contents($this->request->data["Grade"]["image"]["tmp_name"]);
+            if(!empty($this->request->data["Profile"]["image"]["tmp_name"])){ //image set
+                debug($this->request->data["Profile"]);
+                $this->request->data["Profile"]["image"]=file_get_contents($this->request->data["Profile"]["image"]["tmp_name"]);
             }else{//画像が未選択の場合元のまま or なし
-                $image=$this->User->Grade->findByUserId($id)["Grade"]["image"];
+                $image=$this->User->Profile->findByUserId($id)["Profile"]["image"];
                 if(!empty($image)){
-                    $this->request->data["Grade"]["image"]=$image;
+                    $this->request->data["Profile"]["image"]=$image;
                 }else{
-                    $this->request->data["Grade"]["image"]="";
+                    $this->request->data["Profile"]["image"]="";
                 }
             }
             $saved=$this->User->saveAssociated($this->request->data); //これか下のコメントアウトかどちらか
             /*$user=$this->User->save($this->request->data);
             if(!empty($user)){
-                if($this->User->Grade->save($this->request->data)){
-                    $this->Flash->success('edit grade success!');
+                if($this->User->Profile->save($this->request->data)){
+                    $this->Flash->success('edit Profile success!');
                 }else{
-                    $this->Flash->error('edit grade failed!');
+                    $this->Flash->error('edit Profile failed!');
                 }
             }*/
 

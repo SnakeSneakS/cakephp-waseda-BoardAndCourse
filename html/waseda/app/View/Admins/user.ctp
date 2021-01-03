@@ -12,17 +12,17 @@
 
     <?php 
         //blobはデータ量多いからdebugで表示されない？debugで表示される様にblobデータをnullにしている
-        /*
+        /* 
         $num=count($users);
         for($i=0;$i<$num;$i++){ 
-            $users[$i]["Grade"]["image"]=null; 
-            echo($users[$i]["Grade"]["image"]); 
+            $users[$i]["Profile"]["image"]=null; 
+            echo($users[$i]["Profile"]["image"]); 
         } 
         debug($users[0]); 
         */
     ?>
 
-
+    <h2>Users</h2>
     <table>
         <thead>
             <th>id</th>
@@ -36,7 +36,7 @@
         <?php foreach ($users as $user) : ?>
             <tr>
                 <td> <?php echo $user["User"]["id"];  ?> </td>
-                <td> <?php echo '<img src="data:image/jpg;base64,'.base64_encode($user["Grade"]["image"]).'" height="30px"/>'; ?> </td>
+                <td> <?php echo '<img src="data:image/jpg;base64,'.base64_encode($user["Profile"]["image"]).'" height="30px"/>'; ?> </td>
                 <td> <?php echo $user["User"]["name"]; ?> </td>
                 <td> <?php echo $user["User"]["password"]; ?> </td>
                 <td> <?php echo $user["User"]["created"]; ?> </td>
@@ -45,31 +45,32 @@
             </tr>         
         <?php endforeach ?>
     </table>
-    <h2>Grade</h2>
+    
+    <h2>Profile</h2>
     <table>
         <thead>
             <th>user_id</th>
             <th>enter_year</th>
-            <th>department_id</th>
-            <th>department</th>
-            <th>course_id</th>
-            <th>course</th>
+            <th>School_id</th>
+            <th>School</th>
+            <th>Department_id</th>
+            <th>Department</th>
             <th>gpa</th>
             <th>comment</th>
             <th>modified</th>
         </thead>   
         <?php foreach ($users as $user) : ?>
             <?php 
-                if(isset($user["Grade"]["user_id"])){
-                    echo "<td>".$user["Grade"]["user_id"]."</td>";               
-                    echo "<td>".$user["Grade"]["enter_year"]."</td>";
-                    echo "<td>".$user["Grade"]["department_id"]."</td>";
-                    echo "<td>".$user["Grade"]["Department"]["department"]."</td>";
-                    echo "<td>".$user["Grade"]["course_id"]."</td>";
-                    echo "<td>".$user["Grade"]["Course"]["course"]."</td>";
-                    echo "<td>".$user["Grade"]["gpa"]."</td>";
-                    echo "<td>".$user["Grade"]["comment"]."</td>";
-                    echo "<td>".$user["Grade"]["modified"]."</td>";
+                if(isset($user["Profile"]["user_id"])){
+                    echo "<td>".$user["Profile"]["user_id"]."</td>";               
+                    echo "<td>".$user["Profile"]["enter_year"]."</td>";
+                    echo "<td>".$user["Profile"]["school_id"]."</td>";
+                    echo "<td>".$user["Profile"]["School"]["school"]."</td>";
+                    echo "<td>".$user["Profile"]["department_id"]."</td>";
+                    echo "<td>".$user["Profile"]["Department"]["department"]."</td>";
+                    echo "<td>".$user["Profile"]["gpa"]."</td>";
+                    echo "<td>".$user["Profile"]["comment"]."</td>";
+                    echo "<td>".$user["Profile"]["modified"]."</td>";
                 }else{
                     echo "<td>".$user["User"]["id"]."</td>";               
                     echo "<td></td>";

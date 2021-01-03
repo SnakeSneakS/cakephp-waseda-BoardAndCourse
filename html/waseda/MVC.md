@@ -115,7 +115,7 @@
 | id | int   | primary, auto increment| 学術院id
 | school| varchar(255) | utf8mb4_unicode_ci | e.g. 理工学術院
 
-- Table facultys
+- Table faculties
 
  name | type | options | description |
 --|--|--|--
@@ -134,11 +134,27 @@
 | name | type | options | description |
 --|--|--|--
 | id   | int  | primary, auto increment|
-| school_id | int     |            | 学部ID
+| school_id | int     |            | 学部ID //might better to delete this field
 |now_department_id| int     |            | 学科ID (now)
 |next_department_id| int     |            | 学科ID (can select)
 | max_num    | int     |            | 人数
 
+- Table faculty_schools
+
+ name | type | options | description |
+--|--|--|--
+| id | int   | primary, auto increment| ID
+| faculty_id    | int  | | 学術院id
+| school_id    | int  | | 学部id
+
+
+- Table school_departments
+
+ name | type | options | description |
+--|--|--|--
+| id | int   | primary, auto increment| ID
+| school_id    | int  | | 学部id
+| department_id    | int  | | 学科id
 
 ## Controller
 - Controller(Controller/MypagesController.php)

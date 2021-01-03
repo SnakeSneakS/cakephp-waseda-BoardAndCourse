@@ -4,33 +4,33 @@ class User extends AppModel{
     public $primaryKey = "id";
 
     public $hasOne = array(
-        "Grade" => array(
-            "className" => "Grade",
-            //"conditions" => array("User.id"=>"Grade.user_id"),
+        "Profile" => array(
+            "className" => "Profile",
+            //"conditions" => array("User.id"=>"Profile.user_id"),
             'foreignKey' => 'user_id',
             'dependent' => true
         ),
         /*"Department" => array(
             "className" => "Department",
-            //"conditions" => array("Grade.department_id"=>"Department.department_id"),
+            //"conditions" => array("Profile.department_id"=>"Department.department_id"),
             'foreignKey' => 'department_id'
         ),
         "Course" => array(
             "className" => "Course",
-            //"conditions" => array("Grade.course_id"=>"Course.course_id"),
+            //"conditions" => array("Profile.course_id"=>"Course.course_id"),
             'foreignKey' => 'course_id'
         ) */
     );
 /*
-    public $belongsTo = array( //GRADEに対してこれを設定したい
+    public $belongsTo = array( //Profileに対してこれを設定したい
         'Department' => array(
             'className' => 'Department',
-            //'conditions' => array('Department.department_id' => 'Grade.department_id'),
+            //'conditions' => array('Department.department_id' => 'Profile.department_id'),
             'foreignKey' => 'department_id'
         ),
         'Course' => array (     
             'className' => 'Course',
-            //'conditions' => array('Course.course_id' => 'Grade.course_id'),
+            //'conditions' => array('Course.course_id' => 'Profile.course_id'),
             'foreignKey' => 'course_id'
         )
     );*/

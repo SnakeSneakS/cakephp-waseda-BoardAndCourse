@@ -12,14 +12,14 @@
 
     <?php 
         //blobはデータ量多いからdebugで表示されない？debugで表示される様にblobデータをnullにしている
-        //debug($departments[0]); 
+        //debug($Departments[0]); 
     ?>
 
-    <h3>department</h3>
+    <h3>Department</h3>
     <table>
         <thead>
             <th>id</th>
-            <th>department</th>
+            <th>Department</th>
             <th>delete</th>
             <th></th>
         </thead>   
@@ -29,7 +29,7 @@
                 <?php echo $this->Form->hidden("Department.id",array("default"=>$department["Department"]["id"])); ?>
                 <td> <?php echo $this->Html->tag("span",$department["Department"]["id"]) ?> </td>
                 <td> <?php echo $this->Form->input("Department.department",array("default"=>$department["Department"]["department"],"type"=>"text","label"=>"")); ?> </td>
-                <td> <?php echo $this->Form->checkbox("Department.delete",array("value"=>true,"hiddenFiekd"=>"N")) ?> </td>
+                <td> <?php echo $this->Form->checkbox("Department.delete",array("value"=>true)) ?> </td>
                 <td> <?php echo $this->Form->end("change") ?> </td>
             </tr>         
         <?php endforeach ?>
