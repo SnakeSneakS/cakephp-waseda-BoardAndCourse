@@ -14,7 +14,7 @@ function CreateOptions(htmlElement,array,initialId){  //初期値を付けたい
     //console.log(options);
 }
 
-function EncodeJsonForOpinion(RowArray,modelName,fieldName,idName){
+function EncodeJsonForOption(RowArray,modelName,fieldName,idName){
     var arr=new Array();
     //console.log(arr);
     for(var i=0;i<RowArray.length;i++){
@@ -33,4 +33,19 @@ function EncodeJsonForOpinion(RowArray,modelName,fieldName,idName){
     */
 }
 
-//set conditions to EncodedArray by using CouseSelection //e.g. [Department][]==something 
+//  ajax by html
+var request = new XMLHttpRequest();
+request.open("get", "/serach?query=hoge&order=desc", true);
+request.onload = function (event) {
+  if (request.readyState === 4) {
+    if (request.status === 200) {
+      console.log(request.statusText); // => "OK"
+    } else {
+      console.log(request.statusText); // => Error Message
+    }
+  }
+};
+request.onerror = function (event) {
+  console.log(event.type); // => "error"
+};
+request.send(null);

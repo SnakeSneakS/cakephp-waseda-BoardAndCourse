@@ -48,9 +48,9 @@ let faculties=<?php echo json_encode($faculties) ?>;
 let schools=<?php echo json_encode($schools) ?>;
 let departments=<?php echo json_encode($departments) ?>;
 
-faculties=EncodeJsonForOpinion(faculties,"Faculty","faculty","id");
-schools=EncodeJsonForOpinion(schools,"School","school","id");
-departments=EncodeJsonForOpinion(departments,"Department","department","id");
+faculties=EncodeJsonForOption(faculties,"Faculty","faculty","id");
+schools=EncodeJsonForOption(schools,"School","school","id");
+departments=EncodeJsonForOption(departments,"Department","department","id");
 
 console.log(departments);
 

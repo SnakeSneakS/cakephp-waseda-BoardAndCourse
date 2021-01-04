@@ -12,7 +12,7 @@
 
     <?php 
         //blobはデータ量多いからdebugで表示されない？debugで表示される様にblobデータをnullにしている
-        /* */
+        /* 
         echo $users[2]["Profile"]["image"];
         $num=count($users);
         for($i=0;$i<$num;$i++){ 
@@ -21,7 +21,7 @@
             echo($users[$i]["Profile"]["image"]); 
         } 
         debug($users[1]); 
-        /**/
+        */
     ?>
 
     <h2>Users</h2>

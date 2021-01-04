@@ -68,7 +68,7 @@
         let AvailableDepartmentSelections=<?php echo json_encode($availableDepartmentSelections) ?>;
         let departments=<?php echo json_encode($departments) ?>;
         
-        departments=EncodeJsonForOpinion(departments,"Department","department","id");
+        departments=EncodeJsonForOption(departments,"Department","department","id");
 
         console.log(departments);
 
