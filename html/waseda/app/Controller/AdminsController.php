@@ -31,6 +31,10 @@ class AdminsController extends AppController{
         //debug($this->request->data);
 
         if($this->request->is('get')){ /*GET*/
+            $this->set('faculties',$this->Faculty->find('all',array('order' => 'Faculty.faculty asc')) );
+            $this->set('schools',$this->School->find('all',array('order' => 'School.school asc')) );
+            $this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
+
             $data=$this->User->findById($id);
             if($data){
                 $this->Flash->success('Load data success!');
@@ -50,13 +54,11 @@ class AdminsController extends AppController{
             //error: 
             if($id==0){
                 $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
-                //$this->Flash->error('error: '.$this->request->data["User"]["id"].' = '.$id);
-                //$this->Flash->error('error: '.$this->request->data["User"]["id"]!=$id);
                 return;   
             }
 
             if(!empty($this->request->data["Profile"]["image"]["tmp_name"])){ //image set
-                debug($this->request->data["Profile"]);
+                //debug($this->request->data["Profile"]);
                 $this->request->data["Profile"]["image"]=file_get_contents($this->request->data["Profile"]["image"]["tmp_name"]);
             }else{//画像が未選択の場合元のまま or なし
                 $image=$this->User->Profile->findByUserId($id)["Profile"]["image"];
@@ -78,7 +80,7 @@ class AdminsController extends AppController{
 
             if (!empty($saved)) { 
                 $this->Flash->success('edit success!');
-                //return $this->redirect(array('action' => 'edit',$id));  
+                return $this->redirect(array('action' => 'userEdit',$id));  
             }else{
                 $this->Flash->error('edit Failed');
                 return $this->redirect(array('action' => 'index'));  
