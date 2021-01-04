@@ -40,7 +40,7 @@
             <?php echo $this->Form->create("School") ?>
             <?php echo $this->Form->hidden("School.id",array("default"=>1+$schools[count($schools)-1]["School"]["id"]) ); ?>
             <td> <?php echo $this->Html->tag("span",1+$schools[count($schools)-1]["School"]["id"]) ?> </td>
-            <td> <?php echo $this->Form->input("School.school",array("default"=>"これは一通り作り終わったら消す","type"=>"text","label"=>"")); ?> </td>
+            <td> <?php echo $this->Form->input("School.school",array("default"=>"new","type"=>"text","label"=>"")); ?> </td>
             <td> <?php echo $this->Form->checkbox("School.delete",array("value"=>true,"hidden"=>true)) ?> </td>
             <td> <?php echo $this->Form->end("New") ?> </td>
         </tr>  
