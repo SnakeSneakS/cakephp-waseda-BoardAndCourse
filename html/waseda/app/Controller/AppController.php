@@ -31,4 +31,25 @@ App::uses('Controller', 'Controller');
  * @link		https://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+    // sanitize all html characters 
+    // referred to https://www.marineroad.com/staff-blog/3836.html
+    // basiccaly sanitize everything. When you add $sanitize=false, don't sanitize
+    public function set($var, $val = null, $sanitize = true) {
+        if ($sanitize) {
+            $val = $this->__sanitize($val);
+        }
+        return parent::set($var, $val);
+    }
+
+    private function __sanitize($dat) {
+        if(is_array($dat)){
+            foreach ($dat as $cnt => $val) {
+                $dat[$cnt] = $this->__sanitize($val);
+            }
+            return $dat;
+        }else{
+            return htmlspecialchars($dat,ENT_QUOTES,"UTF-8");
+        }
+    }
 }

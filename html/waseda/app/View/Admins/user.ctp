@@ -12,14 +12,16 @@
 
     <?php 
         //blobはデータ量多いからdebugで表示されない？debugで表示される様にblobデータをnullにしている
-        /* 
+        /* */
+        echo $users[2]["Profile"]["image"];
         $num=count($users);
         for($i=0;$i<$num;$i++){ 
+            
             $users[$i]["Profile"]["image"]=null; 
             echo($users[$i]["Profile"]["image"]); 
         } 
-        debug($users[0]); 
-        */
+        debug($users[1]); 
+        /**/
     ?>
 
     <h2>Users</h2>
@@ -61,7 +63,7 @@
         </thead>   
         <?php foreach ($users as $user) : ?>
             <?php 
-                if(isset($user["Profile"]["user_id"])){
+                if(!empty($user["Profile"]["user_id"])){
                     echo "<td>".$user["Profile"]["user_id"]."</td>";               
                     echo "<td>".$user["Profile"]["enter_year"]."</td>";
                     echo "<td>".$user["Profile"]["school_id"]."</td>";
