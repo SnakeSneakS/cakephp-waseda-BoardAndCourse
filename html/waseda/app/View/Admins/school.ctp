@@ -34,7 +34,7 @@
             </tr>         
         <?php endforeach ?>
 
-        <!--
+        <!-
             新規追加
         <tr>
             <?php echo $this->Form->create("School") ?>

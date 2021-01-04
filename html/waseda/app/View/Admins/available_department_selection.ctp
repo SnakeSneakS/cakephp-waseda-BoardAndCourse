@@ -47,7 +47,7 @@
             </tr>         
         <?php endforeach ?>
 
-        <!--
+        <!-
             新規追加つき
         <tr>
             <?php echo $this->Form->create("AvailableDepartmentSelection") ?>

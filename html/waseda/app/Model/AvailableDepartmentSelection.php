@@ -2,10 +2,6 @@
 class AvailableDepartmentSelection extends AppModel{//table course_selections
     public $primaryKey = "id";
     var $belongsTo = array( 
-        'School' => array(
-            'className' => 'School',
-            'foreignKey' => 'school_id'
-        ),
         'NowDepartment' => array (
             'className' => 'Department',
             'foreignKey' => 'now_department_id'

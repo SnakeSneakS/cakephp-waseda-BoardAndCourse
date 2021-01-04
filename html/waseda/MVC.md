@@ -134,7 +134,6 @@
 | name | type | options | description |
 --|--|--|--
 | id   | int  | primary, auto increment|
-| school_id | int     |            | 学部ID //might better to delete this field
 |now_department_id| int     |            | 学科ID (now)
 |next_department_id| int     |            | 学科ID (can select)
 | max_num    | int     |            | 人数

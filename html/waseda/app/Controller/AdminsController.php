@@ -6,7 +6,7 @@ $ret = $this->query('UPDATE users SET point = point + ? WHERE id = ?', array($po
 
 class AdminsController extends AppController{
 
-    public $uses=array("User","Profile","Faculty","School","Department","AvailableDepartmentSelection","UserDepartmentSelection");//model 指定 AvailableDepartmentSelection, User
+    public $uses=array("User","Profile","Faculty","School","Department","FacultySchool","SchoolDepartment","AvailableDepartmentSelection","UserDepartmentSelection");//model 指定 AvailableDepartmentSelection, User
 
     //public $scaffold;//localhost/blog/postsでもう管理画面みたいなのが既にできてる。でもこれだとカスタマイズはできないよね〜〜
     public $helpers = array('Html','Form');//htmlと入力formをこれから扱うZE
@@ -215,6 +215,109 @@ class AdminsController extends AppController{
                 }
             }
             
+        }  
+    }
+
+
+    //see schoolDepartment index
+    public function schoolDepartment() {
+        /* GET */
+        if ($this->request->is('get')){
+            $this->set('schools',$this->School->find('all',array('order' => 'School.school asc')) );
+            $this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
+            $this->set('schoolDepartments',$this->SchoolDepartment->find('all',array('order' => 'SchoolDepartment.id asc')) );
+        }
+        /* POST */
+        else if ($this->request->is('post')) { 
+            if($this->request->data["SchoolDepartment"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            
+            if($this->request->data["SchoolDepartment"]["delete"]==true){
+                $delete=$this->SchoolDepartment->delete($this->request->data["SchoolDepartment"]["id"]);
+                if (!empty($delete)) { 
+                    $this->Flash->success('delete success!');
+                    return $this->redirect(array('action' => 'SchoolDepartment'));  
+                }else{
+                    $this->Flash->error('delete Failed');
+                    return $this->redirect(array('action' => 'schoolDepartment'));  
+                }
+            }else{
+                $saved=$this->SchoolDepartment->save($this->request->data); //これか下のコメントアウトかどちらか
+                if (!empty($saved)) { 
+                    $this->Flash->success('change success!');
+                    return $this->redirect(array('action' => 'schoolDepartment'));  
+                }else{
+                    $this->Flash->error('change Failed');
+                    return $this->redirect(array('action' => 'schoolDepartment'));  
+                }
+            }   
+        }  
+    }
+
+    //see facultySchool index
+    public function facultySchool() {
+        /* GET */
+        if ($this->request->is('get')){
+            $this->set('faculties',$this->Faculty->find('all',array('order' => 'Faculty.faculty asc')) );
+            $this->set('schools',$this->School->find('all',array('order' => 'School.school asc')) );
+            $this->set('facultySchools',$this->FacultySchool->find('all',array('order' => 'FacultySchool.id asc')) );
+        }
+        /* POST */
+        else if ($this->request->is('post')) { 
+            if($this->request->data["FacultySchool"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            
+            if($this->request->data["FacultySchool"]["delete"]==true){
+                $delete=$this->FacultySchool->delete($this->request->data["FacultySchool"]["id"]);
+                if (!empty($delete)) { 
+                    $this->Flash->success('delete success!');
+                    return $this->redirect(array('action' => 'facultySchool'));  
+                }else{
+                    $this->Flash->error('delete Failed');
+                    return $this->redirect(array('action' => 'facultySchool'));  
+                }
+            }else{
+                $saved=$this->FacultySchool->save($this->request->data); //これか下のコメントアウトかどちらか
+                if (!empty($saved)) { 
+                    $this->Flash->success('change success!');
+                    return $this->redirect(array('action' => 'facultySchool'));  
+                }else{
+                    $this->Flash->error('change Failed');
+                    return $this->redirect(array('action' => 'facultySchool'));  
+                }
+            }   
+        }  
+    }
+
+    //see userDepartmentSelections index
+    public function userDepartmentSelection() {
+        /* GET */
+        if ($this->request->is('get')){
+            $this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
+            $this->set('availableDepartmentSelections',$this->AvailableDepartmentSelection->find('all',array('order' => 'AvailableDepartmentSelection.id asc')) );
+            $this->set('userDepartmentSelections',$this->UserDepartmentSelection->find('all',array('order' => 'UserDepartmentSelection.id asc','recursive'=>1)) );
+        }
+        /* POST */
+        else if ($this->request->is('post')) { 
+            if($this->request->data["UserDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            
+            if($this->request->data["UserDepartmentSelection"]["delete"]==true){
+                $delete=$this->UserDepartmentSelection->delete($this->request->data["UserDepartmentSelection"]["id"]);
+                if (!empty($delete)) { 
+                    $this->Flash->success('delete success!');
+                    return $this->redirect(array('action' => 'userDepartmentSelection'));  
+                }else{
+                    $this->Flash->error('delete Failed');
+                    return $this->redirect(array('action' => 'userDepartmentSelection'));  
+                }
+            }else{
+                $saved=$this->UserDepartmentSelection->save($this->request->data); //これか下のコメントアウトかどちらか
+                if (!empty($saved)) { 
+                    $this->Flash->success('change success!');
+                    return $this->redirect(array('action' => 'userDepartmentSelection'));  
+                }else{
+                    $this->Flash->error('change Failed');
+                    return $this->redirect(array('action' => 'userDepartmentSelection'));  
+                }
+            }   
         }  
     }
 
