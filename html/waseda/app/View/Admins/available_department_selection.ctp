@@ -25,7 +25,6 @@
     <table>
         <thead>
             <th>id</th>
-            <th>school</th>
             <th>now department</th>
             <th>next department</th>
             <th>max_num</th>
