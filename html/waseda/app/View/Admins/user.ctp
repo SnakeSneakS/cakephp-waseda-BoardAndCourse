@@ -16,7 +16,6 @@
         echo $users[2]["Profile"]["image"];
         $num=count($users);
         for($i=0;$i<$num;$i++){ 
-            
             $users[$i]["Profile"]["image"]=null; 
             echo($users[$i]["Profile"]["image"]); 
         } 
@@ -38,7 +37,7 @@
         <?php foreach ($users as $user) : ?>
             <tr>
                 <td> <?php echo $user["User"]["id"];  ?> </td>
-                <td> <?php echo '<img src="data:image/jpg;base64,'.base64_encode($user["Profile"]["image"]).'" height="30px"/>'; ?> </td>
+                <td> <?php echo '<img src="data:image/jpg;base64,'.base64_encode( $user["Profile"]["image"] ).'" height="30px"/>'; ?> </td>
                 <td> <?php echo $user["User"]["name"]; ?> </td>
                 <td> <?php echo $user["User"]["password"]; ?> </td>
                 <td> <?php echo $user["User"]["created"]; ?> </td>

@@ -26,40 +26,46 @@ echo $this->Form->input("User.password",array("default"=>$user["User"]["password
 echo $this->Html->tag("h3","Additional"/*,array("class"=>"sub-title")*/ );
 echo $this->Form->hidden("Profile.user_id",array("default"=>$user["User"]["id"]));
 echo $this->Form->input("Profile.enter_year",array("default"=>$user["Profile"]["enter_year"],"type"=>"number","step"=>"1","min"=>date("Y")-10,"max"=>date("Y"),"placeholder"=>(date("Y")-3)." ~ ".date("Y") )); //echo $this->Form->input("enter_year",array("type"=>"date","dateFormat"=>"Y","minYear"=>date("Y")-3,"maxYear"=>date("Y") ));
-//departmentを選択し、それをselectしてidにする
-//courseを選択し、それをselectしてidにする
-/* ONE_TIME_FOR_TEST */
-echo $this->Form->input("Profile.faculty_id",array("default"=>$user["Profile"]["faculty_id"],"placeholder"=>"学術院","class"=>"FacultyInputArea" ));
-echo $this->Form->input("Profile.school_id",array("default"=>$user["Profile"]["school_id"],"placeholder"=>"学部","class"=>"SchoolInputArea"));
-echo $this->Form->input("Profile.department_id",array("default"=>$user["Profile"]["department_id"],"placeholder"=>"学科","class"=>"DepartmentInputArea" ));
+echo $this->Form->input("Profile.faculty_id",array("placeholder"=>"学術院","options"=>[],"class"=>"FacultyInputArea" ));
+echo $this->Form->input("Profile.school_id",array("placeholder"=>"学部","options"=>[],"class"=>"SchoolInputArea"));
+echo $this->Form->input("Profile.department_id",array("placeholder"=>"学科","options"=>[],"class"=>"DepartmentInputArea" ));
 echo $this->Form->input("Profile.comment",array("default"=>$user["Profile"]["comment"]));
 echo $this->Form->input("Profile.image",array("default"=>$user["Profile"]["image"],'label' => "profile-image", 'type' => 'file', 'multiple'));
-echo('<img src="data:image/jpg;base64,'.base64_encode($user["Profile"]["image"]).'" height="300px"/>');
-//echo $this->Html->image("data:image/jpg;base64,".base64_encode($user["Profile"]["image"]), array("alt"=>"profile image","height"=>"100px") );
-/* ONE_TIME_FOR_TEST */
+echo('<img src="data:image/jpg;base64,'.base64_encode( $user["Profile"]["image"] ).'" height="300px"/>');
 echo $this->Form->input("Profile.gpa",array("default"=>$user["Profile"]["gpa"],"type"=>"number","step"=>"0.001","min"=>0,"max"=>4));
 echo $this->Form->end("Save");
 ?>
 
 <?php echo $this->Html->script("options",array("inline"=>false)); ?>
+<?php echo $this->Html->script("jquery-3.5.1.min",array("inline"=>false)); ?>
+
 <script>
-let user=<?php $user["Profile"]["image"]=null; echo json_encode($user); ?>;
-let faculties=<?php echo json_encode($faculties) ?>;
-let schools=<?php echo json_encode($schools) ?>;
-let departments=<?php echo json_encode($departments) ?>;
+//url
+let url={
+    getLimitedSchool: "<?php echo $this->Html->url( array("action"=>"LimitedSchools"))?>",
+    getLimitedDepartment: "<?php echo $this->Html->url( array("action"=>"LimitedDepartments"))?>"
+};
 
-faculties=EncodeJsonForOption(faculties,"Faculty","faculty","id");
-schools=EncodeJsonForOption(schools,"School","school","id");
-departments=EncodeJsonForOption(departments,"Department","department","id");
+//class names attached to each input areas //these classes must be attached to least elements
+let courseInputAreas=new Array();
+courseInputAreas.faculty = document.getElementsByClassName("FacultyInputArea");
+courseInputAreas.school = document.getElementsByClassName("SchoolInputArea");
+courseInputAreas.department = document.getElementsByClassName("DepartmentInputArea");
 
-console.log(departments);
+//get all json data from database (mid: php)
+let rawCourseJson=new Array();
+rawCourseJson.faculty=<?php echo json_encode($faculties) ?>;
+//rawCourseJson.school=<?php //echo json_encode($schools) ?>;
+//rawCourseJson.department=<?php //echo json_encode($departments) ?>;
 
-//display options
-let facultyInputAreas=document.getElementsByClassName("FacultyInputArea");
-let schoolInputAreas=document.getElementsByClassName("SchoolInputArea");
-let departmentInputAreas=document.getElementsByClassName("DepartmentInputArea");
-CreateOptions(facultyInputAreas[0],faculties,user["Profile"]["faculty_id"]?user["Profile"]["faculty_id"]:-1);
-CreateOptions(schoolInputAreas[0],schools,user["Profile"]["school_id"]?user["Profile"]["school_id"]:-1);
-CreateOptions(departmentInputAreas[0],departments,user["Profile"]["department_id"]?user["Profile"]["department_id"]:-1);
+//user data
+let user = <?php $user["Profile"]["image"]=null; echo json_encode($user); ?>;
+
+
+//function
+SetAndManageCourseOptions(url, courseInputAreas, rawCourseJson, user);
+
+
+
 
 </script>

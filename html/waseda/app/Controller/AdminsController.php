@@ -32,8 +32,8 @@ class AdminsController extends AppController{
 
         if($this->request->is('get')){ /*GET*/
             $this->set('faculties',$this->Faculty->find('all',array('order' => 'Faculty.faculty asc')) );
-            $this->set('schools',$this->School->find('all',array('order' => 'School.school asc')) );
-            $this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
+            //$this->set('schools',$this->School->find('all',array('order' => 'School.school asc')) );
+            //$this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
 
             $data=$this->User->findById($id);
             if($data){
@@ -321,6 +321,28 @@ class AdminsController extends AppController{
                 }
             }   
         }  
+    }
+
+    public function LimitedSchools(){ //for Ajax //need faculty_id
+        $this->autoRender=false;
+        if ($this->request->is('ajax')){
+            $data=json_encode($this->FacultySchool->find('all',array('fields'=>['School.id','School.school'],'conditions'=>['FacultySchool.faculty_id'=>$this->request->query["faculty_id"]],'order' => 'School.school asc','recursive'=>2)) );
+            //debug($data);
+            return $data;
+        }else{
+            return $this->Flash->error("error");
+        }
+    }
+
+    public function LimitedDepartments(){ //for ajax //need school_id
+        $this->autoRender=false;
+        if ($this->request->is('ajax')){
+            $data=json_encode($this->SchoolDepartment->find('all',array('fields'=>['Department.id','Department.department'],'conditions'=>['SchoolDepartment.school_id'=>$this->request->query["school_id"]],'order' => 'Department.department asc','recursive'=>2)) );
+            //debug($data);
+            return $data;
+        }else{
+            return $this->Flash->error("error");
+        }
     }
 
 }
