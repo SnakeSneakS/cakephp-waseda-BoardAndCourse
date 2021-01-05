@@ -293,8 +293,8 @@ class AdminsController extends AppController{
     public function userDepartmentSelection() {
         /* GET */
         if ($this->request->is('get')){
-            $this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
-            $this->set('availableDepartmentSelections',$this->AvailableDepartmentSelection->find('all',array('order' => 'AvailableDepartmentSelection.id asc')) );
+            //$this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
+            $this->set('availableDepartmentSelections',$this->AvailableDepartmentSelection->find('all',array('order' => 'AvailableDepartmentSelection.id asc','recursive'=>1)) );
             $this->set('userDepartmentSelections',$this->UserDepartmentSelection->find('all',array('order' => 'UserDepartmentSelection.id asc','recursive'=>1)) );
         }
         /* POST */

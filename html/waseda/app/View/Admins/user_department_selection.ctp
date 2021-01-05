@@ -20,6 +20,7 @@
     } 
     debug($userDepartmentSelections[0]);
     */
+    debug($availableDepartmentSelections[0]);
     ?>
 
     <h3>UserDepartmentSelection</h3>
@@ -72,19 +73,37 @@
     <script>
         let userDepartmentSelections=<?php echo json_encode($userDepartmentSelections) ?>;
         let availableDepartmentSelections=<?php echo json_encode($availableDepartmentSelections) ?>;
-        let departments=<?php echo json_encode($departments) ?>;
+        //console.log(availableDepartmentSelections);
         
-        departments=EncodeJsonForOption(departments,"Department","department","id");
-
-        console.log(availableDepartmentSelections);
+        nowAvailableDepartments=EncodeJsonForOption(availableDepartmentSelections,"NowDepartment","department","id");
+        nextAvailableDepartments=EncodeJsonForOption(availableDepartmentSelections,"NextDepartment","department","id");
+        //departmentRelations=EncodeJsonForOption(availableDepartmentSelections,"AvailableDepartmentSelection","now_department_id","next_department_id");
 
         //display available departments: Key and Value
         let nowDepartmentInputAreas=document.getElementsByClassName("nowDepartmentInputArea");
         let nextDepartmentInputAreas=document.getElementsByClassName("nextDepartmentInputArea");
         for(let i=0;i<nowDepartmentInputAreas.length;i++){
-            CreateOptions(nowDepartmentInputAreas[i],departments,i<userDepartmentSelections.length?userDepartmentSelections[i]["UserDepartmentSelection"]["now_department_id"]:-1);
-            CreateOptions(nextDepartmentInputAreas[i],departments,i<userDepartmentSelections.length?userDepartmentSelections[i]["UserDepartmentSelection"]["next_department_id"]:-1);
+            CreateOptions(nowDepartmentInputAreas[i],nowAvailableDepartments,i<userDepartmentSelections.length?userDepartmentSelections[i]["UserDepartmentSelection"]["now_department_id"]:-1);
+            CreateOptions(nextDepartmentInputAreas[i],nextAvailableDepartments,i<userDepartmentSelections.length?userDepartmentSelections[i]["UserDepartmentSelection"]["next_department_id"]:-1);
         }
+
+        //when changed now_department
+        for(let i=0;i<nowDepartmentInputAreas.length;i++){
+            nowDepartmentInputAreas[i].addEventListener("change",function(){
+                const checkId=function(id){ 
+                    console.log();
+                    for(let j=0;j<availableDepartmentSelections.length;j++){
+                        if(availableDepartmentSelections[j]["AvailableDepartmentSelection"]["now_department_id"]==nowDepartmentInputAreas[i].value && availableDepartmentSelections[j]["AvailableDepartmentSelection"]["next_department_id"]==id){
+                            return true;
+                        }
+                    } 
+                    return false;
+                };
+                let limitedDepartments=EncodeJsonForOption(availableDepartmentSelections,"NextDepartment","department","id",checkId);
+                CreateOptions(nextDepartmentInputAreas[i],limitedDepartments,-1);
+            });
+        }
+
         
     </script>
 

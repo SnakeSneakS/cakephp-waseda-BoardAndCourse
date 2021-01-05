@@ -14,17 +14,23 @@ function CreateOptions(htmlElement,array,initialId){  //初期値を付けたい
     //console.log(options);
 }
 
-function EncodeJsonForOption(RowArray={},modelName,fieldName,idName){
+function EncodeJsonForOption(RowArray={},modelName,fieldName,idName,checkId=null){
     var arr=new Array();
     
     //console.log(arr);
     for(var i=0;i<RowArray.length;i++){
         var index=RowArray[i][modelName][idName];
+
+        if(checkId!=null){ //id check: condition
+            if(!checkId(index)){ //e.g. function checkId(id){ available={0,1,2,3,4}; return available.indexOf(id)!=-1; } //true if id is included in available
+                continue;
+            }
+        }
+ 
         arr[index]=RowArray[i][modelName][fieldName];
     }
     return arr;
 }
-
 
 //ajax by raw js  //referred to https://qiita.com/okame_qiita/items/e1b370c4ecac50cb48da
 //fetch might be better
