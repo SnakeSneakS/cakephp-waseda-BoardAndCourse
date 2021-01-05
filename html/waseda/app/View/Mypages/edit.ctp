@@ -36,7 +36,7 @@ echo $this->Form->input("Grade.enter_year",array("default"=>$user["Grade"]["ente
 echo $this->Form->input("Grade.department_id",array("default"=>$user["Grade"]["department_id"],"type"=>"number","step"=>"1","min"=>0,"max"=>5,"placeholder"=>"学科番号" ));
 echo $this->Form->input("Grade.course_id",array("default"=>$user["Grade"]["course_id"],"type"=>"number","step"=>"1","min"=>0,"max"=>5,"placeholder"=>"学科番号" ));
 echo $this->Form->input("Grade.comment",array("default"=>$user["Grade"]["comment"]));
-echo $this->Form->input("Grade.image",array("default"=>$user["Grade"]["image"],'label' => "profile-image", 'type' => 'file', 'multiple'));
+echo $this->Form->input("Grade.image",array("default"=>$user["Grade"]["image"],'label' => "profile-image", 'type' => 'file'));
 echo('<img src="data:image/jpg;base64,'.base64_encode( $user["Profile"]["image"] ).'" height="30px"/>');
 //echo $this->Html->image("data:image/jpg;base64,".base64_encode($user["Grade"]["image"]), array("alt"=>"profile image","height"=>"100px") );
 /* ONE_TIME_FOR_TEST */

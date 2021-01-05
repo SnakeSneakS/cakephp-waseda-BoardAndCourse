@@ -91,7 +91,6 @@
         for(let i=0;i<nowDepartmentInputAreas.length;i++){
             nowDepartmentInputAreas[i].addEventListener("change",function(){
                 const checkId=function(id){ 
-                    console.log();
                     for(let j=0;j<availableDepartmentSelections.length;j++){
                         if(availableDepartmentSelections[j]["AvailableDepartmentSelection"]["now_department_id"]==nowDepartmentInputAreas[i].value && availableDepartmentSelections[j]["AvailableDepartmentSelection"]["next_department_id"]==id){
                             return true;
