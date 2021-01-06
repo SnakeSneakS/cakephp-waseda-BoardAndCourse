@@ -27,7 +27,6 @@ class AdminsController extends AppController{
             return $this->redirect(array('action' => 'index'));  
         }
 
-        //$this->request->data["Profile"]["user_id"]=$id;
         //debug($this->request->data);
 
         if($this->request->is('get')){ /*GET*/
@@ -57,6 +56,9 @@ class AdminsController extends AppController{
                 return;   
             }
 
+            /*
+            //when handle image as input image file
+            //I decided to send imageDataURL, so I don't need to do this action.
             if(!empty($this->request->data["Profile"]["image"]["tmp_name"])){ //image set
                 //debug($this->request->data["Profile"]);
                 $this->request->data["Profile"]["image"]=file_get_contents($this->request->data["Profile"]["image"]["tmp_name"]);
@@ -67,9 +69,12 @@ class AdminsController extends AppController{
                 }else{
                     $this->request->data["Profile"]["image"]="";
                 }
-            }
+            }*/
+
             $saved=$this->User->saveAssociated($this->request->data); //これか下のコメントアウトかどちらか
-            /*$user=$this->User->save($this->request->data);
+            /*
+            //another way
+            $user=$this->User->save($this->request->data);
             if(!empty($user)){
                 if($this->User->Profile->save($this->request->data)){
                     $this->Flash->success('edit Profile success!');

@@ -15,7 +15,7 @@ echo $this->Html->link("user index",array("action"=>"user"));
 <?php //debug($user); ?>
 
 <?php
-echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*/"type"=>"file"));
+echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*//*"type"=>"file"*/));
 echo $this->Html->tag("h3","Basic");
 echo $this->Form->hidden("User.id",array("default"=>$user["User"]["id"]));
 echo $this->Form->input("User.name",array("default"=>$user["User"]["name"]));
@@ -30,13 +30,16 @@ echo $this->Form->input("Profile.faculty_id",array("placeholder"=>"学術院","o
 echo $this->Form->input("Profile.school_id",array("placeholder"=>"学部","options"=>[],"class"=>"SchoolInputArea"));
 echo $this->Form->input("Profile.department_id",array("placeholder"=>"学科","options"=>[],"class"=>"DepartmentInputArea" ));
 echo $this->Form->input("Profile.comment",array("default"=>$user["Profile"]["comment"]));
-echo $this->Form->input("Profile.image",array("default"=>$user["Profile"]["image"],'label' => "profile-image", 'type' => 'file', "accept"=>"image/*" ,"class"=>"imageInput"));
-echo('<img class="imageOutput" src="data:image/jpg;base64,'.base64_encode( $user["Profile"]["image"] ).'" height="300px"/>');
+//echo $this->Form->input("Profile.image",("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput")); //when send file. I decided to send imageDataUrl. type: "file" is needed when form->create
+echo $this->Form->input("null",array("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput"));
+echo $this->Form->hidden("Profile.image",array("default"=>$user["Profile"]["image"],'label' => "profile-image-data", 'type' => 'text', "accept"=>"image/*" ,"class"=>"imageDataInput"));
+echo('<img class="imageOutput" src="'.$user["Profile"]["image"].'" height="300px"/>'); //when use image input: data:image/jpg;base64, base64_encode( $user["Profile"]["image"] )
 echo $this->Form->input("Profile.gpa",array("default"=>$user["Profile"]["gpa"],"type"=>"number","step"=>"0.001","min"=>0,"max"=>4));
 echo $this->Form->end("Save");
 ?>
 
-<?php echo $this->Html->script("image-input",array("inline"=>false)); ?>
+<?php echo $this->Html->script("browser-image-compression",array("inline"=>true,"type"=>"module")); ?>
+<?php echo $this->Html->script("image-input",array("inline"=>false,"defer"=>true)); ?>
 <?php echo $this->Html->script("options",array("inline"=>false)); ?>
 <?php echo $this->Html->script("jquery-3.5.1.min",array("inline"=>false)); ?>
 
