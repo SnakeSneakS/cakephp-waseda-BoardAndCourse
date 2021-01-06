@@ -6,7 +6,7 @@ $ret = $this->query('UPDATE users SET point = point + ? WHERE id = ?', array($po
 
 class MypagesController extends AppController{
 
-    public $uses=array("User","Profile","Faculty","School","Department","FacultySchool","SchoolDepartment","AvailableDepartmentSelection","UserDepartmentSelection");//model 指定 AvailableDepartmentSelection, User
+    public $uses=array("User","Faculty","FacultySchool","SchoolDepartment");//model 指定 AvailableDepartmentSelection, User
 
     //public $scaffold;//localhost/blog/postsでもう管理画面みたいなのが既にできてる。でもこれだとカスタマイズはできないよね〜〜
     public $helpers = array('Html','Form');//htmlと入力formをこれから扱うZE
@@ -103,139 +103,6 @@ class MypagesController extends AppController{
             }
         } 
     }
-
-
-    //see Department index
-    public function department() {
-        /* GET */
-        if ($this->request->is('get')){
-            $this->set('departments',$this->Department->find('all',array('order' => 'Department.id asc')) );
-        }
-        /* POST */
-        else if ($this->request->is('post')) { 
-            if($this->request->data["Department"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
-            
-            if($this->request->data["Department"]["delete"]==true){ //delete
-                $delete=$this->Department->delete($this->request->data["Department"]["id"]);
-                if (!empty($delete)) { 
-                    $this->Flash->success('delete success!');
-                    return $this->redirect(array('action' => 'Department'));  
-                }else{
-                    $this->Flash->error('delete Failed');
-                    return $this->redirect(array('action' => 'Department'));  
-                }
-            }else{
-                $saved=$this->Department->save($this->request->data); //これか下のコメントアウトかどちらか
-                if (!empty($saved)) { 
-                    $this->Flash->success('change success!');
-                    return $this->redirect(array('action' => 'Department'));  
-                }else{
-                    $this->Flash->error('change Failed');
-                    return $this->redirect(array('action' => 'Department'));  
-                }
-            }  
-        } 
-    }
-
-    //see School index
-    public function school() {
-        /* GET */
-        if ($this->request->is('get')){
-            $this->set('schools',$this->School->find('all',array('order' => 'School.id asc')) );
-        }
-        /* POST */
-        else if ($this->request->is('post')) { 
-            if($this->request->data["School"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
-            
-            if($this->request->data["School"]["delete"]==true){ //delete
-                $delete=$this->School->delete($this->request->data["School"]["id"]);
-                if (!empty($delete)) { 
-                    $this->Flash->success('delete success!');
-                    return $this->redirect(array('action' => 'school'));  
-                }else{
-                    $this->Flash->error('delete Failed');
-                    return $this->redirect(array('action' => 'school'));  
-                }
-            }else{ //save
-                $saved=$this->School->save($this->request->data); //これか下のコメントアウトかどちらか
-                if (!empty($saved)) { 
-                    $this->Flash->success('change success!');
-                    return $this->redirect(array('action' => 'school'));  
-                }else{
-                    $this->Flash->error('change Failed');
-                    return $this->redirect(array('action' => 'school'));  
-                }
-            }   
-        }  
-    }
-
-    //see Faculty index
-    public function faculty() {
-        /* GET */
-        if ($this->request->is('get')){
-            $this->set('faculties',$this->Faculty->find('all',array('order' => 'Faculty.id asc')) );
-        }
-        /* POST */
-        else if ($this->request->is('post')) { 
-            if($this->request->data["Faculty"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
-            
-            if($this->request->data["Faculty"]["delete"]==true){ //delete
-                $delete=$this->Faculty->delete($this->request->data["Faculty"]["id"]);
-                if (!empty($delete)) { 
-                    $this->Flash->success('delete success!');
-                    return $this->redirect(array('action' => 'faculty'));  
-                }else{
-                    $this->Flash->error('delete Failed');
-                    return $this->redirect(array('action' => 'faculty'));  
-                }
-            }else{ //save
-                $saved=$this->Faculty->save($this->request->data); //これか下のコメントアウトかどちらか
-                if (!empty($saved)) { 
-                    $this->Flash->success('change success!');
-                    return $this->redirect(array('action' => 'faculty'));  
-                }else{
-                    $this->Flash->error('change Failed');
-                    return $this->redirect(array('action' => 'faculty'));  
-                }
-            }   
-        }  
-    }
-    
-    //see AvailableDepartmentSelection index
-    public function availableDepartmentSelection() {
-        /* GET */
-        if ($this->request->is('get')){
-            $this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
-            $this->set('schools',$this->School->find('all',array('order' => 'School.school asc')) );
-            $this->set('availableDepartmentSelections',$this->AvailableDepartmentSelection->find('all',array('order' => 'AvailableDepartmentSelection.id asc')) );
-        }
-        /* POST */
-        else if ($this->request->is('post')) { 
-            if($this->request->data["AvailableDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
-            
-            if($this->request->data["AvailableDepartmentSelection"]["delete"]==true){
-                $delete=$this->AvailableDepartmentSelection->delete($this->request->data["AvailableDepartmentSelection"]["id"]);
-                if (!empty($delete)) { 
-                    $this->Flash->success('delete success!');
-                    return $this->redirect(array('action' => 'availableDepartmentSelection'));  
-                }else{
-                    $this->Flash->error('delete Failed');
-                    return $this->redirect(array('action' => 'availableDepartmentSelection'));  
-                }
-            }else{
-                $saved=$this->AvailableDepartmentSelection->save($this->request->data); //これか下のコメントアウトかどちらか
-                if (!empty($saved)) { 
-                    $this->Flash->success('change success!');
-                    return $this->redirect(array('action' => 'availableDepartmentSelection'));  
-                }else{
-                    $this->Flash->error('change Failed');
-                    return $this->redirect(array('action' => 'availableDepartmentSelection'));  
-                }
-            }
-            
-        }  
-    }
-
 
     //see schoolDepartment index
     public function schoolDepartment() {

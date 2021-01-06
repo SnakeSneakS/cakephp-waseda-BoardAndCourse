@@ -10,7 +10,7 @@
 echo $this->Html->link("view",array("action"=>"view",$user["User"]["id"]));
 ?>
 
-<h2>Admin: edit user</h2>
+<h2>Mypage: edit</h2>
 
 <?php //debug($user); ?>
 
@@ -19,21 +19,21 @@ echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*//*"typ
 
 echo $this->Html->tag("h3","Basic");
 echo $this->Form->hidden("User.id",array("default"=>$user["User"]["id"]));
-echo $this->Form->input("User.name",array("default"=>$user["User"]["name"]));
-echo $this->Form->input("User.password",array("default"=>$user["User"]["password"]));
+echo $this->Form->input("User.name",array("default"=>$user["User"]["name"],"label"=>"ユーザネーム"));
+echo $this->Form->input("User.password",array("default"=>$user["User"]["password"],"label"=>"パスワード"));
 
 echo $this->Html->tag("h3","Additional"/*,array("class"=>"sub-title")*/ );
 echo $this->Form->hidden("Profile.user_id",array("default"=>$user["User"]["id"]));
-echo $this->Form->input("Profile.enter_year",array("default"=>$user["Profile"]["enter_year"],"type"=>"number","step"=>"1","min"=>date("Y")-10,"max"=>date("Y"),"placeholder"=>(date("Y")-3)." ~ ".date("Y") )); //echo $this->Form->input("enter_year",array("type"=>"date","dateFormat"=>"Y","minYear"=>date("Y")-3,"maxYear"=>date("Y") ));
-echo $this->Form->input("Profile.faculty_id",array("placeholder"=>"学術院","options"=>[],"class"=>"FacultyInputArea" ));
-echo $this->Form->input("Profile.school_id",array("placeholder"=>"学部","options"=>[],"class"=>"SchoolInputArea"));
-echo $this->Form->input("Profile.department_id",array("placeholder"=>"学科","options"=>[],"class"=>"DepartmentInputArea" ));
-echo $this->Form->input("Profile.comment",array("default"=>nl2br($user["Profile"]["comment"])));
+echo $this->Form->input("Profile.enter_year",array("default"=>$user["Profile"]["enter_year"],"type"=>"number","label"=>"入学年","step"=>"1","min"=>date("Y")-10,"max"=>date("Y"),"placeholder"=>(date("Y")-3)." ~ ".date("Y") )); //echo $this->Form->input("enter_year",array("type"=>"date","dateFormat"=>"Y","minYear"=>date("Y")-3,"maxYear"=>date("Y") ));
+echo $this->Form->input("Profile.faculty_id",array("placeholder"=>"学術院","options"=>[],"label"=>"学術院","class"=>"FacultyInputArea" ));
+echo $this->Form->input("Profile.school_id",array("placeholder"=>"学部","options"=>[],"label"=>"学部","class"=>"SchoolInputArea"));
+echo $this->Form->input("Profile.department_id",array("placeholder"=>"学科","options"=>[],"label"=>"学科","class"=>"DepartmentInputArea" ));
+echo $this->Form->input("Profile.comment",array("default"=>nl2br($user["Profile"]["comment"]),"label"=>"一言コメント" ));
 //echo $this->Form->input("Profile.image",("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput")); //when send file. I decided to send imageDataUrl. type: "file" is needed when form->create
-echo $this->Form->input("null",array("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput"));
+echo $this->Form->input("null",array("type"=>"file",'label' => "プロフィール画像", "accept"=>"image/*" ,"class"=>"imageInput"));
 echo $this->Form->hidden("Profile.image",array("default"=>$user["Profile"]["image"],'label' => "profile-image-data", 'type' => 'text', "accept"=>"image/*" ,"class"=>"imageDataInput"));
 echo('<img class="imageOutput" src="'.$user["Profile"]["image"].'" height="300px"/>'); //when use image input: data:image/jpg;base64, base64_encode( $user["Profile"]["image"] )
-echo $this->Form->input("Profile.gpa",array("default"=>$user["Profile"]["gpa"],"type"=>"number","step"=>"0.001","min"=>0,"max"=>4));
+echo $this->Form->input("Profile.gpa",array("default"=>$user["Profile"]["gpa"],"type"=>"number","label"=>"平均GPA","step"=>"0.001","min"=>0,"max"=>4));
 
 echo $this->Form->end("Save");
 ?>
