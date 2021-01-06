@@ -3,3 +3,8 @@
     font-size:2rem;
     margin:1rem;
 }
+
+.profile-image-middle{
+    max-height:512px; 
+    max-width:512px;
+}

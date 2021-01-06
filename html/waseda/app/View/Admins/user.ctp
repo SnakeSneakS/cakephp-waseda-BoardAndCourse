@@ -70,7 +70,7 @@
                     echo isset($user["Profile"]["department_id"]) ? "<td>".$user["Profile"]["department_id"]."</td>" : "<td></td>";
                     echo isset($user["Profile"]["Department"]["department"]) ? "<td>".$user["Profile"]["Department"]["department"]."</td>" : "<td></td>";
                     echo isset($user["Profile"]["gpa"]) ? "<td>".$user["Profile"]["gpa"]."</td>" : "<td></td>";
-                    echo isset($user["Profile"]["comment"]) ? "<td>".$user["Profile"]["comment"]."</td>" : "<td></td>";
+                    echo isset($user["Profile"]["comment"]) ? "<td>".nl2br($user["Profile"]["comment"])."</td>" : "<td></td>";
                     echo isset($user["Profile"]["modified"]) ? "<td>".$user["Profile"]["modified"]."</td>" : "<td></td>";
             ?>
             <tr>

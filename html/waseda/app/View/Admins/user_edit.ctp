@@ -29,7 +29,7 @@ echo $this->Form->input("Profile.enter_year",array("default"=>$user["Profile"]["
 echo $this->Form->input("Profile.faculty_id",array("placeholder"=>"学術院","options"=>[],"class"=>"FacultyInputArea" ));
 echo $this->Form->input("Profile.school_id",array("placeholder"=>"学部","options"=>[],"class"=>"SchoolInputArea"));
 echo $this->Form->input("Profile.department_id",array("placeholder"=>"学科","options"=>[],"class"=>"DepartmentInputArea" ));
-echo $this->Form->input("Profile.comment",array("default"=>$user["Profile"]["comment"]));
+echo $this->Form->input("Profile.comment",array("default"=>nl2br($user["Profile"]["comment"])));
 //echo $this->Form->input("Profile.image",("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput")); //when send file. I decided to send imageDataUrl. type: "file" is needed when form->create
 echo $this->Form->input("null",array("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput"));
 echo $this->Form->hidden("Profile.image",array("default"=>$user["Profile"]["image"],'label' => "profile-image-data", 'type' => 'text', "accept"=>"image/*" ,"class"=>"imageDataInput"));
@@ -41,7 +41,7 @@ echo $this->Form->end("Save");
 <?php echo $this->Html->script("browser-image-compression",array("inline"=>true,"type"=>"module")); ?>
 <?php echo $this->Html->script("image-input",array("inline"=>false,"defer"=>true)); ?>
 <?php echo $this->Html->script("options",array("inline"=>false)); ?>
-<?php echo $this->Html->script("jquery-3.5.1.min",array("inline"=>false)); ?>
+
 
 <script>
 //url
