@@ -62,26 +62,16 @@
         </thead>   
         <?php foreach ($users as $user) : ?>
             <?php 
-                if(!empty($user["Profile"]["user_id"])){
-                    echo "<td>".$user["Profile"]["user_id"]."</td>";               
-                    echo "<td>".$user["Profile"]["enter_year"]."</td>";
-                    echo "<td>".$user["Profile"]["school_id"]."</td>";
-                    echo "<td>".$user["Profile"]["School"]["school"]."</td>";
-                    echo "<td>".$user["Profile"]["department_id"]."</td>";
-                    echo "<td>".$user["Profile"]["Department"]["department"]."</td>";
-                    echo "<td>".$user["Profile"]["gpa"]."</td>";
-                    echo "<td>".$user["Profile"]["comment"]."</td>";
-                    echo "<td>".$user["Profile"]["modified"]."</td>";
-                }else{
-                    echo "<td>".$user["User"]["id"]."</td>";               
-                    echo "<td></td>";
-                    echo "<td></td>";
-                    echo "<td></td>";
-                    echo "<td></td>";
-                    echo "<td></td>";
-                    echo "<td></td>";
-                    echo "<td></td>";
-                }
+            //debug(isset($user["Profile"]["school_id"])?$user["Profile"]["school_id"]:"");
+                    echo isset($user["Profile"]["user_id"]) ? "<td>".$user["Profile"]["user_id"]."</td>" : "<td></td>";               
+                    echo isset($user["Profile"]["enter_year"]) ? "<td>".$user["Profile"]["enter_year"]."</td>" : "<td></td>";
+                    echo isset($user["Profile"]["school_id"]) ? "<td>".$user["Profile"]["school_id"]."</td>" : "<td></td>";
+                    echo isset($user["Profile"]["School"]["school"]) ? "<td>".$user["Profile"]["School"]["school"]."</td>" : "<td></td>";
+                    echo isset($user["Profile"]["department_id"]) ? "<td>".$user["Profile"]["department_id"]."</td>" : "<td></td>";
+                    echo isset($user["Profile"]["Department"]["department"]) ? "<td>".$user["Profile"]["Department"]["department"]."</td>" : "<td></td>";
+                    echo isset($user["Profile"]["gpa"]) ? "<td>".$user["Profile"]["gpa"]."</td>" : "<td></td>";
+                    echo isset($user["Profile"]["comment"]) ? "<td>".$user["Profile"]["comment"]."</td>" : "<td></td>";
+                    echo isset($user["Profile"]["modified"]) ? "<td>".$user["Profile"]["modified"]."</td>" : "<td></td>";
             ?>
             <tr>
                           
