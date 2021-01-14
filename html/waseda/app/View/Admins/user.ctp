@@ -13,13 +13,12 @@
     <?php 
         //blobはデータ量多いからdebugで表示されない？debugで表示される様にblobデータをnullにしている
         /* 
-        echo $users[2]["Profile"]["image"];
         $num=count($users);
         for($i=0;$i<$num;$i++){ 
             $users[$i]["Profile"]["image"]=null; 
             echo($users[$i]["Profile"]["image"]); 
         } 
-        debug($users[1]); 
+        debug($users[0]); 
         */
     ?>
 
@@ -69,7 +68,7 @@
                     echo isset($user["Profile"]["School"]["school"]) ? "<td>".$user["Profile"]["School"]["school"]."</td>" : "<td></td>";
                     echo isset($user["Profile"]["department_id"]) ? "<td>".$user["Profile"]["department_id"]."</td>" : "<td></td>";
                     echo isset($user["Profile"]["Department"]["department"]) ? "<td>".$user["Profile"]["Department"]["department"]."</td>" : "<td></td>";
-                    echo isset($user["Profile"]["gpa"]) ? "<td>".$user["Profile"]["gpa"]."</td>" : "<td></td>";
+                    echo isset($user["Gpa"]["gpa"]) ? "<td>".$user["Gpa"]["gpa"]."</td>" : "<td></td>";
                     echo isset($user["Profile"]["comment"]) ? "<td>".nl2br($user["Profile"]["comment"])."</td>" : "<td></td>";
                     echo isset($user["Profile"]["modified"]) ? "<td>".$user["Profile"]["modified"]."</td>" : "<td></td>";
             ?>

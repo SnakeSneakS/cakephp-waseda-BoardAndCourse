@@ -33,7 +33,7 @@ echo $this->Form->input("Profile.comment",array("default"=>nl2br($user["Profile"
 echo $this->Form->input("null",array("type"=>"file",'label' => "プロフィール画像", "accept"=>"image/*" ,"class"=>"imageInput"));
 echo $this->Form->hidden("Profile.image",array("default"=>$user["Profile"]["image"],'label' => "profile-image-data", 'type' => 'text', "accept"=>"image/*" ,"class"=>"imageDataInput"));
 echo('<img class="imageOutput" src="'.$user["Profile"]["image"].'" height="300px"/>'); //when use image input: data:image/jpg;base64, base64_encode( $user["Profile"]["image"] )
-echo $this->Form->input("Profile.gpa",array("default"=>$user["Profile"]["gpa"],"type"=>"number","label"=>"平均GPA","step"=>"0.001","min"=>0,"max"=>4));
+//echo $this->Form->input("Gpa.gpa",array("default"=>$user["Gpa"]["gpa"],"type"=>"number","label"=>"平均GPA","step"=>"0.001","min"=>0,"max"=>4));
 
 echo $this->Form->end("Save");
 ?>

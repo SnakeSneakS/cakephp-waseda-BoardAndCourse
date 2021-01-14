@@ -20,7 +20,7 @@
     } 
     debug($userDepartmentSelections[0]);
     */
-    debug($availableDepartmentSelections[0]);
+    //debug($availableDepartmentSelections[0]);
     ?>
 
     <h3>UserDepartmentSelection</h3>

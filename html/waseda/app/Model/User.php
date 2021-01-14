@@ -10,16 +10,10 @@ class User extends AppModel{
             'foreignKey' => 'user_id',
             'dependent' => true
         ),
-        /*"Department" => array(
-            "className" => "Department",
-            //"conditions" => array("Profile.department_id"=>"Department.department_id"),
-            'foreignKey' => 'department_id'
-        ),
-        "Course" => array(
-            "className" => "Course",
-            //"conditions" => array("Profile.course_id"=>"Course.course_id"),
-            'foreignKey' => 'course_id'
-        ) */
+        /*'Gpa' => array(
+            'className'=>'Gpa',
+            'foreignKey'=>'id'
+        ),*/
     );
 /*
     public $belongsTo = array( //Profileに対してこれを設定したい

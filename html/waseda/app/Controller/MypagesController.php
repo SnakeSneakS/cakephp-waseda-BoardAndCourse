@@ -24,7 +24,7 @@ class MypagesController extends AppController{
 
     public function view($id=-1){
         if($this->request->is('get')){ /*GET*/
-            $data=$this->User->find("first",["conditions"=>"User.id=$id","recursive"=>2,"fields"=>["User.id","User.name","Profile.enter_year","Profile.gpa","Profile.comment","Profile.image","Profile.faculty_id","Profile.school_id","Profile.department_id"]]);
+            $data=$this->User->find("first",["conditions"=>"User.id=$id","recursive"=>2,"fields"=>["User.id","User.name","Profile.enter_year","Profile.comment","Profile.image","Profile.faculty_id","Profile.school_id","Profile.department_id"]]);
             if($data){
                 $this->Flash->success('Load data success!');
                 $this->set('user',$data); //$this->User->find('first',array("conditions"=>array("User.id"=>$id)) でも良い 
@@ -57,7 +57,7 @@ class MypagesController extends AppController{
             //urlとdataが違う時、エラーを出して操作中止
             if($this->request->data["User"]["id"]!=$id){
                 $this->Flash->error('error: $i ≠ data>User>id');
-                debug($this->request->data);
+                //debug($this->request->data);
                 return;
             }
             

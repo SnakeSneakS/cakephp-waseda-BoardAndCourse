@@ -12,7 +12,7 @@ echo $this->Html->link("user index",array("action"=>"user"));
 
 <h2>Admin: edit user</h2>
 
-<?php //debug($user); ?>
+<?php debug($user); ?>
 
 <?php
 echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*//*"type"=>"file"*/));
@@ -34,7 +34,8 @@ echo $this->Form->input("Profile.comment",array("default"=>nl2br($user["Profile"
 echo $this->Form->input("null",array("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput"));
 echo $this->Form->hidden("Profile.image",array("default"=>$user["Profile"]["image"],'label' => "profile-image-data", 'type' => 'text', "accept"=>"image/*" ,"class"=>"imageDataInput"));
 echo('<img class="imageOutput" src="'.$user["Profile"]["image"].'" height="300px"/>'); //when use image input: data:image/jpg;base64, base64_encode( $user["Profile"]["image"] )
-echo $this->Form->input("Profile.gpa",array("default"=>$user["Profile"]["gpa"],"type"=>"number","step"=>"0.001","min"=>0,"max"=>4));
+echo $this->Form->hidden("Gpa.id",array("default"=>$user["User"]["id"]));
+echo $this->Form->input("Gpa.gpa",array("default"=>$user["Gpa"]["gpa"],"type"=>"number","step"=>"0.001","min"=>0,"max"=>4));
 echo $this->Form->end("Save");
 ?>
 
