@@ -8,3 +8,9 @@
     max-height:512px; 
     max-width:512px;
 }
+
+.alert-message{
+    background-color:red;
+    color:yellow;
+    font-size:2rem;
+}

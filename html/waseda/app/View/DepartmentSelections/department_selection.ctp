@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users index</title>
-</head>
 <body>
     <h2>Admin: Users index</h2>
 
@@ -42,7 +35,7 @@
                 <td> <?php echo $this->Html->tag("span",$userDepartmentSelection["UserDepartmentSelection"]["id"]) ?> </td>
                 <?php echo $this->Form->hidden("UserDepartmentSelection.user_id",array("default"=>$userDepartmentSelection["UserDepartmentSelection"]["user_id"])); ?>
                 <td> <?php echo $this->Html->tag("span",$userDepartmentSelection["UserDepartmentSelection"]["user_id"]); ?> </td>
-                <td> <?php echo $this->Form->input("UserDepartmentSelection.rank",array("label"=>"","default"=>$userDepartmentSelection["UserDepartmentSelection"]["rank"])); ?> </td>
+                <td> <?php echo $this->Form->input("UserDepartmentSelection.max_num",array("label"=>"","default"=>$userDepartmentSelection["UserDepartmentSelection"]["rank"])); ?> </td>
                 <td> <?php echo $this->Form->input("UserDepartmentSelection.now_department_id",array("label"=>"","class"=>"nowDepartmentInputArea")); ?> </td>
                 <td> <?php echo $this->Form->input("UserDepartmentSelection.next_department_id",array("label"=>"","class"=>"nextDepartmentInputArea")); ?> </td>
                 <td> <?php echo $this->Form->checkbox("UserDepartmentSelection.delete",array("value"=>true)) ?> </td>
