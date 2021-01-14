@@ -49,10 +49,8 @@ class AdminsController extends AppController{
             }
             
             //error: 
-            if($id==0){
-                $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
-                return;   
-            }
+            //if($id==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+
 
             /*
             //when handle image as input image file
@@ -91,7 +89,7 @@ class AdminsController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["Department"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["Department"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["Department"]["delete"]==true){ //delete
                 $delete=$this->Department->delete($this->request->data["Department"]["id"]);
@@ -123,7 +121,7 @@ class AdminsController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["School"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["School"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["School"]["delete"]==true){ //delete
                 $delete=$this->School->delete($this->request->data["School"]["id"]);
@@ -155,7 +153,7 @@ class AdminsController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["Faculty"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["Faculty"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["Faculty"]["delete"]==true){ //delete
                 $delete=$this->Faculty->delete($this->request->data["Faculty"]["id"]);
@@ -189,7 +187,7 @@ class AdminsController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["AvailableDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["AvailableDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["AvailableDepartmentSelection"]["delete"]==true){
                 $delete=$this->AvailableDepartmentSelection->delete($this->request->data["AvailableDepartmentSelection"]["id"]);
@@ -225,7 +223,7 @@ class AdminsController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["SchoolDepartment"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["SchoolDepartment"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["SchoolDepartment"]["delete"]==true){
                 $delete=$this->SchoolDepartment->delete($this->request->data["SchoolDepartment"]["id"]);
@@ -259,7 +257,7 @@ class AdminsController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["FacultySchool"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["FacultySchool"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["FacultySchool"]["delete"]==true){
                 $delete=$this->FacultySchool->delete($this->request->data["FacultySchool"]["id"]);
@@ -293,7 +291,7 @@ class AdminsController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["UserDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["UserDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["UserDepartmentSelection"]["delete"]==true){
                 $delete=$this->UserDepartmentSelection->delete($this->request->data["UserDepartmentSelection"]["id"]);

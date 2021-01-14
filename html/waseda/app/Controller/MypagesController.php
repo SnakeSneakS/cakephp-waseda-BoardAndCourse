@@ -24,7 +24,7 @@ class MypagesController extends AppController{
 
     public function view($id=-1){
         if($this->request->is('get')){ /*GET*/
-            $data=$this->User->find("first",["conditions"=>"User.id=$id","recursive"=>2,"fields"=>["User.id","User.name","Profile.enter_year","Profile.comment","Profile.image","Profile.faculty_id","Profile.school_id","Profile.department_id"]]);
+            $data=$this->User->find("first",["conditions"=>["User.id"=>$id],"recursive"=>2,"fields"=>["User.id","User.name","Profile.enter_year","Profile.comment","Profile.image","Profile.faculty_id","Profile.school_id","Profile.department_id"]]);
             if($data){
                 $this->Flash->success('Load data success!');
                 $this->set('user',$data); //$this->User->find('first',array("conditions"=>array("User.id"=>$id)) でも良い 
@@ -62,10 +62,8 @@ class MypagesController extends AppController{
             }
             
             //error: 
-            if($id==0){
-                $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
-                return;   
-            }
+            //if($id==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+                
 
             /*
             //when handle image as input image file
@@ -114,7 +112,7 @@ class MypagesController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["SchoolDepartment"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["SchoolDepartment"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["SchoolDepartment"]["delete"]==true){
                 $delete=$this->SchoolDepartment->delete($this->request->data["SchoolDepartment"]["id"]);
@@ -148,7 +146,7 @@ class MypagesController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["FacultySchool"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["FacultySchool"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["FacultySchool"]["delete"]==true){
                 $delete=$this->FacultySchool->delete($this->request->data["FacultySchool"]["id"]);
@@ -182,7 +180,7 @@ class MypagesController extends AppController{
         }
         /* POST */
         else if ($this->request->is('post')) { 
-            if($this->request->data["UserDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
+            //if($this->request->data["UserDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["UserDepartmentSelection"]["delete"]==true){
                 $delete=$this->UserDepartmentSelection->delete($this->request->data["UserDepartmentSelection"]["id"]);
