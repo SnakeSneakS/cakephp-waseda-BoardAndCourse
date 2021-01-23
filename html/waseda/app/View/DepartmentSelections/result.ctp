@@ -1,4 +1,4 @@
-<?php //debug($userSelections); ?>
+<?php debug($userSelections); ?>
 
 
 <canvas id="chart"></canvas>
@@ -8,7 +8,6 @@
 <table>
 <thead>
     <tr>
-        <td>id</td>
         <td>現在学部</td>
         <td>志望学部</td>
         <td>志望順位</td>
@@ -18,7 +17,6 @@
 <tbody>
 <?php foreach($userSelections as $userSelection): ?>
     <tr>
-        <td> <?php echo $userSelection["UserDepartmentSelection"]["id"];?> </td>
         <td> <?php echo $userSelection["NowDepartment"]["department"];?> </td>
         <td> <?php echo $userSelection["NextDepartment"]["department"];?> </td>
         <td> <?php echo $userSelection["UserDepartmentSelection"]["rank"];?> </td>
@@ -38,7 +36,7 @@
     $data;
     for($i=0;$i<count($userSelections);$i++){
         $data[$i]=[
-            "id"=>$userSelections[$i]["UserDepartmentSelection"]["id"],
+            //"id"=>$userSelections[$i]["UserDepartmentSelection"]["id"],
             "now_department"=>$userSelections[$i]["NowDepartment"]["department"],
             "next_department"=>$userSelections[$i]["NextDepartment"]["department"],
             "rank"=>$userSelections[$i]["UserDepartmentSelection"]["rank"],
@@ -79,7 +77,7 @@ drawBar(ctx,countResult.gpa);
 
 
 
-function drawBar(ctx,countResult){
+function drawBar(ctx,countResult,conditions){
     var label="";
     for(key in countResult["conditions"]){
         label+=key+": "+countResult["conditions"][key]+", ";

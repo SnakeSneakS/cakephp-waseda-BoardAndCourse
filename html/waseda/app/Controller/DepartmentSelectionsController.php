@@ -82,7 +82,7 @@ class DepartmentSelectionsController extends AppController{
         $this->set("userSelections",$this->UserDepartmentSelection->find("all",[
             "conditions"=>["NOT"=>["Gpa.id"=>""]],
             "order"=>"UserDepartmentSelection.now_department_id asc, UserDepartmentSelection.rank asc, Gpa.gpa desc",
-            "fields"=>["UserDepartmentSelection.*","NowDepartment.*","NextDepartment.*","Gpa.*",],
+            "fields"=>["UserDepartmentSelection.rank","NowDepartment.department","NextDepartment.department","Gpa.gpa",],
                 
         ]));
     }
