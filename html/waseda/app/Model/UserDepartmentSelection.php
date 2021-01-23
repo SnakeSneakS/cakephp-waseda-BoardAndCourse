@@ -13,6 +13,10 @@ class UserDepartmentSelection extends AppModel{//table department_selections
         'User' => array (
             'className' => 'User',
             'foreignKey' => 'user_id'
+        ),
+        "Gpa"=>array(
+            'className' => 'Gpa',
+            'foreignKey' => 'user_id'
         )
     );
 }

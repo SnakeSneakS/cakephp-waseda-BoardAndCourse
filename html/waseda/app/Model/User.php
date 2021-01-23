@@ -10,24 +10,15 @@ class User extends AppModel{
             'foreignKey' => 'user_id',
             'dependent' => true
         ),
-        /*'Gpa' => array(
-            'className'=>'Gpa',
-            'foreignKey'=>'id'
-        ),*/
     );
-/*
-    public $belongsTo = array( //Profileに対してこれを設定したい
-        'Department' => array(
-            'className' => 'Department',
-            //'conditions' => array('Department.department_id' => 'Profile.department_id'),
-            'foreignKey' => 'department_id'
-        ),
-        'Course' => array (     
-            'className' => 'Course',
-            //'conditions' => array('Course.course_id' => 'Profile.course_id'),
-            'foreignKey' => 'course_id'
-        )
-    );*/
+
+    public $hasMany=[
+        'UserDepartmentSelection'=>[
+            "Classname"=>'UserDepartmentSelection',
+            "foreignKey"=>"user_id"
+        ]
+    ];
+
 
     public $validate=array(//error check 
         "name" => array(

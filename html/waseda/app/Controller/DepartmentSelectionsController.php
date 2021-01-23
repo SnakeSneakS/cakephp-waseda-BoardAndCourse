@@ -78,6 +78,15 @@ class DepartmentSelectionsController extends AppController{
         }  
     }
 
+    public function result(){
+        $this->set("userSelections",$this->UserDepartmentSelection->find("all",[
+            "conditions"=>["NOT"=>["Gpa.id"=>""]],
+            "order"=>"UserDepartmentSelection.now_department_id asc, UserDepartmentSelection.rank asc, Gpa.gpa desc",
+            "fields"=>["UserDepartmentSelection.*","NowDepartment.*","NextDepartment.*","Gpa.*",],
+                
+        ]));
+    }
+
     public function LimitedSchools(){ //for Ajax //need faculty_id
         $this->autoRender=false;
         if ($this->request->is('ajax')){
