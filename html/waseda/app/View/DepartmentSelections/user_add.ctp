@@ -1,7 +1,7 @@
 
 <body>
     
-    <h2>学部選択登録</h2>
+    <h2>学科選択登録</h2>
 
     <?php 
     //for debug including image by ignore image(image is too big data)
@@ -13,22 +13,52 @@
     //debug($userDepartment);
     ?>
 
-<p>
-<?php echo $this->Html->Link("学部変更などはここから",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]); ?>
+
+
+<p class="alert-message"> 
+    <?php 
+    /*
+    if(empty($userDepartment["Department"]["department"])){ 
+        echo $this->Html->Link("まず現在所属する学科を選択してください",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]); 
+    } 
+    else if(!empty($gpa["Gpa"]["gpa"])){ 
+        echo $this->Html->Link("gpaを入力＆登録してください",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]); 
+    }*/
+    ?>
 </p>
 
-<p class="alert-message">
-<?php
-if(empty($userDepartment["Department"]["department"])){
-    echo $this->Html->Link("Please set your department",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]);
-}
-?>
-</p>
 
-<h3> Set your GPA</h3>
+<h3>登録の手順</h3>
+<ul>
+    <ol>
+        <li>現在所属する学科を登録</li>
+        <li>最新の平均GPAを登録</li>
+        <li>学科選択を登録</li>
+    </ol>
+</ul>
+<br>
+
+
+
+<h3>現在の所属学科</h3>
 <table>
     <thead>
-        <th>Your GPA</th>
+        <th>所属学科</th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td> <?php echo $this->Html->tag("span",!empty($userDepartment["Department"]["department"])?$userDepartment["Department"]["department"]:"所属学科未選択" ); ?> </td>
+            <td> <?php echo $this->Html->Link("所属学科変更はこちら",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]); ?></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h3>最新の平均GPA</h3>
+<table>
+    <thead>
+        <th>GPA</th>
         <th></th>
     </thead>
     <tbody>
@@ -36,21 +66,21 @@ if(empty($userDepartment["Department"]["department"])){
             <?php echo $this->Form->create(["url"=>["controller"=>"DepartmentSelections","action"=>"editGpa"] ]); ?>
             <?php echo $this->Form->hidden("Gpa.id",["default"=>$user["User"]["id"], ]) ?>
             <td> <?php echo $this->Form->input("Gpa.gpa",["label"=>"","default"=>!empty($gpa["Gpa"]["gpa"])?$gpa["Gpa"]["gpa"]:null , ])  ?> </td>
-            <td> <?php echo $this->Form->end("change") ?> </td>
+            <td> <?php echo $this->Form->end("登録") ?> </td>
         </tr>
     </tbody>
 </table>
 
-<h3> Set your selection </h3>
+<h3>志望学科</h3>
 <table>
     <thead>            
         <th>志望順位</th>
-        <th>現在の学部</th>
-        <th>志望する学部</th>
+        <th>現在の学科</th>
+        <th>志望する学科</th>
         <th></th>
     </thead>  
     <tbody>
-        <?php for($i=0;$i<count($availableDepartmentSelections);$i++) : ?>
+        <?php for($i=0;$i<count($availableDepartmentSelections) && $i<1+count($userDepartmentSelections);$i++) : ?>
         <tr>
             <?php echo $this->Form->create("UserDepartmentSelection") ?>
             <?php echo $this->Form->hidden("UserDepartmentSelection.id",array("default"=>!empty($userDepartmentSelections[$i]["UserDepartmentSelection"]["id"])?$userDepartmentSelections[$i]["UserDepartmentSelection"]["id"]:null )); ?>
@@ -58,15 +88,17 @@ if(empty($userDepartment["Department"]["department"])){
             <?php echo $this->Form->hidden("UserDepartmentSelection.rank",array("default"=>$i+1 )); ?>
             <?php echo $this->Form->hidden("UserDepartmentSelection.now_department_id",array("label"=>"","default"=>!empty($userDepartment["Department"]["id"])?$userDepartment["Department"]["id"]:null )); ?>
             <td> <?php echo $this->Html->tag("span",$i+1); ?> </td>
-            <td> <?php echo $this->Html->tag("span",!empty($userDepartment["Department"]["department"])?$userDepartment["Department"]["department"]:null ); ?> </td>
+            <td> <?php echo $this->Html->tag("span",!empty($userDepartment["Department"]["department"])?$userDepartment["Department"]["department"]:$this->Html->Link("学科を選択してください",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]) ); ?> </td>
             <td> <?php echo $this->Form->input("UserDepartmentSelection.next_department_id",array("label"=>"","class"=>"nextDepartmentInputArea")); ?> </td>
-            <td> <?php echo $this->Form->end("change") ?> </td>
+            <td> <?php echo $this->Form->end("登録") ?> </td>
         </tr>         
         <?php endfor ?>
     </tbody>
 </table>
 <?php if(count($availableDepartmentSelections)==0) echo "<p class='alert-message'> Your department ".$userDepartment["Department"]["department"]." doesn't have next department options. </p>"; ?>
 
+
+<h3> <?php echo $this->Html->Link("登録状態確認ページへ移動する",["action"=>"user_view",$user["User"]["id"]]); ?> </h3>
 
 
 

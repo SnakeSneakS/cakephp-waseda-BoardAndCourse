@@ -9,7 +9,7 @@ class DepartmentSelectionsController extends AppController{
         
     }
 
-    public function add($id=null) {
+    public function user_add($id=null) {
 
         if($id==null){
             return $this->redirect(["action"=>"index"]);
@@ -34,13 +34,32 @@ class DepartmentSelectionsController extends AppController{
             $saved=$this->UserDepartmentSelection->save($this->request->data); 
             if (!empty($saved)) { 
                 $this->Flash->success('change success!');
-                return $this->redirect(array('action' => 'add',$id));  
+                return $this->redirect(array('action' => 'user_add',$id));  
             }else{
                 $this->Flash->error('change Failed');
-                return $this->redirect(array('action' => 'add',$id));  
+                return $this->redirect(array('action' => 'user_add',$id));  
             }
             
         }  
+    }
+
+    public function user_view($id=null) {
+
+        if($id==null){
+            return $this->redirect(["action"=>"index"]);
+        }
+
+        /* GET */
+        if ($this->request->is('get')){
+            $user=$this->User->find("first",['recursive'=>'1','conditions'=>["User.id"=>$id] , "fields"=>["User.id","User.name",/*"Gpa.*",*/"Profile.department_id"] /*, "joins"=>[ ["table"=>"gpas","alias"=>"Gpa","type"=>"left","conditions"=>["User.id=Gpa.id"]], ]*/ ] );
+            $this->set('user',$user);
+            $this->set('gpa',$this->Gpa->find("first",['conditions'=>["Gpa.id"=>$id] ,  ]) );
+            $this->set('userDepartment',$this->Department->find('first',['conditions'=>["Department.id"=>!empty($user["Profile"]["department_id"])?$user["Profile"]["department_id"]:-1,] ]) );
+            
+            $deleted=$this->UserDepartmentSelection->deleteAll(["UserDepartmentSelection.user_id"=>$id, "NOT"=>["UserDepartmentSelection.now_department_id"=>$user["Profile"]["department_id"]] ] );
+            $this->set('userDepartmentSelections',$this->UserDepartmentSelection->find('all',array('order' => 'UserDepartmentSelection.id asc','recursive'=>1,'conditions'=>"UserDepartmentSelection.user_id=".$id,'fields'=>["UserDepartmentSelection.*","NowDepartment.*","NextDepartment.*","User.id","User.name"])) );
+        }
+
     }
 
     public function editGpa(){
@@ -50,10 +69,10 @@ class DepartmentSelectionsController extends AppController{
             $saved=$this->Gpa->save($this->request->data); 
             if (!empty($saved)) { 
                 $this->Flash->success('change success!');
-                return $this->redirect(array('action' => 'add',$this->request->data["Gpa"]["id"]));  
+                return $this->redirect(array('action' => 'user_add',$this->request->data["Gpa"]["id"]));  
             }else{
                 $this->Flash->error('change Failed');
-                return $this->redirect(array('action' => 'add',$this->request->data["Gpa"]["id"]));  
+                return $this->redirect(array('action' => 'user_add',$this->request->data["Gpa"]["id"]));  
             }
  
         }  
