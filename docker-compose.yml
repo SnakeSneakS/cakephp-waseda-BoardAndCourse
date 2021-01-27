@@ -9,6 +9,9 @@ services:
       - ./html:/var/www/html
     ports:
       - ${SERVER_PORT}:80
+    environment: 
+      - SECURITY_SALT=${SECURITY_SALT}
+      - SECURITY_CIPHER_SEED=${SECURITY_CIPHER_SEED}
     links:
       - mysql:mysql
     restart: always
