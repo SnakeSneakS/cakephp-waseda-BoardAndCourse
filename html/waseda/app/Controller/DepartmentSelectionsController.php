@@ -83,8 +83,9 @@ class DepartmentSelectionsController extends AppController{
             "conditions"=>["NOT"=>["Gpa.id"=>""]],
             "order"=>"UserDepartmentSelection.now_department_id asc, UserDepartmentSelection.rank asc, Gpa.gpa desc",
             "fields"=>["UserDepartmentSelection.rank","NowDepartment.department","NextDepartment.department","Gpa.gpa",],
-                
         ]));
+
+        $this->set('availableDepartmentSelections',$this->AvailableDepartmentSelection->find('all',['order' => 'AvailableDepartmentSelection.id asc',] ) );
     }
 
     public function LimitedSchools(){ //for Ajax //need faculty_id

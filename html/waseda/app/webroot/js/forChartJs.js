@@ -23,6 +23,8 @@ const chartBaseColors=["rgba(255,0,0,1)","rgba(0,255,0,1)","rgba(0,0,255,1)","rg
 //countAndDrawBars(ctx,data,{"type":"in", "border":["学系1","学系2","学系3"], "field":"now_department", "categories":{"rank":[1,2,3]}, },chartBaseColors,{x:"現在の学部",y:"度数",categories:["第一志望","第二志望","第三志望"]});
 countAndDrawBars(ctx,data,{"type":"range", "border":[0.2,0.4,0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0,2.2,2.4,2.6,2.8,3.0,3.2,3.4,3.6,3.8,4.0], "field":"gpa","conditions": {"rank":1}, "categories":{"now_department":["学系1","学系2","学系3","*"]} },chartBaseColors,{x:"gpa分布（第一志望）",y:"度数",categories:["学系1","学系2","学系3","全て"] } );
 
+console.log( extractData(availableData,{"conditions":{"now_department":"*"},"targets":["now_department"]}) );
+
 */
 
 
@@ -53,6 +55,8 @@ function drawBarOne(ctx,countResult,conditions){
         },
         
     });
+
+    return chart;
 }
 
 // data: {"field1": "value1", "field2": "value2"}, options: { "type": "in", "border":["学系1","学系2","学系3"], "field":"gpa", "conditions":{"fieldType": ["fieldName1","fieldName2"], names:{title:"title", x:"xLabel", y: "yLabel", conditions:["category1","category2"]} }}
@@ -61,7 +65,7 @@ function countAndDrawBars(ctx,data,options={type:"",border:[],field:"",condition
     
     for(let key in options["categories"]){ 
         const len=options["categories"][key].length;
-        console.log(len);
+        //console.log(len);
         for(let i=0;i<len;i++){
 
             var option={
@@ -81,7 +85,7 @@ function countAndDrawBars(ctx,data,options={type:"",border:[],field:"",condition
         }
     }
     
-    console.log(datasetsArray);
+    //console.log(datasetsArray);
 
     var option={
         "type": options["type"],
@@ -93,13 +97,13 @@ function countAndDrawBars(ctx,data,options={type:"",border:[],field:"",condition
     var chart=new Chart(ctx,{
         type: "bar",
         data: {
-            labels: countData(data,option).k,
+            labels: names["border"]?names["border"]:countData(data,option).k,
             datasets: datasetsArray ,
         },
         options: {
             title: {
                 display: true,
-                text: options["field"],
+                text: names["title"]?names["title"]:options["field"],
             },
             scales: {
                 xAxes:[{
@@ -117,6 +121,8 @@ function countAndDrawBars(ctx,data,options={type:"",border:[],field:"",condition
             }
         },
     });
+
+    return chart;
 }
 
 
@@ -163,7 +169,7 @@ function countData(data,option={"border": {}, "field": "","conditions": {} }){
     //key for countResult
     if(option["type"]=="range"){
         for(let i=0;i<option["border"].length+1;i++){
-            if(i==0){ countResult.k[i]=option["border"][i]+"~"; 
+            if(i==0){ countResult.k[i]="~"+option["border"][i]; 
             }else if(i==option["border"].length){ countResult.k[i]="~"+option["border"][i-1]; 
             }else{ countResult.k[i]=option["border"][i-1]+"~"+option["border"][i] }; 
         }
@@ -205,4 +211,40 @@ function countData(data,option={"border": {}, "field": "","conditions": {} }){
 
     //result
     return countResult;
+}
+
+//extract distinct data value of key from. 
+//e.g. extractData(availableData,{"conditions":{"key":"value"},"targets":["targetKey1"]})
+function extractData(data,option={}){
+    var newData=new Array();
+    
+    for(let keyT in option["targets"]){
+        newData[option["targets"][keyT]]=new Array();
+        for(let i in data){   
+            var ok=true;
+            if(ok){
+                //condition check
+                for(let keyC in option["conditions"]){
+                    if(data[i][keyC]!=option["conditions"][keyC]){
+                        if(option["conditions"][keyC]=="*"){ continue; } //allow all if *
+                        ok=false;
+                        break;
+                    }
+                }
+            }
+            if(ok){
+                //distinct check
+                for(let j in newData[option["targets"][keyT]] ){
+                    if(newData[option["targets"][keyT]][j]==data[i][option["targets"][keyT]]){
+                        ok=false;
+                        break;
+                    }
+                }
+
+            }
+            if(ok) newData[option["targets"][keyT]].push(data[i][option["targets"][keyT]]);
+        }
+        
+    }
+    return newData;
 }

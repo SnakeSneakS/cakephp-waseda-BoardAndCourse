@@ -45,25 +45,11 @@
 <p> <?php if(empty($userDepartmentSelections)) echo $this->Html->tag("span","未登録");?> </p>
 
 <h3> <?php echo $this->Html->Link("登録ページへ移動する",["action"=>"user_add",$user["User"]["id"]]); ?> </h3>
+<h3> <?php echo $this->Html->Link("全体の登録状況表示ページへ移動する",["action"=>"result"]); ?> </h3>
 
 
 
 <?php echo $this->Html->script("options",array("inline"=>false)); ?>
-
-<script>
-    let userDepartmentSelections=<?php echo json_encode($userDepartmentSelections) ?>;
-    let availableDepartmentSelections=<?php echo json_encode($availableDepartmentSelections) ?>;
-    //console.log(availableDepartmentSelections);
-    
-    nextAvailableDepartments=EncodeJsonForOption(availableDepartmentSelections,"NextDepartment","department","id");
-
-    let nextDepartmentInputAreas=document.getElementsByClassName("nextDepartmentInputArea");
-    for(let i=0;i<nextDepartmentInputAreas.length;i++){
-        //CreateOptions(nowDepartmentInputAreas[i],nowAvailableDepartments,i<userDepartmentSelections.length?userDepartmentSelections[i]["UserDepartmentSelection"]["now_department_id"]:-1);
-        CreateOptions(nextDepartmentInputAreas[i],nextAvailableDepartments,i<userDepartmentSelections.length?userDepartmentSelections[i]["UserDepartmentSelection"]["next_department_id"]:-1);
-    }
-    
-</script>
 
 </body>
 </html>
