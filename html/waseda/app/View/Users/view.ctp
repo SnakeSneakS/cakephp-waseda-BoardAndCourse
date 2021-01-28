@@ -20,4 +20,4 @@
 
 
 
-<h3><?php echo $this->Html->Link("学科選択調査に参加する",["controller"=>"DepartmentSelections","action"=>"index"])  ?></h3>
+<h3><?php //echo $this->Html->Link("学科選択調査に参加する",["controller"=>"DepartmentSelections","action"=>"index"])  ?></h3>

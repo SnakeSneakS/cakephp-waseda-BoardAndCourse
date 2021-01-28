@@ -36,12 +36,14 @@ class User extends AppModel{
             'create-rule' => [
                 'rule'=>[ 'inList', ['author'] ],
                 'message' => 'Please enter a valid role',
-                'allowEmpty' => true
+                'allowEmpty' => true,
+                "on" => "create"
             ],
             'update-rule' => [
                 'rule'=>[ 'inList', ['author'/*,'admin'*/] ],
                 'message' => 'Please enter a valid role',
-                'allowEmpty' => true
+                'allowEmpty' => true,
+                "on" => "update"
             ],
             
         )
