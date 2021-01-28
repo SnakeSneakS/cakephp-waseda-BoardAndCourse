@@ -12,7 +12,7 @@ class BoardsController extends AppController{
     public function view($id=1){
         $this->set('board_base',$this->Board->find("first",["conditions"=>["Board.id"=>$id,], "recursive"=>1, "fields"=>["*"] ]));
         $this->set('boards',$this->Board->find("all",["order"=>"Board.modified desc","conditions"=>["Board.to_board_id"=>$id,], "recursive"=>-1, "fields"=>["*"] ]));
-        $this->set("comments",$this->Comment->find("all",["order"=>"Comment.created desc", "conditions"=>["Comment.to_board_id"=>$id], "recursive"=>0, "fields"=>["Comment.*","User.name","User.id"] ]));
+        $this->set("comments",$this->Comment->find("all",["order"=>"Comment.created desc", "conditions"=>["Comment.to_board_id"=>$id], "recursive"=>0, "fields"=>["Comment.*","User.username","User.id"] ]));
     }
 
     public function add($toId=null){

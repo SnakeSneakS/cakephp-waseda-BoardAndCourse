@@ -37,7 +37,7 @@
             <tr>
                 <td> <?php echo $user["User"]["id"];  ?> </td>
                 <td> <?php echo '<img src="'.$user["Profile"]["image"].'" height="30px"/>'; ?> </td>
-                <td> <?php echo $user["User"]["name"]; ?> </td>
+                <td> <?php echo $user["User"]["username"]; ?> </td>
                 <td> <?php echo $user["User"]["password"]; ?> </td>
                 <td> <?php echo $user["User"]["created"]; ?> </td>
                 <td> <?php echo $user["User"]["modified"]; ?> </td>   

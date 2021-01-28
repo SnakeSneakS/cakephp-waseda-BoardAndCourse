@@ -1,36 +1,77 @@
 <?php
 
-/*
-$ret = $this->query('UPDATE users SET point = point + ? WHERE id = ?', array($point, $user_id)); 直接SQL文書ける。SQL発行回数減らす時に使えそう？saveは便利だけどSQL発行回数が多い http://damepg.hatenablog.com/entry/2012/09/08/134126
-*/
+App::uses('AppController', 'Controller');
 
-class MypagesController extends AppController{
+class UsersController extends AppController{
+
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow('add','login');
+    }
 
     public $uses=array("User","Faculty","FacultySchool","SchoolDepartment");//model 指定 AvailableDepartmentSelection, User
 
-    //public $scaffold;//localhost/blog/postsでもう管理画面みたいなのが既にできてる。でもこれだとカスタマイズはできないよね〜〜
-    public $helpers = array('Html','Form');//htmlと入力formをこれから扱うZE
+    public $helpers = array('Html','Form');
 
-    public function index(){
-        
-    }
-
-    public function add(){
-        if($this->request->is("post")){
-            $this->User->save($this->request->data);
-            $this->redirect(["action"=>"view",$this->User->id]);
+    public function login(){
+        if($this->request->is("get")){
+            if($this->Auth->login()) {
+                $this->Flash->success("ログイン済み");
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+        }else if ($this->request->is('post')) {
+            if($this->Auth->login()) {
+                return $this->redirect($this->Auth->redirectUrl());
+            }else {
+                return $this->Flash->error(__('Invalid username or password, try again'));
+            }
         }
     }
 
-    public function view($id=-1){
+    public function logout(){
+        $this->Flash->success("ログアウトしました");
+        return $this->redirect($this->Auth->logout());
+    }
+
+    public function index(){
+        /*if($this->Auth->login()){
+            $this->Flash->error("ログイン済みです");
+            return $this->redirect(["action"=>"view"]);
+        }*/
+    }
+
+    public function add(){
+        if($this->Auth->login()){
+            $this->Flash->success("ログイン済み");
+            return $this->Auth->redirectUrl();
+        }
+
+        if($this->request->is("post")){
+            $this->User->create();
+            if($this->User->save($this->request->data)){
+                return $this->redirect(["action"=>"view",$this->User->id]);
+            }else{
+                $this->Flash->error("The user cloudn't be saved, try again.");
+            }
+            
+        }
+    }
+
+    public function view($id=null){
         if($this->request->is('get')){ /*GET*/
-            $data=$this->User->find("first",["conditions"=>["User.id"=>$id],"recursive"=>2,"fields"=>["User.id","User.name","Profile.enter_year","Profile.comment","Profile.image","Profile.faculty_id","Profile.school_id","Profile.department_id"]]);
+            if($id==null){
+                $this->Flash->error("user id can't be null");
+                return;
+            }
+
+            $data=$this->User->find("first",["conditions"=>["User.id"=>$id],"recursive"=>2,"fields"=>["User.id","User.username","Profile.enter_year","Profile.comment","Profile.image","Profile.faculty_id","Profile.school_id","Profile.department_id"]]);
             if($data){
                 $this->Flash->success('Load data success!');
                 $this->set('user',$data); //$this->User->find('first',array("conditions"=>array("User.id"=>$id)) でも良い 
             }else{
                 $this->Flash->error('load Failed');
                 return $this->redirect(array('action' => 'index')); 
+                //throw new NotFoundException(__('Invalid user'));
             }
         }
     }
@@ -50,7 +91,7 @@ class MypagesController extends AppController{
                 $this->Flash->success('Load data success!');
                 $this->set('user',$data); //$this->User->find('first',array("conditions"=>array("User.id"=>$id)) でも良い 
             }else{
-                $this->Flash->error('load Failed');
+                $this->Flash->error('user not cound');
                 return $this->redirect(['action' => 'view',$id]); 
             }
         }else if ($this->request->is('post')) { /*POST*/

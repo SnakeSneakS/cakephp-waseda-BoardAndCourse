@@ -10,7 +10,7 @@
         Hello World!
     </header>
     <body>
-        <a href="./waseda/mypages/index">Click here</a>
+        <a href="./waseda/mains">Click here</a>
     </body>
 </body>
 </html>

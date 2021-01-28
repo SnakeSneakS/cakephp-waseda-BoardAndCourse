@@ -59,7 +59,7 @@
     <div class="comment" id="comment_<?php echo $comment["Comment"]["id"];?>">
         <div>
             <div class="comment_top">
-                <span class="comment_user"> <?php echo $this->Html->Link($comment["User"]["name"]?$comment["User"]["name"]:"unknown",["controller"=>"mypages","action"=>"view",$comment["User"]["id"] ]); ?> </span>
+                <span class="comment_user"> <?php echo $this->Html->Link($comment["User"]["username"]?$comment["User"]["username"]:"unknown",["controller"=>"users","action"=>"view",$comment["User"]["id"] ]); ?> </span>
                 <span class="small"> <?php echo $comment["Comment"]["created"]; ?></span>  
             </div>
             <div class="comment_text">

@@ -10,7 +10,7 @@
 echo $this->Html->link("view",array("action"=>"view",$user["User"]["id"]));
 ?>
 
-<h2>Mypage: edit</h2>
+<h2>User: edit</h2>
 
 <?php //debug($user); ?>
 
@@ -19,7 +19,7 @@ echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*//*"typ
 
 echo $this->Html->tag("h3","Basic");
 echo $this->Form->hidden("User.id",array("default"=>$user["User"]["id"]));
-echo $this->Form->input("User.name",array("default"=>$user["User"]["name"],"label"=>"ユーザネーム"));
+echo $this->Form->input("User.name",array("default"=>$user["User"]["username"],"label"=>"ユーザネーム"));
 echo $this->Form->input("User.password",array("default"=>$user["User"]["password"],"label"=>"パスワード"));
 
 echo $this->Html->tag("h3","Additional"/*,array("class"=>"sub-title")*/ );

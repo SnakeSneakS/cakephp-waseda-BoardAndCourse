@@ -19,10 +19,10 @@
     <?php 
     /*
     if(empty($userDepartment["Department"]["department"])){ 
-        echo $this->Html->Link("まず現在所属する学科を選択してください",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]); 
+        echo $this->Html->Link("まず現在所属する学科を選択してください",["controller"=>"users","action"=>"edit",$user["User"]["id"]]); 
     } 
     else if(!empty($gpa["Gpa"]["gpa"])){ 
-        echo $this->Html->Link("gpaを入力＆登録してください",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]); 
+        echo $this->Html->Link("gpaを入力＆登録してください",["controller"=>"users","action"=>"edit",$user["User"]["id"]]); 
     }*/
     ?>
 </p>
@@ -49,7 +49,7 @@
     <tbody>
         <tr>
             <td> <?php echo $this->Html->tag("span",!empty($userDepartment["Department"]["department"])?$userDepartment["Department"]["department"]:"所属学科未選択" ); ?> </td>
-            <td> <?php echo $this->Html->Link("所属学科変更はこちら",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]); ?></td>
+            <td> <?php echo $this->Html->Link("所属学科変更はこちら",["controller"=>"users","action"=>"edit",$user["User"]["id"]]); ?></td>
         </tr>
     </tbody>
 </table>
@@ -88,7 +88,7 @@
             <?php echo $this->Form->hidden("UserDepartmentSelection.rank",array("default"=>$i+1 )); ?>
             <?php echo $this->Form->hidden("UserDepartmentSelection.now_department_id",array("label"=>"","default"=>!empty($userDepartment["Department"]["id"])?$userDepartment["Department"]["id"]:null )); ?>
             <td> <?php echo $this->Html->tag("span",$i+1); ?> </td>
-            <td> <?php echo $this->Html->tag("span",!empty($userDepartment["Department"]["department"])?$userDepartment["Department"]["department"]:$this->Html->Link("学科を選択してください",["controller"=>"Mypages","action"=>"edit",$user["User"]["id"]]) ); ?> </td>
+            <td> <?php echo $this->Html->tag("span",!empty($userDepartment["Department"]["department"])?$userDepartment["Department"]["department"]:$this->Html->Link("学科を選択してください",["controller"=>"users","action"=>"edit",$user["User"]["id"]]) ); ?> </td>
             <td> <?php echo $this->Form->input("UserDepartmentSelection.next_department_id",array("label"=>"","class"=>"nextDepartmentInputArea")); ?> </td>
             <td> <?php echo $this->Form->end("登録") ?> </td>
         </tr>         

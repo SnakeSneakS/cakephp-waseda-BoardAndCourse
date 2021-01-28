@@ -3,10 +3,10 @@
     //debug($user); 
 ?>
 
-<h2>User: <?php echo isset($user["User"]["name"])?$user["User"]["name"]:"-"; ?> </h2>
+<h2>User: <?php echo isset($user["User"]["username"])?$user["User"]["username"]:"-"; ?> </h2>
 <img src="<?php echo isset($user["Profile"]["image"])?$user["Profile"]["image"]:"-";?>" class="profile-image-middle"/>
 <p>id: <?php echo $user["User"]["id"];  ?> </p>
-<p>ユーザネーム: <?php echo isset($user["User"]["name"])?$user["User"]["name"]:"-"; ?> </p>
+<p>ユーザネーム: <?php echo isset($user["User"]["username"])?$user["User"]["username"]:"-"; ?> </p>
 <p>入学年度:  <?php echo isset($user["Profile"]["enter_year"]) ? $user["Profile"]["enter_year"] : "-"; ?> </p>
 <p>学術院: <?php echo isset($user["Profile"]["Faculty"]["faculty"]) ? $user["Profile"]["Faculty"]["faculty"] : "-"; ?> </p>
 <p>学部: <?php echo isset($user["Profile"]["School"]["school"]) ? $user["Profile"]["School"]["school"] : "-"; ?> </p>

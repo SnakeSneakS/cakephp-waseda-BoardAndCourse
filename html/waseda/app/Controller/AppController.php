@@ -52,4 +52,30 @@ class AppController extends Controller {
             return htmlspecialchars($dat,ENT_QUOTES,"UTF-8");
         }
     }
+
+
+    //Auth
+    public $components = array(
+        'Flash',
+        'Auth' => array(
+            'loginRedirect' => array(
+                'controller' => 'users',
+                'action' => 'index'
+            ),
+            'logoutRedirect' => array(
+                'controller' => 'users',
+                'action' => 'index',
+                'home'
+            ),
+            'authenticate' => array(
+                'Form' => array(
+                    'passwordHasher' => 'Blowfish'
+                )
+            )
+        )
+    );
+    
+    public function beforeFilter() {
+        $this->Auth->allow('index', 'view');
+    }
 }
