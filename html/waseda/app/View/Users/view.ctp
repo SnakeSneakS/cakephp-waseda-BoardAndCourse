@@ -14,7 +14,7 @@
 <!-- <p>GPA: <?php //echo isset($user["Gpa"]["gpa"]) ? $user["Gpa"]["gpa"] : "-"; ?> </p> -->
 <p>コメント: </br><?php echo isset($user["Profile"]["comment"]) ? nl2br($user["Profile"]["comment"]) : "-"; ?> </p>
 
-<button > <?php echo $this->Html->link("edit",["action"=>"edit",$user["User"]["id"]]);?> </button>
+<button > <?php echo !empty($isAuthor)?$this->Html->link("edit",["action"=>"edit",$user["User"]["id"]]):null;?> </button>
 
 
 

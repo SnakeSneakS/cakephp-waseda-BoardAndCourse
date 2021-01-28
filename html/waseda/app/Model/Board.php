@@ -19,4 +19,11 @@ class Board extends AppModel{//table courses
         ],
         */
     ];
+
+    /*
+    public function isOwnedBy($board_id, $user_id){
+        //if found column ("id"=>$board_id,"user_id"=>$user_id), return true
+        return $this->field("id",["id"=>$board_id,"user_id"=>$user_id]) !== false;
+    }
+    */
 }

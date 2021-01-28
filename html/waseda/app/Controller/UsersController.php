@@ -7,7 +7,33 @@ class UsersController extends AppController{
     //auth
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow('add','login');
+        $this->Auth->allow("login","logout","index","add","view");
+    }
+    //beforeFilterのAuth->allow以外で、isAuthorizedを突破した者のみアクセス許可
+    public function isAuthorized($user){
+        //debug($user);
+        //don't allow if [user is login] //to allow non-login user, must declare $this->Auth->allow & declare $this->isAuthorize in each [action function]
+        if( in_array($this->action, ["add","login"]) ){
+            if($user==null){ //non-login
+                return true;
+            }else if(isset($user["role"]) && $user["role"]!=="admin"){ //login-author not admin
+                return false;
+            }
+        }
+
+        //allow to all [login-user]
+        if( in_array($this->action, ["LimitedSchools","LimitedDepartments"]) ){
+            return true;
+        }
+
+        //allow to its owner
+        if( in_array($this->action, ["edit"]) ){
+            $user_id=(int)$this->request->params["pass"]?$this->request->params["pass"][0]:null; //0番目のパラメータ引数
+            if($user_id===$user["id"]){
+                return true;
+            }
+        }
+        return parent::isAuthorized(($user)); 
     }
 
     public $uses=array("User","Faculty","FacultySchool","SchoolDepartment");//model 指定 AvailableDepartmentSelection, User
@@ -15,12 +41,13 @@ class UsersController extends AppController{
     public $helpers = array('Html','Form');
 
     public function login(){
-        if($this->request->is("get")){
-            if($this->Auth->login()) {
-                $this->Flash->success("ログイン済み");
-                return $this->redirect($this->Auth->redirectUrl() );
-            }
-        }else if ($this->request->is('post')) {
+        //ログインしている者は許さない
+        if( !$this->isAuthorized($this->Auth->user()) ){
+            $this->Flash->error("あなたは既にログインしています");
+            return $this->redirect(["action"=>"index"]);
+        }
+
+        if ($this->request->is('post')) {
             if($this->Auth->login()) {
                 $this->Flash->success("ログイン成功");
                 return $this->redirect($this->Auth->redirectUrl() );
@@ -36,23 +63,23 @@ class UsersController extends AppController{
     }
 
     public function index(){
-        if($this->Auth->login()){ $this->set("login_id",$this->Auth->user("id")); }
+        $this->set("login_id",$this->Auth->user("id")?$this->Auth->user("id"):null); 
     }
 
     public function add(){
-        if($this->Auth->login()){
-            $this->Flash->success("ログイン済み");
-            return $this->Auth->redirectUrl();
+        //ログインしている者は許さない
+        if( !$this->isAuthorized($this->Auth->user()) ){
+            $this->Flash->error("あなたは既にユーザアカウントを持っています");
+            return $this->redirect(["action"=>"index"]);
         }
 
         if($this->request->is("post")){
             $this->User->create();
             if($this->User->save($this->request->data)){
-                return $this->redirect(["action"=>"view",$this->User->id]);
+                return $this->redirect(["action"=>"login"]);
             }else{
                 $this->Flash->error("The user cloudn't be saved, try again.");
             }
-            
         }
     }
 
@@ -60,13 +87,14 @@ class UsersController extends AppController{
         if($this->request->is('get')){ /*GET*/
             
             if($id==null){       
-                throw new NotFoundException(__('User Not Found'));
+                $this->Flash->error("parameter needed");
+                return $this->redirect(["action"=>"index"]);
             }
 
             $data=$this->User->find("first",["conditions"=>["User.id"=>$id],"recursive"=>2,"fields"=>["User.id","User.username","Profile.enter_year","Profile.comment","Profile.image","Profile.faculty_id","Profile.school_id","Profile.department_id"]]);
             if($data){
                 $this->Flash->success('Load data success!');
-                $this->set('user',$data); //$this->User->find('first',array("conditions"=>array("User.id"=>$id)) でも良い 
+                $this->set("user",$data);
                 if($id==$this->Auth->user("id")){ $this->set("isAuthor",true); }
             }else{
                 throw new NotFoundException(__('User Not Found'));
@@ -75,11 +103,11 @@ class UsersController extends AppController{
     }
 
     /* Edit User Imformation */
-    public function edit($id=-1){ //path is "user_edit"
+    public function edit($id=null){ //path is "user_edit"
 
         if ($id==null) { 
             $this->Flash->error('error: argument was not set...');
-            return $this->redirect(array('action' => 'index'));  
+            return $this->redirect(["action"=>"index"]);  
         }
 
         if($this->request->is('get')){ /*GET*/
@@ -95,19 +123,14 @@ class UsersController extends AppController{
             }
         }else if ($this->request->is('post')) { /*POST*/
 
-            //profile enter year //debug($this->request->data);
-            $this->request->data["Profile"]["enter_year"]=$this->request->data["Profile"]["enter_year"]["year"]?$this->request->data["Profile"]["enter_year"]["year"]:null;
-
             //urlとdataが違う時、エラーを出して操作中止
             if($this->request->data["User"]["id"]!=$id){
                 $this->Flash->error('error: $i ≠ data>User>id');
-                //debug($this->request->data);
                 return;
             }
-            
-            //error: 
-            //if($id==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
-                
+
+            //profile enter year //debug($this->request->data);
+            $this->request->data["Profile"]["enter_year"]=$this->request->data["Profile"]["enter_year"]["year"]?$this->request->data["Profile"]["enter_year"]["year"]:null;
 
             /*
             //when handle image as input image file

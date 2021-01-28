@@ -23,7 +23,7 @@ class AdminsController extends AppController{
     /* Edit User Imformation */
     public function userEdit($id=null){ //path is "user_edit"
         if (/*!isset($this->request->data) || */$id==null) { 
-            $this->Flash->error('error: argument was not set...');
+            $this->Flash->error('parameter needed');
             return $this->redirect(array('action' => 'index'));  
         }
 

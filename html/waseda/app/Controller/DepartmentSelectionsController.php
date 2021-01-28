@@ -20,13 +20,10 @@ class DepartmentSelectionsController extends AppController{
 
         //auth
         if($id==null){
-            if($this->Auth->login()){
-                $id=$this->Auth->user("id");
-            }else{
-                $this->Flash->error("login needed");
-                return $this->redirect(["action"=>"index"]);
-            } 
-        }else if($id!=$this->Auth->user("id")){
+            $this->Flash->error("parameter needed");
+            return $this->redirect(["action"=>"index"]);
+        }
+        if($id!=$this->Auth->user("id")){
             $this->Flash->error("Not allowed user.");
             return $this->redirect(["action"=>"index"]);
         }
@@ -62,12 +59,8 @@ class DepartmentSelectionsController extends AppController{
     public function user_view($id=null) {
 
         if($id==null){
-            if($this->Auth->login()){
-                $id=$this->Auth->user("id");
-            }else{
-                $this->Flash->error("login needed");
-                return $this->redirect(["action"=>"index"]);
-            } 
+            $this->Flash->error("parameter needed");
+            return $this->redirect(["action"=>"index"]);
         }else if($id!=$this->Auth->user("id")){
             $this->Flash->error("Not allowed user.");
             return $this->redirect(["action"=>"index"]);

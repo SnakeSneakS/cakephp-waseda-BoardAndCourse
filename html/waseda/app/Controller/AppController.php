@@ -56,25 +56,40 @@ class AppController extends Controller {
 
     //Auth
     public $components = array(
-        'Flash',
-        'Auth' => array(
-            'loginRedirect' => array(
-                'controller' => 'users',
-                'action' => 'index'
+        "Flash",
+        "Auth" => array(
+            "authError"=>"アクセス権限を持っていません。",
+            "loginRedirect" => array(
+                "controller" => "users",
+                "action" => "index"
             ),
-            'logoutRedirect' => array(
-                'controller' => 'mains',
-                'action' => 'index'
+            "logoutRedirect" => array(
+                "controller" => "mains",
+                "action" => "index",
+                "home"
             ),
-            'authenticate' => array(
-                'Form' => array(
-                    'passwordHasher' => 'Blowfish'
+            "authenticate" => array(
+                "Form" => array(
+                    "fields"=>array(
+                        "User"=>"username",
+                        "User"=>"password", 
+                ),
+                    "passwordHasher" => "Blowfish"
                 )
-            )
+            ),
+            "authorize" => array("Controller"),
         )
     );
     
     public function beforeFilter() {
         $this->Auth->allow("index");
+    }
+
+    public function isAuthorized($user){
+        if(isset($user["role"]) && $user["role"]==="admin"){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
