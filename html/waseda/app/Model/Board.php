@@ -6,6 +6,10 @@ class Board extends AppModel{//table courses
             "className"=>"Board",
             "foreignKey"=>"to_board_id",
         ],
+        "User"=>[
+            "className"=>"User",
+            "foreignKey"=>"user_id",
+        ]
     ];
     public $hasMany=[
         /*

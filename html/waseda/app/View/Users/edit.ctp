@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 
 <?php
 echo $this->Html->link("view",array("action"=>"view",$user["User"]["id"]));
@@ -19,7 +12,7 @@ echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*//*"typ
 
 echo $this->Html->tag("h3","Basic");
 echo $this->Form->hidden("User.id",array("default"=>$user["User"]["id"]));
-echo $this->Form->input("User.name",array("default"=>$user["User"]["username"],"label"=>"ユーザネーム"));
+echo $this->Form->input("User.username",array("default"=>$user["User"]["username"],"label"=>"ユーザネーム"));
 echo $this->Form->input("User.password",array("default"=>$user["User"]["password"],"label"=>"パスワード"));
 
 echo $this->Html->tag("h3","Additional"/*,array("class"=>"sub-title")*/ );

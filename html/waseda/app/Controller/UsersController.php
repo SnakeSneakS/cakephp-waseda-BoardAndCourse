@@ -4,6 +4,7 @@ App::uses('AppController', 'Controller');
 
 class UsersController extends AppController{
 
+    //auth
     public function beforeFilter() {
         parent::beforeFilter();
         $this->Auth->allow('add','login');
@@ -17,11 +18,12 @@ class UsersController extends AppController{
         if($this->request->is("get")){
             if($this->Auth->login()) {
                 $this->Flash->success("ログイン済み");
-                return $this->redirect($this->Auth->redirectUrl());
+                return $this->redirect($this->Auth->redirectUrl() );
             }
         }else if ($this->request->is('post')) {
             if($this->Auth->login()) {
-                return $this->redirect($this->Auth->redirectUrl());
+                $this->Flash->success("ログイン成功");
+                return $this->redirect($this->Auth->redirectUrl() );
             }else {
                 return $this->Flash->error(__('Invalid username or password, try again'));
             }
@@ -34,10 +36,7 @@ class UsersController extends AppController{
     }
 
     public function index(){
-        /*if($this->Auth->login()){
-            $this->Flash->error("ログイン済みです");
-            return $this->redirect(["action"=>"view"]);
-        }*/
+        if($this->Auth->login()){ $this->set("login_id",$this->Auth->user("id")); }
     }
 
     public function add(){
@@ -59,19 +58,18 @@ class UsersController extends AppController{
 
     public function view($id=null){
         if($this->request->is('get')){ /*GET*/
-            if($id==null){
-                $this->Flash->error("user id can't be null");
-                return;
+            
+            if($id==null){       
+                throw new NotFoundException(__('User Not Found'));
             }
 
             $data=$this->User->find("first",["conditions"=>["User.id"=>$id],"recursive"=>2,"fields"=>["User.id","User.username","Profile.enter_year","Profile.comment","Profile.image","Profile.faculty_id","Profile.school_id","Profile.department_id"]]);
             if($data){
                 $this->Flash->success('Load data success!');
                 $this->set('user',$data); //$this->User->find('first',array("conditions"=>array("User.id"=>$id)) でも良い 
+                if($id==$this->Auth->user("id")){ $this->set("isAuthor",true); }
             }else{
-                $this->Flash->error('load Failed');
-                return $this->redirect(array('action' => 'index')); 
-                //throw new NotFoundException(__('Invalid user'));
+                throw new NotFoundException(__('User Not Found'));
             }
         }
     }

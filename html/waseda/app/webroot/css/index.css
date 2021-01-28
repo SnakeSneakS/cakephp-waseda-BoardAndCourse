@@ -1,3 +1,11 @@
+.right{
+    float: right;
+}
+
+.m5{
+    margin: 5px;
+}
+
 .sub-title{
     font-weight:bold;
     font-size:2rem;

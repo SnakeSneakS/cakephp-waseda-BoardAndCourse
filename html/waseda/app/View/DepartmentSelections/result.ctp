@@ -1,6 +1,8 @@
 <?php //debug($userSelections); ?>
 <?php //debug($availableDepartmentSelections); ?>
 
+<?php echo !empty($login_id)?"ログインユーザid: ".$login_id:"未ログイン";?>
+
 <div>
 <button id="showGPA_now_tot" type="button" >
     <span>GPA(学系別)</span>

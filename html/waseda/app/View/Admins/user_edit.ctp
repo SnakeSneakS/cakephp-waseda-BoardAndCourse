@@ -18,7 +18,7 @@ echo $this->Html->link("user index",array("action"=>"user"));
 echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*//*"type"=>"file"*/));
 echo $this->Html->tag("h3","Basic");
 echo $this->Form->hidden("User.id",array("default"=>$user["User"]["id"]));
-echo $this->Form->input("User.name",array("default"=>$user["User"]["username"]));
+echo $this->Form->input("User.username",array("default"=>$user["User"]["username"]));
 echo $this->Form->input("User.password",array("default"=>$user["User"]["password"]));
 //echo $this->Form->end("Save");
 

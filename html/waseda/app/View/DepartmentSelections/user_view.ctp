@@ -13,6 +13,9 @@
     //debug($userDepartment);
     ?>
 
+<h3>ユーザ</h3>
+<?php echo $this->Html->tag("p","ユーザid： ".$user["User"]["id"]);  ?>
+<?php echo $this->Html->tag("p","名前： ".$user["User"]["username"]);  ?>
 
 <h3>所属学科</h3>
 <p>

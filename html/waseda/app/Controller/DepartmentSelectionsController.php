@@ -3,28 +3,44 @@
 
 class DepartmentSelectionsController extends AppController{
 
+    //auth
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->Auth->allow();
+    }
+
     public $uses=array("User","Gpa","Department","FacultySchool","SchoolDepartment","AvailableDepartmentSelection","UserDepartmentSelection");
 
     public function index(){
-        
+        //auth
+        if($this->Auth->login()){ $this->set("login_id",$this->Auth->user("id")); }
     }
 
     public function user_add($id=null) {
 
+        //auth
         if($id==null){
+            if($this->Auth->login()){
+                $id=$this->Auth->user("id");
+            }else{
+                $this->Flash->error("login needed");
+                return $this->redirect(["action"=>"index"]);
+            } 
+        }else if($id!=$this->Auth->user("id")){
+            $this->Flash->error("Not allowed user.");
             return $this->redirect(["action"=>"index"]);
         }
 
         /* GET */
         if ($this->request->is('get')){
-            $user=$this->User->find("first",['recursive'=>'1','conditions'=>["User.id"=>$id] , "fields"=>["User.id","User.name",/*"Gpa.*",*/"Profile.department_id"] /*, "joins"=>[ ["table"=>"gpas","alias"=>"Gpa","type"=>"left","conditions"=>["User.id=Gpa.id"]], ]*/ ] );
+            $user=$this->User->find("first",['recursive'=>'1','conditions'=>["User.id"=>$id] , "fields"=>["User.id","User.username",/*"Gpa.*",*/"Profile.department_id"] /*, "joins"=>[ ["table"=>"gpas","alias"=>"Gpa","type"=>"left","conditions"=>["User.id=Gpa.id"]], ]*/ ] );
             $this->set('user',$user);
             $this->set('gpa',$this->Gpa->find("first",['conditions'=>["Gpa.id"=>$id] ,  ]) );
             $this->set('userDepartment',$this->Department->find('first',['conditions'=>["Department.id"=>!empty($user["Profile"]["department_id"])?$user["Profile"]["department_id"]:-1,] ]) );
             $this->set('availableDepartmentSelections',$this->AvailableDepartmentSelection->find('all',['order' => 'AvailableDepartmentSelection.id asc','recursive'=>1,'conditions'=>["AvailableDepartmentSelection.now_department_id"=>!empty($user["Profile"]["department_id"])?$user["Profile"]["department_id"]:-1]  ] ) );
 
             $deleted=$this->UserDepartmentSelection->deleteAll(["UserDepartmentSelection.user_id"=>$id, "NOT"=>["UserDepartmentSelection.now_department_id"=>$user["Profile"]["department_id"]] ] );
-            $this->set('userDepartmentSelections',$this->UserDepartmentSelection->find('all',array('order' => 'UserDepartmentSelection.id asc','recursive'=>1,'conditions'=>"UserDepartmentSelection.user_id=".$id,'fields'=>["UserDepartmentSelection.*","NowDepartment.*","NextDepartment.*","User.id","User.name"])) );
+            $this->set('userDepartmentSelections',$this->UserDepartmentSelection->find('all',array('order' => 'UserDepartmentSelection.id asc','recursive'=>1,'conditions'=>"UserDepartmentSelection.user_id=".$id,'fields'=>["UserDepartmentSelection.*","NowDepartment.*","NextDepartment.*","User.id","User.username"])) );
         }
         /* POST */
         else if ($this->request->is('post')) { 
@@ -46,18 +62,27 @@ class DepartmentSelectionsController extends AppController{
     public function user_view($id=null) {
 
         if($id==null){
+            if($this->Auth->login()){
+                $id=$this->Auth->user("id");
+            }else{
+                $this->Flash->error("login needed");
+                return $this->redirect(["action"=>"index"]);
+            } 
+        }else if($id!=$this->Auth->user("id")){
+            $this->Flash->error("Not allowed user.");
             return $this->redirect(["action"=>"index"]);
         }
 
+
         /* GET */
         if ($this->request->is('get')){
-            $user=$this->User->find("first",['recursive'=>'1','conditions'=>["User.id"=>$id] , "fields"=>["User.id","User.name",/*"Gpa.*",*/"Profile.department_id"] /*, "joins"=>[ ["table"=>"gpas","alias"=>"Gpa","type"=>"left","conditions"=>["User.id=Gpa.id"]], ]*/ ] );
+            $user=$this->User->find("first",['recursive'=>'1','conditions'=>["User.id"=>$id] , "fields"=>["User.id","User.username",/*"Gpa.*",*/"Profile.department_id"] /*, "joins"=>[ ["table"=>"gpas","alias"=>"Gpa","type"=>"left","conditions"=>["User.id=Gpa.id"]], ]*/ ] );
             $this->set('user',$user);
             $this->set('gpa',$this->Gpa->find("first",['conditions'=>["Gpa.id"=>$id] ,  ]) );
             $this->set('userDepartment',$this->Department->find('first',['conditions'=>["Department.id"=>!empty($user["Profile"]["department_id"])?$user["Profile"]["department_id"]:-1,] ]) );
             
             $deleted=$this->UserDepartmentSelection->deleteAll(["UserDepartmentSelection.user_id"=>$id, "NOT"=>["UserDepartmentSelection.now_department_id"=>$user["Profile"]["department_id"]] ] );
-            $this->set('userDepartmentSelections',$this->UserDepartmentSelection->find('all',array('order' => 'UserDepartmentSelection.id asc','recursive'=>1,'conditions'=>"UserDepartmentSelection.user_id=".$id,'fields'=>["UserDepartmentSelection.*","NowDepartment.*","NextDepartment.*","User.id","User.name"])) );
+            $this->set('userDepartmentSelections',$this->UserDepartmentSelection->find('all',array('order' => 'UserDepartmentSelection.id asc','recursive'=>1,'conditions'=>"UserDepartmentSelection.user_id=".$id,'fields'=>["UserDepartmentSelection.*","NowDepartment.*","NextDepartment.*","User.id","User.username"])) );
         }
 
     }
@@ -79,6 +104,9 @@ class DepartmentSelectionsController extends AppController{
     }
 
     public function result(){
+        //auth
+        if($this->Auth->login()){ $this->set("login_id",$this->Auth->user("id")); }
+    
         $this->set("userSelections",$this->UserDepartmentSelection->find("all",[
             "conditions"=>["NOT"=>["Gpa.id"=>""]],
             "order"=>"UserDepartmentSelection.now_department_id asc, UserDepartmentSelection.rank asc, Gpa.gpa desc",

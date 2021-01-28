@@ -39,6 +39,10 @@
 <br>
 
 
+<h3>ユーザ</h3>
+<?php echo $this->Html->tag("p","ユーザid： ".$user["User"]["id"]);  ?>
+<?php echo $this->Html->tag("p","名前： ".$user["User"]["username"]);  ?>
+
 
 <h3>現在の所属学科</h3>
 <table>
@@ -95,7 +99,7 @@
         <?php endfor ?>
     </tbody>
 </table>
-<?php if(count($availableDepartmentSelections)==0) echo "<p class='alert-message'> Your department ".$userDepartment["Department"]["department"]." doesn't have next department options. </p>"; ?>
+<?php if(count($availableDepartmentSelections)==0) echo "<p class='alert-message'> あなたの学科「".$userDepartment["Department"]["department"]."」には選択できる学科が存在しません. </p>"; ?>
 
 
 <h3> <?php echo $this->Html->Link("登録状態確認ページへ移動する",["action"=>"user_view",$user["User"]["id"]]); ?> </h3>

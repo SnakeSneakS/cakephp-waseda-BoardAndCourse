@@ -23,23 +23,27 @@ class User extends AppModel{
 
     public $validate = array(
         'username' => array(
-            'required' => array(
-                'rule' => 'notBlank',
-                'message' => 'A name is required'
-            )
+            'required' => true,
+            'rule' => 'notBlank',
+            'message' => 'A name is required'
         ),
         'password' => array(
-            'required' => array(
-                'rule' => 'notBlank',
-                'message' => 'A password is required'
-            )
+            'required' => true,
+            'rule' => 'notBlank',
+            'message' => 'A password is required'
         ),
         'role' => array(
-            'valid' => array(
-            'rule' => array('inList', array('admin'/*, 'author'*/)),
+            'create-rule' => [
+                'rule'=>[ 'inList', ['author'] ],
                 'message' => 'Please enter a valid role',
-                'allowEmpty' => false
-            )
+                'allowEmpty' => true
+            ],
+            'update-rule' => [
+                'rule'=>[ 'inList', ['author'/*,'admin'*/] ],
+                'message' => 'Please enter a valid role',
+                'allowEmpty' => true
+            ],
+            
         )
     );
 

@@ -4,10 +4,18 @@
 
 <div class="board_base">
     <div> 
-        <?php echo ($board_base["Board"]["to_board_id"]==$board_base["Board"]["id"])?"":$this->Html->Link($board_base["ToBoard"]["title"].">",["action"=>"view",$board_base["ToBoard"]["id"]]) ; ?> 
+        <span>
+            <?php echo ($board_base["Board"]["to_board_id"]==$board_base["Board"]["id"])?"":$this->Html->Link($board_base["ToBoard"]["title"].">",["action"=>"view",$board_base["ToBoard"]["id"]]) ; ?> 
+        </span>
+        <span class="small right m5"> 
+            created by: <?php echo $this->Html->Link($board_base["User"]["username"], ["controller"=>"users","action"=>"view",$board_base["User"]["id"]] ); ?> 
+        </span>
     </div>
+    
     <div class="board_title">
-        <?php echo $board_base["Board"]["title"]; ?>: 
+        <span>
+            <?php echo $board_base["Board"]["title"]; ?>: 
+        </span>
     </div>
     <div class="board_description">
         <?php echo $board_base["Board"]["description"]; ?>
