@@ -17,7 +17,9 @@ echo $this->Form->input("User.password",array("default"=>$user["User"]["password
 
 echo $this->Html->tag("h3","Additional"/*,array("class"=>"sub-title")*/ );
 echo $this->Form->hidden("Profile.user_id",array("default"=>$user["User"]["id"]));
-echo $this->Form->input("Profile.enter_year",array("default"=>$user["Profile"]["enter_year"],"type"=>"number","label"=>"入学年","step"=>"1","min"=>date("Y")-10,"max"=>date("Y"),"placeholder"=>(date("Y")-3)." ~ ".date("Y") )); //echo $this->Form->input("enter_year",array("type"=>"date","dateFormat"=>"Y","minYear"=>date("Y")-3,"maxYear"=>date("Y") ));
+echo $this->Form->label("入学年度","入学年度");
+echo $this->Form->year("Profile.enter_year", date("Y")-10, date("Y"), array("default"=>$user["Profile"]["enter_year"],"placeholder"=>(date("Y")-10)." ~ ".date("Y") ));
+//echo $this->Form->input("Profile.enter_year",array("default"=>$user["Profile"]["enter_year"],"type"=>"number","label"=>"入学年","step"=>"1","min"=>date("Y")-10,"max"=>date("Y"),"placeholder"=>(date("Y")-10)." ~ ".date("Y") ));
 echo $this->Form->input("Profile.faculty_id",array("placeholder"=>"学術院","options"=>[],"label"=>"学術院","class"=>"FacultyInputArea" ));
 echo $this->Form->input("Profile.school_id",array("placeholder"=>"学部","options"=>[],"label"=>"学部","class"=>"SchoolInputArea"));
 echo $this->Form->input("Profile.department_id",array("placeholder"=>"学科","options"=>[],"label"=>"学科","class"=>"DepartmentInputArea" ));

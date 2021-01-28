@@ -18,7 +18,7 @@
         </span>
     </div>
     <div class="board_description">
-        <?php echo $board_base["Board"]["description"]; ?>
+        <?php echo nl2br( $board_base["Board"]["description"] ); ?>
     </div>
 </div>
 
@@ -71,7 +71,7 @@
                 <span class="small"> <?php echo $comment["Comment"]["created"]; ?></span>  
             </div>
             <div class="comment_text">
-                <span> <?php echo $comment["Comment"]["text"] ?> </span>
+                <span> <?php echo nl2br( $comment["Comment"]["text"] ); ?> </span>
             </div>      
         </div>
     </div>

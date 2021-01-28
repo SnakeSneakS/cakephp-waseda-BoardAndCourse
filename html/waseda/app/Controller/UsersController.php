@@ -76,6 +76,7 @@ class UsersController extends AppController{
 
     /* Edit User Imformation */
     public function edit($id=-1){ //path is "user_edit"
+
         if ($id==null) { 
             $this->Flash->error('error: argument was not set...');
             return $this->redirect(array('action' => 'index'));  
@@ -93,6 +94,10 @@ class UsersController extends AppController{
                 return $this->redirect(['action' => 'view',$id]); 
             }
         }else if ($this->request->is('post')) { /*POST*/
+
+            //profile enter year //debug($this->request->data);
+            $this->request->data["Profile"]["enter_year"]=$this->request->data["Profile"]["enter_year"]["year"]?$this->request->data["Profile"]["enter_year"]["year"]:null;
+
             //urlとdataが違う時、エラーを出して操作中止
             if($this->request->data["User"]["id"]!=$id){
                 $this->Flash->error('error: $i ≠ data>User>id');
