@@ -6,6 +6,16 @@ $ret = $this->query('UPDATE users SET point = point + ? WHERE id = ?', array($po
 
 class AdminsController extends AppController{
 
+    //auth
+    public function beforeFilter() {
+        parent::beforeFilter();
+        //$this->Auth->allow("index");
+    }
+    public function isAuthorized($user)
+    {        
+        return parent::isAuthorized($user);
+    }
+
     public $uses=array("User","Profile","Gpa","Faculty","School","Department","FacultySchool","SchoolDepartment","AvailableDepartmentSelection","UserDepartmentSelection");//model 指定 AvailableDepartmentSelection, User
 
     //public $scaffold;//localhost/blog/postsでもう管理画面みたいなのが既にできてる。でもこれだとカスタマイズはできないよね〜〜

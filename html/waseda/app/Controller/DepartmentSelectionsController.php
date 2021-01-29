@@ -6,14 +6,60 @@ class DepartmentSelectionsController extends AppController{
     //auth
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow();
+        $this->Auth->allow("index","result");
     }
+
+    public function isAuthorized($user)
+    {        
+        //debug ($user);
+
+        //authentication check
+
+        if($this->request->is("post")){ //POST
+            //user
+            if( in_array($this->action, ["selection_add"]) ){
+                if (
+                    //user_id check
+                    $this->request->data["UserDepartmentSelection"]["user_id"]===$user["id"] 
+                    //id check
+                    && (
+                        $this->request->data["UserDepartmentSelection"]["id"]==null 
+                        || $this->UserDepartmentSelection->findById($this->request->data["UserDepartmentSelection"]["id"])["UserDepartmentSelection"]["user_id"] == $user["id"]
+                    )
+                ) return true; 
+                /*
+                //モデルで以下の制限をかけよう
+                (     
+                    //next_department_id check
+                    //now_department_id check
+                    && $this->request->data["UserDepartmentSelection"]["now_department_id"]===$this->User->findById($user["id"],["fields"=>"Profile.department_id"])["Profile"]["department_id"]
+                );
+                */
+            }
+            //gpa
+            if( in_array($this->action, ["edit_gpa"]) ){
+                if( $this->request->data["Gpa"]["id"]===$user["id"]) return true;
+            }
+
+        }else if($this->request->is("get")){ //GET
+            if( in_array($this->action, ["user_view","user_add","edit_gpa"]) ){
+                $user_id=(int)$this->request->params["pass"]?$this->request->params["pass"][0]:null; //0番目のパラメータ引数
+                if($user_id===$user["id"]){
+                    return true;
+                }
+            }
+        }
+        
+        return parent::isAuthorized($user);
+    }
+
+
 
     public $uses=array("User","Gpa","Department","FacultySchool","SchoolDepartment","AvailableDepartmentSelection","UserDepartmentSelection");
 
     public function index(){
         //auth
-        if($this->Auth->login()){ $this->set("login_id",$this->Auth->user("id")); }
+        $this->set("login_id",$this->Auth->user("id")?$this->Auth->user("id"):null); 
     }
 
     public function user_add($id=null) {
@@ -21,10 +67,6 @@ class DepartmentSelectionsController extends AppController{
         //auth
         if($id==null){
             $this->Flash->error("parameter needed");
-            return $this->redirect(["action"=>"index"]);
-        }
-        if($id!=$this->Auth->user("id")){
-            $this->Flash->error("Not allowed user.");
             return $this->redirect(["action"=>"index"]);
         }
 
@@ -39,8 +81,11 @@ class DepartmentSelectionsController extends AppController{
             $deleted=$this->UserDepartmentSelection->deleteAll(["UserDepartmentSelection.user_id"=>$id, "NOT"=>["UserDepartmentSelection.now_department_id"=>$user["Profile"]["department_id"]] ] );
             $this->set('userDepartmentSelections',$this->UserDepartmentSelection->find('all',array('order' => 'UserDepartmentSelection.id asc','recursive'=>1,'conditions'=>"UserDepartmentSelection.user_id=".$id,'fields'=>["UserDepartmentSelection.*","NowDepartment.*","NextDepartment.*","User.id","User.username"])) );
         }
+    }
+
+    public function selection_add($id=null) {
         /* POST */
-        else if ($this->request->is('post')) { 
+        if ($this->request->is("post")) { 
             //if($this->request->data["UserDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             if($this->request->data["UserDepartmentSelection"]["user_id"]!=$id) return $this->Flash->error('not match $id');
             
@@ -61,11 +106,7 @@ class DepartmentSelectionsController extends AppController{
         if($id==null){
             $this->Flash->error("parameter needed");
             return $this->redirect(["action"=>"index"]);
-        }else if($id!=$this->Auth->user("id")){
-            $this->Flash->error("Not allowed user.");
-            return $this->redirect(["action"=>"index"]);
         }
-
 
         /* GET */
         if ($this->request->is('get')){
@@ -80,9 +121,17 @@ class DepartmentSelectionsController extends AppController{
 
     }
 
-    public function editGpa(){
+    public function edit_gpa($id=null){
+        if($id==null){
+            $this->Flash->error("parameter needed");
+            return $this->redirect(["action"=>"index"]);
+        }
+
         /* POST */
-        if ($this->request->is('post')) { 
+        if($this->request->is("get")){
+            return $this->redirect(["action"=>"user_add",$this->Auth->user("id")?$this->Auth->user("id"):null]);
+
+        }else if ($this->request->is("post")) { 
             
             $saved=$this->Gpa->save($this->request->data); 
             if (!empty($saved)) { 
@@ -98,7 +147,7 @@ class DepartmentSelectionsController extends AppController{
 
     public function result(){
         //auth
-        if($this->Auth->login()){ $this->set("login_id",$this->Auth->user("id")); }
+        $this->set("login_id",$this->Auth->user("id")?$this->Auth->user("id"):null); 
     
         $this->set("userSelections",$this->UserDepartmentSelection->find("all",[
             "conditions"=>["NOT"=>["Gpa.id"=>""]],
@@ -109,6 +158,7 @@ class DepartmentSelectionsController extends AppController{
         $this->set('availableDepartmentSelections',$this->AvailableDepartmentSelection->find('all',['order' => 'AvailableDepartmentSelection.id asc',] ) );
     }
 
+    /*
     public function LimitedSchools(){ //for Ajax //need faculty_id
         $this->autoRender=false;
         if ($this->request->is('ajax')){
@@ -130,4 +180,5 @@ class DepartmentSelectionsController extends AppController{
             return $this->Flash->error("error");
         }
     }
+    */
 }

@@ -7,14 +7,31 @@ class BoardsController extends AppController{
     //auth
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow("view");
+        $this->Auth->allow("index","view");
     }
+    public function isAuthorized($user)
+    {        
+        if($this->request->is("post")){ //POST
+            //add board - [all login user]
+            if( in_array($this->action, ["add"]) ){
+                return true;
+            }
+            
+        }else if($this->request->is("get")){ //GET
+            //add board - [all login user]
+            if( in_array($this->action, ["add"]) ){
+                return true;
+            }
+        }
+        return parent::isAuthorized($user);
+    }
+
 
     public $helpers = array('Html','Form');//htmlと入力formをこれから扱うZE
 
     public $uses=["Board","Comment"];
     
-    public function index($id=1){
+    public function index(){
         $this->redirect(["action"=>"view"]);
     }
 

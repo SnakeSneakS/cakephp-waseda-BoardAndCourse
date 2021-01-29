@@ -13,7 +13,9 @@ echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*//*"typ
 echo $this->Html->tag("h3","Basic");
 echo $this->Form->hidden("User.id",array("default"=>$user["User"]["id"]));
 echo $this->Form->input("User.username",array("default"=>$user["User"]["username"],"label"=>"ユーザネーム"));
-echo $this->Form->input("User.password",array("default"=>$user["User"]["password"],"label"=>"パスワード"));
+//if this below exists, hashed password is repeatedlly hashed and generate different password
+//echo $this->Form->input("User.password",array("default"=>$user["User"]["password"],"label"=>"パスワード"));
+echo $this->Html->tag("p","(パスワードは暗号化されて保存されています。)" );
 
 echo $this->Html->tag("h3","Additional"/*,array("class"=>"sub-title")*/ );
 echo $this->Form->hidden("Profile.user_id",array("default"=>$user["User"]["id"]));
@@ -25,7 +27,7 @@ echo $this->Form->input("Profile.school_id",array("placeholder"=>"学部","optio
 echo $this->Form->input("Profile.department_id",array("placeholder"=>"学科","options"=>[],"label"=>"学科","class"=>"DepartmentInputArea" ));
 echo $this->Form->input("Profile.comment",array("default"=>nl2br($user["Profile"]["comment"]),"label"=>"一言コメント" ));
 //echo $this->Form->input("Profile.image",("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput")); //when send file. I decided to send imageDataUrl. type: "file" is needed when form->create
-echo $this->Form->input("null",array("type"=>"file",'label' => "プロフィール画像", "accept"=>"image/*" ,"class"=>"imageInput"));
+echo $this->Form->input("",array("type"=>"file",'label' => "プロフィール画像", "accept"=>"image/*" ,"class"=>"imageInput"));
 echo $this->Form->hidden("Profile.image",array("default"=>$user["Profile"]["image"],'label' => "profile-image-data", 'type' => 'text', "accept"=>"image/*" ,"class"=>"imageDataInput"));
 echo('<img class="imageOutput" src="'.$user["Profile"]["image"].'" height="300px"/>'); //when use image input: data:image/jpg;base64, base64_encode( $user["Profile"]["image"] )
 //echo $this->Form->input("Gpa.gpa",array("default"=>$user["Gpa"]["gpa"],"type"=>"number","label"=>"平均GPA","step"=>"0.001","min"=>0,"max"=>4));

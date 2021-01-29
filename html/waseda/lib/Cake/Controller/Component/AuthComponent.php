@@ -361,7 +361,8 @@ class AuthComponent extends Component {
 		}
 
 		if (!$controller->request->is('ajax') && !$controller->request->is('json')) {
-			$this->flash($this->authError);
+			//$this->flash($this->authError);
+			$this->Flash->error($this->authError);
 			$this->Session->write('Auth.redirect', $controller->request->here(false));
 			$controller->redirect($this->loginAction);
 			return false;
@@ -410,7 +411,8 @@ class AuthComponent extends Component {
 			throw new ForbiddenException($this->authError);
 		}
 
-		$this->flash($this->authError);
+		//$this->flash($this->authError);
+		$this->Flash->error($this->authError);
 		if ($this->unauthorizedRedirect === true) {
 			$default = '/';
 			if (!empty($this->loginRedirect)) {

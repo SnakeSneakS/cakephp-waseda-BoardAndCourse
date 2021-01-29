@@ -19,7 +19,9 @@ echo $this->Form->create("User",array(/*"enctype"=>"multipart/form-data"*//*"typ
 echo $this->Html->tag("h3","Basic");
 echo $this->Form->hidden("User.id",array("default"=>$user["User"]["id"]));
 echo $this->Form->input("User.username",array("default"=>$user["User"]["username"]));
-echo $this->Form->input("User.password",array("default"=>$user["User"]["password"]));
+//below default password generate several-times-hashed password.
+//echo $this->Form->input("User.password",array("default"=>$user["User"]["password"]));
+echo $this->Form->tag("span",$user["User"]["password"]);
 //echo $this->Form->end("Save");
 
 //echo $this->Form->create("Profile"); //これのかわり（？）にProfile.をnameに付けたらいい
@@ -31,7 +33,7 @@ echo $this->Form->input("Profile.school_id",array("placeholder"=>"学部","optio
 echo $this->Form->input("Profile.department_id",array("placeholder"=>"学科","options"=>[],"class"=>"DepartmentInputArea" ));
 echo $this->Form->input("Profile.comment",array("default"=>nl2br($user["Profile"]["comment"])));
 //echo $this->Form->input("Profile.image",("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput")); //when send file. I decided to send imageDataUrl. type: "file" is needed when form->create
-echo $this->Form->input("null",array("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput"));
+echo $this->Form->input("",array("type"=>"file",'label' => "profile-image", "accept"=>"image/*" ,"class"=>"imageInput"));
 echo $this->Form->hidden("Profile.image",array("default"=>$user["Profile"]["image"],'label' => "profile-image-data", 'type' => 'text', "accept"=>"image/*" ,"class"=>"imageDataInput"));
 echo('<img class="imageOutput" src="'.$user["Profile"]["image"].'" height="300px"/>'); //when use image input: data:image/jpg;base64, base64_encode( $user["Profile"]["image"] )
 echo $this->Form->hidden("Gpa.id",array("default"=>$user["User"]["id"]));

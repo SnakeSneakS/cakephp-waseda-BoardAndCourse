@@ -67,7 +67,7 @@
     </thead>
     <tbody>
         <tr>
-            <?php echo $this->Form->create(["url"=>["controller"=>"DepartmentSelections","action"=>"editGpa"] ]); ?>
+            <?php echo $this->Form->create(["url"=>["controller"=>"DepartmentSelections","action"=>"edit_gpa",$user["User"]["id"]], ]); ?>
             <?php echo $this->Form->hidden("Gpa.id",["default"=>$user["User"]["id"], ]) ?>
             <td> <?php echo $this->Form->input("Gpa.gpa",["label"=>"","default"=>!empty($gpa["Gpa"]["gpa"])?$gpa["Gpa"]["gpa"]:null , ])  ?> </td>
             <td> <?php echo $this->Form->end("登録") ?> </td>
@@ -86,7 +86,7 @@
     <tbody>
         <?php for($i=0;$i<count($availableDepartmentSelections) && $i<1+count($userDepartmentSelections);$i++) : ?>
         <tr>
-            <?php echo $this->Form->create("UserDepartmentSelection") ?>
+            <?php echo $this->Form->create("UserDepartmentSelection",["url"=>["controller"=>"departmentSelections","action"=>"selection_add",$user["User"]["id"] ] ]) ?>
             <?php echo $this->Form->hidden("UserDepartmentSelection.id",array("default"=>!empty($userDepartmentSelections[$i]["UserDepartmentSelection"]["id"])?$userDepartmentSelections[$i]["UserDepartmentSelection"]["id"]:null )); ?>
             <?php echo $this->Form->hidden("UserDepartmentSelection.user_id",array("default"=>!empty($userDepartmentSelections[$i]["UserDepartmentSelection"]["user_id"])?$userDepartmentSelections[$i]["UserDepartmentSelection"]["user_id"]:$user["User"]["id"] )); ?>
             <?php echo $this->Form->hidden("UserDepartmentSelection.rank",array("default"=>$i+1 )); ?>

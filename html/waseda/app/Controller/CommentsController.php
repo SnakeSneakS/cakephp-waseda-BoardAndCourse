@@ -7,8 +7,24 @@ class CommentsController extends AppController{
     //auth
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow();
     }
+    public function isAuthorized($user)
+    {        
+        if($this->request->is("post")){ //POST
+            //add comment - [all login user]
+            if( in_array($this->action, ["add"]) ){
+                return true;
+            }
+            
+        }else if($this->request->is("get")){ //GET
+            //add comment - [all login user]
+            if( in_array($this->action, ["add"]) ){
+                return true;
+            }
+        }
+        return parent::isAuthorized($user);
+    }
+
 
     public $helpers = array('Html','Form');//htmlと入力formをこれから扱うZE
     public $uses=["Comment","Board"];

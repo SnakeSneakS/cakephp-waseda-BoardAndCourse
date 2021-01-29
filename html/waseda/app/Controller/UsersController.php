@@ -7,32 +7,46 @@ class UsersController extends AppController{
     //auth
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow("login","logout","index","add","view");
+        $this->Auth->allow("login","logout","index","add","view"); //ログイン不要
     }
     //beforeFilterのAuth->allow以外で、isAuthorizedを突破した者のみアクセス許可
     public function isAuthorized($user){
         //debug($user);
-        //don't allow if [user is login] //to allow non-login user, must declare $this->Auth->allow & declare $this->isAuthorize in each [action function]
-        if( in_array($this->action, ["add","login"]) ){
-            if($user==null){ //non-login
-                return true;
-            }else if(isset($user["role"]) && $user["role"]!=="admin"){ //login-author not admin
-                return false;
-            }
-        }
 
-        //allow to all [login-user]
-        if( in_array($this->action, ["LimitedSchools","LimitedDepartments"]) ){
-            return true;
-        }
+        if($this->request->is("post")){
+            //don't allow if [user is login] //to allow non-login user, must declare $this->Auth->allow & declare $this->isAuthorize in each [action function]
+            if( in_array($this->action, ["add","login"]) ){
+                if($user===null || $user["role"]==="admin") return true;
+                else return false;
+            }
+            
+            //allow to its owner
+            if( in_array($this->action, ["edit"]) ){
+                if($this->request->data["User"]["id"]===$user["id"] && $this->request->data["Profile"]["user_id"]===$user["id"]) return true;
+            }
 
-        //allow to its owner
-        if( in_array($this->action, ["edit"]) ){
-            $user_id=(int)$this->request->params["pass"]?$this->request->params["pass"][0]:null; //0番目のパラメータ引数
-            if($user_id===$user["id"]){
+        }else if($this->request->is("get")){
+            //don't allow if [user is login] //to allow non-login user, must declare $this->Auth->allow & declare $this->isAuthorize in each [action function]
+            if( in_array($this->action, ["add","login"]) ){
+                if( $user===null || $user["role"]==="admin") return true;
+                else return false;
+            }
+
+            //allow to all [login-user]
+            if( in_array($this->action, ["LimitedSchools","LimitedDepartments"]) ){
                 return true;
             }
+
+            //allow to its owner
+            if( in_array($this->action, ["edit"]) ){
+                $user_id=$this->request->params["pass"][0]?$this->request->params["pass"][0]:null; //0番目のパラメータ引数
+                if($user_id===$user["id"]){
+                    return true;
+                }
+            }
+
         }
+        
         return parent::isAuthorized(($user)); 
     }
 
@@ -146,7 +160,6 @@ class UsersController extends AppController{
                     $this->request->data["Profile"]["image"]="";
                 }
             }*/
-
             $saved=$this->User->saveAssociated($this->request->data); //これか下のコメントアウトかどちらか
             /*
             //another way
@@ -164,6 +177,7 @@ class UsersController extends AppController{
                 return $this->redirect(array('action' => 'view',$id));  
             }else{
                 $this->Flash->error('edit Failed');
+                debug($this->request->data);
                 return $this->redirect(array('action' => 'index'));  
             }
         } 

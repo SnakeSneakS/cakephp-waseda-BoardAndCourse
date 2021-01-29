@@ -73,23 +73,22 @@ class AppController extends Controller {
                     "fields"=>array(
                         "User"=>"username",
                         "User"=>"password", 
-                ),
+                    ),
                     "passwordHasher" => "Blowfish"
                 )
+                //"Basic","Digest" https://book.cakephp.org/2/ja/core-libraries/components/authentication.html
             ),
             "authorize" => array("Controller"),
         )
     );
     
     public function beforeFilter() {
-        $this->Auth->allow("index");
+        //$this->Auth->allow("index");
     }
 
     public function isAuthorized($user){
-        if(isset($user["role"]) && $user["role"]==="admin"){
-            return true;
-        }else{
-            return false;
-        }
+        //debug($user);
+        //If you assign "admin" role, you must re-login to update $user
+        return isset($user["role"]) && $user["role"]==="admin";
     }
 }
