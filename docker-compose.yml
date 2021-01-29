@@ -12,6 +12,7 @@ services:
     environment: 
       - SECURITY_SALT=${SECURITY_SALT}
       - SECURITY_CIPHER_SEED=${SECURITY_CIPHER_SEED}
+      - BOOL_DEBUG_MODE=${BOOL_DEBUG_MODE}
     links:
       - mysql:mysql
     restart: always
