@@ -14,10 +14,16 @@ class User extends AppModel{
     );
 
     public $hasMany=[
-        'UserDepartmentSelection'=>[
-            "Classname"=>'UserDepartmentSelection',
+        "UserDepartmentSelection"=>[
+            "Classname"=>"UserDepartmentSelection",
             "foreignKey"=>"user_id"
+        ],
+        /*
+        "BoardUser"=>[
+            "Classname"=>"BoardUser",
+            "foreignKey"=>"user_id",
         ]
+        */
     ];
 
 

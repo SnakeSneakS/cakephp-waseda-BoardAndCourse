@@ -29,7 +29,7 @@ class BoardsController extends AppController{
 
     public $helpers = array('Html','Form');//htmlと入力formをこれから扱うZE
 
-    public $uses=["Board","Comment"];
+    public $uses=["Board","Comment","BoardUser",];
     
     public function index(){
         $this->redirect(["action"=>"view"]);
@@ -39,9 +39,11 @@ class BoardsController extends AppController{
         if($this->request->is("get")){
             $base_board=$this->Board->find("first",["conditions"=>["Board.id"=>$id,], "recursive"=>1, "fields"=>["Board.*","ToBoard.*","User.id","User.username","User.role"] ]);
             if($base_board){
-                $this->set('board_base',$base_board);
-                $this->set('boards',$this->Board->find("all",["order"=>"Board.modified desc","conditions"=>["Board.to_board_id"=>$id,], "recursive"=>-1, "fields"=>["Board.*"] ]));
+                $this->set("login_id",$this->Auth->user("id")?$this->Auth->user("id"):null);
+                $this->set("board_base",$base_board);
+                $this->set("boards",$this->Board->find("all",["order"=>"Board.modified desc","conditions"=>["Board.to_board_id"=>$id,], "recursive"=>-1, "fields"=>["Board.*"] ]));
                 $this->set("comments",$this->Comment->find("all",["order"=>"Comment.created desc", "conditions"=>["Comment.to_board_id"=>$id], "recursive"=>1, "fields"=>["Comment.*","User.username","User.id","User.role"] ]));
+                $this->set("board_user",$this->BoardUser->find("first",["conditions"=>["BoardUser.board_id"=>$id,"BoardUser.user_id"=>$this->Auth->user("id")?$this->Auth->user("id"):null,], "recursive"=>-1, ] ));
             }else{
                 $this->Flash->error("invalid board");
                 return $this->redirect(["action"=>"view",1]);

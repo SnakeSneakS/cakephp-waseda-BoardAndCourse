@@ -1,15 +1,18 @@
 <?php //debug($board_base); debug($boards); debug($comments); ?>
 
-
+<div>
+    <?php echo empty($login_id)?"未ログイン":$this->Html->Link("自分がwatchしている掲示板",["controller"=>"BoardUsers","action"=>"user",$login_id]); ?>
+</div>
 
 <div class="board_base">
     <div> 
-        <span>
+        <div>
             <?php echo ($board_base["Board"]["to_board_id"]==$board_base["Board"]["id"])?"":$this->Html->Link($board_base["ToBoard"]["title"].">",["action"=>"view",$board_base["ToBoard"]["id"]]) ; ?> 
-        </span>
-        <span class="small right m5"> 
-            created by: <?php echo $this->Html->Link($board_base["User"]["username"], ["controller"=>"users","action"=>"view",$board_base["User"]["id"]] ); ?> 
-        </span>
+        </div>
+        <div class="small right m5"> 
+            <p> created by: <?php echo $this->Html->Link($board_base["User"]["username"], ["controller"=>"users","action"=>"view",$board_base["User"]["id"]] );?>  </p>
+            <p> <?php echo empty($login_id)?"":"watching: ".$this->Html->Link("users",["controller"=>"BoardUsers","action"=>"board",$board_base["Board"]["id"]]); ?>  </p>
+        </div>
     </div>
     
     <div class="board_title">
@@ -19,6 +22,22 @@
     </div>
     <div class="board_description">
         <?php echo nl2br( $board_base["Board"]["description"] ); ?>
+    </div>
+    <div class="board_user">
+        <?php 
+            if(isset($board_user["BoardUser"]["type"]) && $board_user["BoardUser"]["type"]==="watch"){
+                echo $this->Form->create("BoardUser",["url"=>["controller"=>"BoardUsers","action"=>"delete"]]);
+                echo $this->Form->hidden("user_id",["default"=>$board_user["BoardUser"]["user_id"], ] );
+                echo $this->Form->hidden("board_id",["default"=>$board_user["BoardUser"]["board_id"], ]);
+                echo $this->Form->end("QUIT WATCH"); 
+            }else if(!empty($login_id)){
+                echo $this->Form->create("BoardUser",["url"=>["controller"=>"BoardUsers","action"=>"add"]]);
+                echo $this->Form->hidden("user_id",["default"=>$login_id, ]);
+                echo $this->Form->hidden("board_id",["default"=>$board_base["Board"]["id"], ]);
+                echo $this->Form->hidden("type",["default"=>"watch", ]);
+                echo $this->Form->end("WATCH"); 
+            }
+        ?>
     </div>
 </div>
 

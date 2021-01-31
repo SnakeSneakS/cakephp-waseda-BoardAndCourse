@@ -24,7 +24,7 @@
 }
 
 .small{
-    font-size: 0.1rem;
+    font-size: 0.8rem;
 }
 
 .comment{
@@ -37,7 +37,7 @@
 .comment_top{
     color: black;
     text-decoration: underline;
-    font-size:0.7rem;
+    font-size:0.8rem;
 }
 
 .comment_text{
