@@ -77,3 +77,8 @@
     margin: 0px 30px 15px 30px;
     padding: 10px 10px;
 }
+
+.paginate_numbers{
+    font-size: 1rem;
+    text-align: center;
+}

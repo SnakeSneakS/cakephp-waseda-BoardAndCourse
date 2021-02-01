@@ -38,6 +38,31 @@ class BoardUsersController extends AppController{
 
     public $helpers = array("Html","Form");//htmlと入力formをこれから扱うZE
     public $uses=["BoardUser","Board","User" ];
+
+    //paginate
+    public $components=["Paginator"];
+    public $paginate=array(
+        "Board"=>[
+            "fields"=>[
+                "Board.id", "Board.title" ,"Board.modified", 
+            ],
+            "order"=>[
+                "Board.modified"=>"desc"
+            ],
+            "limit"=>5,
+            "recursive"=>-1,
+            "page"=>1,
+        ],
+        "BoardUser"=>[
+            "fields"=>[
+                "User.id","User.username","User.role"
+            ],
+            "order"=>"User.username asc", 
+            "limit"=>5,
+            "recursive"=>1, 
+            "page"=>1,
+        ],
+    );
    
     public function add(){
         if($this->request->is('post')){
@@ -52,15 +77,20 @@ class BoardUsersController extends AppController{
 
     public function board($id=null){
         if($this->request->is("get")){
-            $this->set("board", $this->Board->find("first",["conditions"=>["Board.id"=>$id ], "recursive"=>1, "fields"=>["Board.*","User.id","User.username"] ]));
-            $this->set("users", $this->BoardUser->find("all",["conditions"=>["BoardUser.board_id"=>$id], "fields"=>["User.id","User.username"]]) );
+            $this->set("board", $this->Board->find("first",["conditions"=>["Board.id"=>$id ], "recursive"=>1, "fields"=>["Board.*","ToBoard.id","ToBoard.title","User.id","User.username"] ]));
+            //$this->set("users", $this->BoardUser->find("all",["conditions"=>["BoardUser.board_id"=>$id], "fields"=>["User.id","User.username"]]) );
+            $this->Paginator->settings=$this->paginate;
+            $this->set("users",$this->Paginator->paginate("BoardUser",["BoardUser.board_id"=>$id]));
         }
     }
 
     public function user($id=null){
         if($this->request->is("get")){
             $this->set("user", $this->User->find("first",["conditions"=>["User.id"=>$id,], "fields"=>["User.id","User.username"], "recursive"=>"-1" ] ));
-            $this->set("boards", $this->BoardUser->find("all",["order"=>"Board.modified desc","conditions"=>["BoardUser.user_id"=>$id], "fields"=>["Board.*"]]) );
+            //$this->set("boards", $this->BoardUser->find("all",["order"=>"Board.modified desc","conditions"=>["BoardUser.user_id"=>$id], "fields"=>["Board.*"]]) );
+            $this->Paginator->settings=$this->paginate;
+            $this->Paginator->settings["BoardUser"]["fields"]=["Board.id","Board.title","Board.modified",];
+            $this->set("boards",$this->Paginator->paginate("BoardUser",["BoardUser.user_id"=>$id,]) );
         }
     }
 

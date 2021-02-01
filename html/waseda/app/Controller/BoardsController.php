@@ -33,8 +33,33 @@ class BoardsController extends AppController{
 
 
     public $helpers = array('Html','Form');//htmlと入力formをこれから扱うZE
-
     public $uses=["Board","Comment","BoardUser",];
+
+    //paginate
+    public $components=["Paginator"];
+    public $paginate=array(
+        "Board"=>[
+            "fields"=>[
+                "Board.id", "Board.title" ,"Board.modified", 
+            ],
+            "order"=>[
+                "Board.modified"=>"desc"
+            ],
+            "limit"=>5,
+            "recursive"=>-1,
+            "page"=>1,
+        ],
+        "Comment"=>[
+            "fields"=>[
+                "Comment.id","Comment.user_id","Comment.text","Comment.created","User.username","User.id","User.role"
+            ],
+            "order"=>"Comment.created desc", 
+            "limit"=>5,
+            "recursive"=>1, 
+            "page"=>1,
+        ],
+    );
+   
     
     public function index(){
         $this->redirect(["action"=>"view"]);
@@ -46,9 +71,14 @@ class BoardsController extends AppController{
             if($base_board){
                 $this->set("login_id",$this->Auth->user("id")?$this->Auth->user("id"):null);
                 $this->set("board_base",$base_board);
-                $this->set("boards",$this->Board->find("all",["order"=>"Board.modified desc","conditions"=>["Board.to_board_id"=>$id,], "recursive"=>-1, "fields"=>["Board.*"] ]));
-                $this->set("comments",$this->Comment->find("all",["order"=>"Comment.created desc", "conditions"=>["Comment.to_board_id"=>$id], "recursive"=>1, "fields"=>["Comment.*","User.username","User.id","User.role"] ]));
                 $this->set("board_user",$this->BoardUser->find("first",["conditions"=>["BoardUser.board_id"=>$id,"BoardUser.user_id"=>$this->Auth->user("id")?$this->Auth->user("id"):null,], "recursive"=>-1, ] ));
+                //$this->set("boards",$this->Board->find("all",["order"=>"Board.modified desc","conditions"=>["Board.to_board_id"=>$id,], "recursive"=>-1, "fields"=>["Board.*"] ]));
+                $this->Paginator->settings = $this->paginate;
+                if($this->Board->find("count",["conditions"=>["Board.to_board_id"=>$id,"NOT"=>["Board.id"=>$id]], "recursive"=>-1, "limit"=>1])){
+                    $this->set("boards", $this->Paginator->paginate("Board",["Board.to_board_id"=>$id,"NOT"=>["Board.id"=>$id]] ));
+                }else if($this->Comment->find("count",["conditions"=>["Comment.to_board_id"=>$id,"NOT"=>["Comment.id"=>$id]], "recursive"=>-1, "limit"=>1])){
+                    $this->set("comments",$this->Paginator->paginate("Comment",["Comment.to_board_id"=>$id, ]));
+                }  
             }else{
                 $this->Flash->error("invalid board");
                 return $this->redirect(["action"=>"view",1]);
@@ -60,7 +90,8 @@ class BoardsController extends AppController{
         if($this->request->is("ajax")){
             $this->autoRender=false;
             //return json_encode(["data"=>$this->request->query["title"]]);
-            $data= $this->Board->find("all",[
+            //find using model (not using paginator): 検索は楽だけど検索数多いと大変
+            $data["boards"]= $this->Board->find("all",[
                 "conditions"=>[
                     "Board.title like"=>"%".$this->request->query["title"]."%",
                 ],
@@ -68,11 +99,19 @@ class BoardsController extends AppController{
                     "Board.id","Board.title","Board.modified",//"Board.description",
                 ],
                 "order"=>"Board.modified asc",
-                "recursive"=>-1
+                "recursive"=>-1,
+                "limit"=>20
             ]);
+            $data["limit"]=20;
+            
+            /* //using paginator: viewでpaging number 扱うのが大変なので使わないのが吉かも
+            $this->Paginator->settings=$this->paginate;
+            $this->Paginator->settings["Board"]["limit"]=5;
+            $data["boards"]=$this->Paginator->paginate("Board",["Board.title like"=>"%".$this->request->query["title"]."%",]);
+            */
             return json_encode($data);
         }else if($this->request->is("get")){
-            
+            $this->set("login_id",$this->Auth->user("id"));
         }
     }
 

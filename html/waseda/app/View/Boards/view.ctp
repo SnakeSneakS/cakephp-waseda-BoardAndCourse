@@ -1,4 +1,10 @@
-<?php //debug($board_base); debug($boards); debug($comments); ?>
+<?php 
+/*
+debug($board_base); 
+if(isset($boards)){ debug($boards); }else{ debug(["Board"=>null]); }
+if(isset($comments)){ debug($comments); }else{ debug(["Comment"=>null]); }
+*/
+?>
 
 <div>
     <span>
@@ -86,8 +92,8 @@
 
 
 <div class="boards_area">
-    <?php foreach($boards as $board): ?>
-    <?php if($board["Board"]["id"]==$board_base["Board"]["id"]){ continue; } ?>
+    <?php if(isset($boards)) foreach($boards as $board): ?>
+    <?php //if($board["Board"]["id"]==$board_base["Board"]["id"]){ continue; } ?>
     <div class="board">
         <div>
             <span class="board_link"> <?php echo $this->html->link($board["Board"]["title"],["controller"=>"boards","action"=>"view",$board["Board"]["id"]]);?> </span>
@@ -98,7 +104,7 @@
 </div>
 
 <div class="comments_area">
-    <?php foreach($comments as $comment): ?>
+    <?php if(isset($comments)) foreach($comments as $comment): ?>
     <div class="comment" id="comment_<?php echo $comment["Comment"]["id"];?>">
         <div>
             <div class="comment_top">
@@ -111,4 +117,37 @@
         </div>
     </div>
     <?php endforeach; ?>
+</div>
+
+
+<div class="sort_area">
+<span>Sort by: </span>
+<?php 
+if(isset($boards)){
+    echo "<span>".$this->Paginator->sort('Board.title', 'タイトル', ["direction"=>"asc"])." </span>"; 
+    echo "<span>".$this->Paginator->sort('Board.modified', '更新日時', ["direction"=>"desc"])." </span>"; 
+}
+if(isset($comments)){
+    echo "<span>".$this->Paginator->sort('Board.modified', '更新日時', ["direction"=>"desc"])." </span>"; 
+}
+?>
+</div>
+
+<div class="paginate_numbers">
+<?php
+/*
+echo $this->Paginator->prev('前へ' . "", [], null, array('class' => 'prev disabled'));
+echo $this->Paginator->counter(['format' => '{:page}/{:pages}ページを表示']);
+echo $this->Paginator->next("" . ' 次へ', [], null, array('class' => 'next disabled'));
+*/
+echo $this->Paginator->numbers([
+    "first"=>1,
+    "last"=>1,
+    "modulus"=>4,
+    "separator"=>"　",
+    "ellipsis"=>"　...　",
+    "class"=>"",
+    "currentClass"=>"",
+]);
+?>
 </div>

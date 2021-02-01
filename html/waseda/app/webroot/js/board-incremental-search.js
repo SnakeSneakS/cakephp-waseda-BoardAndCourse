@@ -2,7 +2,7 @@ window.onload=function(){
 
     var boards_area=document.getElementsByClassName("boards_area")[0];
     var search={
-        interval: 2000,
+        interval: 1000,
         available: true,
         reserve: false,
         title: "",
@@ -45,7 +45,15 @@ window.onload=function(){
 
         var result="";
 
-        data.forEach(function(d){
+        if(data["boards"].length>=data["limit"]){
+            result+="<p style='color:red;'>"+data["limit"]+"件以上検出されました。検索条件を厳しくしてください。</p>";
+        }
+
+        if(data["boards"].length==0){
+            result+="<p style='color:red;'>検索結果: なし</p>";
+        }
+
+        data["boards"].forEach(function(d){
             result+="<div class='board'>";
             result+="<div>"
             result+="<span class='board_link'><a href=./view/"+h(d["Board"]["id"])+">"+h(d["Board"]["title"])+"</a> </span>";
@@ -66,9 +74,15 @@ window.onload=function(){
                         .replace(/>/g,'&gt;'); 
     }
 
+    //autocomplete disturb view, so turn off
+    $(".board_incremental_search").attr("autocomplete","off");
+
+    //add event
     $(".board_incremental_search").on("input",function(){
         search.title=$(this).val();
-        search.func();
+        //if(search.title){ // ban [search by ""(空文字) -> find all ]
+            search.func();
+        //}
     });
 
 }

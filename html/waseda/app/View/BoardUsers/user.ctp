@@ -1,10 +1,10 @@
 <?php //debug($boards); debug($user); ?>
 
 <div>
-    <h2>
+    <span>
         <?php echo $this->Html->Link($user["User"]["username"], ["controller"=>"users", "actions"=>"view", $user["User"]["id"] ]  ) ?>
         がwatchしている掲示板： 
-    </h2>
+    </span>
 </div>
 
 
@@ -17,4 +17,29 @@
         </div>
     </div>
     <?php endforeach; ?>
+</div>
+
+
+<div>
+<span>Sort by: </span>
+<?php 
+if(isset($boards)){
+    echo "<span>".$this->Paginator->sort('Board.title', 'タイトル', ["direction"=>"asc"])." </span>"; 
+    echo "<span>".$this->Paginator->sort('Board.modified', '更新日時', ["direction"=>"asc"])." </span>"; 
+}
+?>
+</div>
+
+<div class="paginate_numbers">
+<?php
+echo $this->Paginator->numbers([
+    "first"=>1,
+    "last"=>1,
+    "modulus"=>4,
+    "separator"=>"　",
+    "ellipsis"=>"　...　",
+    "class"=>"",
+    "currentClass"=>"",
+]);
+?>
 </div>

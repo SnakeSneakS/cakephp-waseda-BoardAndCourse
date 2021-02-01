@@ -52,3 +52,26 @@
         <?php endforeach; ?>
     </ul>
 </div>
+
+<div>
+<span>Sort by: </span>
+<?php 
+if(isset($users)){
+    echo "<span>".$this->Paginator->sort('User.username', 'ユーザネーム', ["direction"=>"asc"])." </span>"; 
+}
+?>
+</div>
+
+<div class="paginate_numbers">
+<?php
+echo $this->Paginator->numbers([
+    "first"=>1,
+    "last"=>1,
+    "modulus"=>4,
+    "separator"=>"　",
+    "ellipsis"=>"　...　",
+    "class"=>"",
+    "currentClass"=>"",
+]);
+?>
+</div>
