@@ -7,7 +7,7 @@ class BoardsController extends AppController{
     //auth
     public function beforeFilter() {
         parent::beforeFilter();
-        $this->Auth->allow("index","view");
+        $this->Auth->allow("index","view",);
     }
     public function isAuthorized($user)
     {        
@@ -19,7 +19,12 @@ class BoardsController extends AppController{
             
         }else if($this->request->is("get")){ //GET
             //add board - [all login user]
-            if( in_array($this->action, ["add"]) ){
+            if( in_array($this->action, ["add","search"]) ){
+                return true;
+            }
+        }else if($this->request->is("ajax")){ //AJAX
+            //incremental search - [all login user]
+            if( in_array($this->action, ["search"]) ){
                 return true;
             }
         }
@@ -48,6 +53,26 @@ class BoardsController extends AppController{
                 $this->Flash->error("invalid board");
                 return $this->redirect(["action"=>"view",1]);
             }
+        }
+    }
+
+    public function search(){
+        if($this->request->is("ajax")){
+            $this->autoRender=false;
+            //return json_encode(["data"=>$this->request->query["title"]]);
+            $data= $this->Board->find("all",[
+                "conditions"=>[
+                    "Board.title like"=>"%".$this->request->query["title"]."%",
+                ],
+                "fields"=>[
+                    "Board.id","Board.title","Board.modified",//"Board.description",
+                ],
+                "order"=>"Board.modified asc",
+                "recursive"=>-1
+            ]);
+            return json_encode($data);
+        }else if($this->request->is("get")){
+            
         }
     }
 

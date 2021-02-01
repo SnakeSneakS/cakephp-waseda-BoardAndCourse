@@ -1,8 +1,24 @@
 <?php //debug($board_base); debug($boards); debug($comments); ?>
 
 <div>
-    <?php echo empty($login_id)?"未ログイン":$this->Html->Link("自分がwatchしている掲示板",["controller"=>"BoardUsers","action"=>"user",$login_id]); ?>
+    <span>
+        <?php 
+        if(empty($login_id)) echo $this->Html->Link("未ログイン",["controller"=>"users","action"=>"login"]);
+        ?>
+    </span>
+    <span>
+        <?php 
+        if(!empty($login_id)) echo $this->Html->Link("自分がwatchしている掲示板",["controller"=>"BoardUsers","action"=>"user",$login_id]); 
+        ?>
+    </span>
+    <span class="right">
+        <?php 
+        if(!empty($login_id)) echo $this->Html->Link("検索",["action"=>"search"]);
+        ?>
+    </span>
 </div>
+
+
 
 <div class="board_base">
     <div> 
