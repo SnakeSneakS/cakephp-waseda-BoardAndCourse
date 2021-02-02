@@ -1,19 +1,23 @@
-# 初めに
-- 私は初心者ですので色々分からない場所がたくさんあります
-- 改善に協力していただける方いらしたら大変感謝いたします
--  Docker - MYSQL, Apache, PHP を使って早稲田の学科情報を収集しようという企画です。
+# What is this?
+- Website using Docker, MYSQL, Apache, PHP, (cakePHP) 
+- waseda course survey and free board chatting
+- [Details Here](./html/waseda/MVC.md)
 
-# 手元で動かす場合
-- <code>git clone このレポジトリ</code>
-- sample.env の中身を適当に書き換える
+# how to run
+- <code>git clone</code>
+- write your own sample.env
 - <code>cp sample.env .env</code>
-- /htmlのしたに公開ファイルをおく (ルートディレクトリにマウントされる。)
+- (if you want to add another file published, put the file under /html folder )
 
-# wasedaフォルダをいじるのに必要(cakephp v2.10を使用)
-- .envの環境変数varの値を{var}で表す
-- html/waseda/app/Config/database.php.defaultの最後の「.default」を削除した「database.php」の中の、hostを{MYSQL_CONTAINER_NAME}, loginを{MYSQL_USER}, passwordを{MYSQL_PASSWORD}, databaseを{MYSQL_DATABASE},にする。
-- dockerを起動して http://localhost:{SERVER_PORT}/waseda/ にアクセスして「DebugKit...」以外が全て緑色か確かめる。他に赤色or黄色があればどこかに設定不十分な場所や設定不具合な場所がある。その場合連絡ください。
+# how to run html/waseda/ application(using cakephp v2.10)
+- delete the last ".default" of html/waseda/app/Config/database.php.default. Set  host as {MYSQL_CONTAINER_NAME}, login as {MYSQL_USER}, password as {MYSQL_PASSWORD}, database as {MYSQL_DATABASE} in html/waseda/app/Config/database.php. {name} is reffering to {name} variable in .env file.
+- run docker. access to http://localhost:{SERVER_PORT}/waseda/ and confirm it works well.
 
-# 連絡先
-- github
-- [twitter](https://twitter.com/snakesneaks)
+# Thanks
+- I'm very beginner and wellcome your all help.
+- I appreciate it if you improve this,
+
+# contact
+- Wellcome your contact to me.
+    - github
+    - [twitter](https://twitter.com/snakesneaks)
