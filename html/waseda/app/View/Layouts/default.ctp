@@ -41,12 +41,18 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	?>
 </head>
 <body>
+	<div>
+	<noscript class="alert-message"> javascriptをオンにしてください </noscript>
+	</div>
 	<div id="container">
 		<div id="header">
 			<h1>
 				<?php //echo $this->Html->link($cakeDescription, 'https://cakephp.org'); ?>
-				<?php echo $this->Html->link("Home", '/'); ?>
+				
 			</h1>
+			<h4 style="color:white;">
+				<?php echo $this->Html->link("Home", '/'); ?>
+			</h4>
 		</div>
 		<div id="content">
 
@@ -55,14 +61,15 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-			<?php echo $this->Html->link(
+			<p>thanks for everyone...</p>
+			<?php /*echo $this->Html->link(
 					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
 					'https://cakephp.org/',
 					array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
-				);
+				);*/
 			?>
 			<p>
-				<?php echo $cakeVersion; ?>
+				<?php //echo $cakeVersion; ?>
 			</p>
 		</div>
 	</div>
