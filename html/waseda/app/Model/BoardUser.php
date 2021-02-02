@@ -14,6 +14,9 @@ class BoardUser extends AppModel{//table courses
 
     public $validation=array(
         "user_id"=>[
+            "unique"=>[
+                "rule"=>["isUnique",["user_id","board_id","type"],false]
+            ],
             "notBlank"=>[
                 "rule"=>"notBlank",
                 "message"=>"user is required",

@@ -34,11 +34,17 @@ class User extends AppModel{
                 'message' => '名前は2文字以上32文字以内で入力してください',
                 "required"=>true,
             ],
+            "unique"=>[
+                "rule"=>"isUnique",
+                "message"=>"このユーザネームは既に使われています"
+            ]
         ),
         "password" => array(
-            "required" => "create",
-            "rule" => "notBlank",
-            "message" => "A password is required"
+            "length"=>[
+                "rule"=>["lengthBetween", 6, 64],
+                'message' => 'パスワードは6文字以上64文字以内で入力してください',
+                "required"=>"create",
+            ]
         ),
         'role' => array(
             'create-rule' => [
