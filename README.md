@@ -3,6 +3,9 @@
 - waseda course survey and free board chatting
 - [Details Here](./html/waseda/MVC.md)
 
+# my device
+- macOS Catalina
+
 # how to run
 - <code>git clone</code>
 - write your own sample.env
