@@ -59,6 +59,10 @@ class AppController extends Controller {
         "Flash",
         "Auth" => array(
             "authError"=>"アクセス権限を持っていません。",
+            "unauthorizedRedirect"=>array(
+                "controller"=>"mains",
+                "action"=>"index",
+            ),
             "loginRedirect" => array(
                 "controller" => "users",
                 "action" => "index"
@@ -90,5 +94,18 @@ class AppController extends Controller {
         //debug($user);
         //If you assign "admin" role, you must re-login to update $user
         return isset($user["role"]) && $user["role"]==="admin";
+    }
+
+    //usage
+    // in in [$this->request->is("post")] in [isAuthorize] in [Controller]
+    // if($this->banFields($this->request->data,$user)){ return false; } 
+    public function banFields($data,$user){
+        if( 
+            (
+                isset($data["Board"]["allow_board_to"]) 
+                || isset($data["Board"]["allow_comment_to"]) 
+                || isset($data["User"]["role"])  
+            ) && $user["role"]!=="admin" 
+        ){ return true; }
     }
 }

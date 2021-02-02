@@ -85,6 +85,7 @@
     </thead>  
     <tbody>
         <?php for($i=0;$i<count($availableDepartmentSelections) && $i<1+count($userDepartmentSelections);$i++) : ?>
+        <?php if(empty($gpa["Gpa"]["gpa"]) ){echo $this->Html->tag("td", $this->Html->tag("div","gpaを入力&登録してください",["class"=>"alert-message"]) ); continue;} ?>
         <tr>
             <?php echo $this->Form->create("UserDepartmentSelection",["url"=>["controller"=>"departmentSelections","action"=>"selection_add",$user["User"]["id"] ] ]) ?>
             <?php echo $this->Form->hidden("UserDepartmentSelection.id",array("default"=>!empty($userDepartmentSelections[$i]["UserDepartmentSelection"]["id"])?$userDepartmentSelections[$i]["UserDepartmentSelection"]["id"]:null )); ?>
@@ -99,6 +100,17 @@
         <?php endfor ?>
     </tbody>
 </table>
+
+<div>
+<?php 
+if(count($userDepartmentSelections)!=0){
+    echo $this->Form->create("UserDepartmentSelection",["url"=>["controller"=>"DepartmentSelections","action"=>"selection_delete_all",$user["User"]["id"] ]]);
+    echo $this->Form->hidden("UserDepartmentSelection.user_id",["default"=>$user["User"]["id"]]);
+    echo $this->Form->end("学科選択を消去");
+}
+ ?>
+</div>
+
 <?php if(count($availableDepartmentSelections)==0) echo "<p class='alert-message'> あなたの学科「".$userDepartment["Department"]["department"]."」には選択できる学科が存在しません. </p>"; ?>
 
 

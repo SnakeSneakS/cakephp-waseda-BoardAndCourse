@@ -14,17 +14,26 @@ class BoardUser extends AppModel{//table courses
 
     public $validation=array(
         "user_id"=>[
-            "required"=>true,
-            "message"=>"user is required",
+            "notBlank"=>[
+                "rule"=>"notBlank",
+                "message"=>"user is required",
+            ]
         ],
         "board_id"=>[
-            "required"=>true,
-            "message"=>"board is required",
+            "notBlank"=>[
+                "rule"=>"notBlank",
+                "message"=>"board is required",
+            ]
         ],
         "type"=>[
-            "required"=>true,
-            "rule"=>[ "inList"=>["watch"] ],
-            "message"=>"invalid type",
+            "list"=>[
+                "rule"=>[ "inList"=>["watch"] ],
+                "message"=>"invalid type",
+            ],
+            "notBlank"=>[
+                "rule"=>"notBlank",
+                "message"=>"user is required",
+            ]
         ]
     );
 

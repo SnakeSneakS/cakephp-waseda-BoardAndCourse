@@ -9,9 +9,14 @@ class BoardsController extends AppController{
         parent::beforeFilter();
         $this->Auth->allow("index","view",);
     }
+    //authorize
     public function isAuthorized($user)
     {        
         if($this->request->is("post")){ //POST
+
+            //ban fields
+            if($this->banFields($this->request->data,$user)){ return false; }
+
             //add board - [all login user]
             if( in_array($this->action, ["add"]) ){
                 return true;
@@ -133,24 +138,14 @@ class BoardsController extends AppController{
             }
 
             if($this->Board->save($this->request->data)){
-                //to update "modified" of board
-                $i=0; $nowId=$to_board_id;
-                while(1){
-                    $newId=$this->Board->findById($nowId)["Board"]["to_board_id"];
-                    $this->Board->save([ "Board"=>["id"=>$nowId] ]); 
-
-                    if($nowId==$newId){ break; }
-                    else{ $nowId=$newId; }
-
-                    if($i>30){ $this->Flash->error("Error! infinite loop happen :(");  break; }
-                    else{$i++;}
-                }
+                //update modified datetime of tree boards
+                $this->Board->updateModifiedOfBoards($this->request->data["Board"]["to_board_id"]);
                 
                 $this->Flash->success("Success!");//保存成功
                 return $this->redirect(["controller"=>"boards","action"=>"view",$to_board_id]);
             }else{
                 $this->Flash->error("Failed!");//保存失敗
-                return $this->redirect(["controller"=>"boards","action"=>"view",$to_board_id]);
+                return $this->redirect(["controller"=>"boards","action"=>"add",$to_board_id]);
             }
         }
         //$this->set('post',$this->Post->find('all'));

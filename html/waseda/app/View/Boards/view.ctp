@@ -45,7 +45,7 @@ if(isset($comments)){ debug($comments); }else{ debug(["Comment"=>null]); }
     <div class="board_description">
         <?php echo nl2br( $board_base["Board"]["description"] ); ?>
     </div>
-    <div class="board_user">
+    <div class="board_user_watch">
         <?php 
             if(isset($board_user["BoardUser"]["type"]) && $board_user["BoardUser"]["type"]==="watch"){
                 echo $this->Form->create("BoardUser",["url"=>["controller"=>"BoardUsers","action"=>"delete"]]);
@@ -67,13 +67,18 @@ if(isset($comments)){ debug($comments); }else{ debug(["Comment"=>null]); }
 
 <div>
     <div>
-        <button class="add_board">
-            <?php if($board_base["Board"]["allow_board_to"]==true) echo $this->Html->Link("板追加",["action"=>"add",$board_base["Board"]["id"]]); ?>
+        <button class="add_board_to">
+            <?php 
+                if($board_base["Board"]["allow_board_to"]==true) echo $this->Html->Link("板追加",["action"=>"add",$board_base["Board"]["id"]]); 
+                ?>
+        </button>
+        <button class="add_comment_to">
+            <?php 
+                if($board_base["Board"]["allow_comment_to"]==true) echo $this->Html->Link("コメント追加",["controller"=>"comments","action"=>"add",$board_base["Board"]["id"]]);
+            ?>
         </button>
     </div>
     <div>
-        <button class="add_comment">
-            <?php if($board_base["Board"]["allow_comment_to"]==true) echo $this->Html->Link("コメント追加",["controller"=>"comments","action"=>"add",$board_base["Board"]["id"]]); ?>
         </button>
         <div>
             <?php /*if($board_base["Board"]["allow_comment_to"]==true){

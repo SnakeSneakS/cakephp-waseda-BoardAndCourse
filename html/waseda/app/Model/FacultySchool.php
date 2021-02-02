@@ -11,4 +11,30 @@ class FacultySchool extends AppModel{//table course_selections
             'foreignKey' => 'school_id'
         )
     );
+
+    public $validate=array(
+        "faculty_id"=>[
+            "numeric"=>[
+                "rule"=>"numeric",
+                "required"=>true,
+                "message"=>"invalid faculty",
+            ],
+            "unique"=>[
+                "rule"=>["isUnique",["faculty_id","school_id"],false],
+            ]
+        ],
+        "school_id"=>[
+            "rule"=>"numeric",
+            "required"=>true,
+            "message"=>"invalid school",
+        ],
+        "delete"=>[
+            "rule"=>["isAdmin",[]],
+            "allowEmpty"=>true,
+        ]
+    );
+
+    public function isAdmin($check,$opt){
+        return true;
+    }
 }

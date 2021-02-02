@@ -11,6 +11,9 @@ class CommentsController extends AppController{
     public function isAuthorized($user)
     {        
         if($this->request->is("post")){ //POST
+            //ban fields
+            if($this->banFields($this->request->data,$user)){ return false; }
+
             //add comment - [all login user]
             if( in_array($this->action, ["add"]) ){
                 return true;
@@ -46,18 +49,8 @@ class CommentsController extends AppController{
             }
 
             if($this->Comment->save($this->request->data)){
-                //to update "modified" of board
-                $i=0; $nowId=$to_board_id;
-                while(1){
-                    $newId=$this->Board->findById($to_board_id)["Board"]["to_board_id"];
-                    $this->Board->save([ "Board"=>["id"=>$to_board_id] ]); 
-
-                    if($nowId==$newId){ break; }
-                    else{ $nowId=$newId; }
-
-                    if($i>30){ $this->Flash->error("Error! infinite loop happen :(");  break; }
-                    else{$i++;}
-                }
+                //update modified datetime of tree boards
+                $this->Board->updateModifiedOfBoards($this->request->data["Comment"]["to_board_id"]);
 
                 $this->Flash->success("Success!");//保存成功
                 return $this->redirect(array("controller"=>"boards","action"=>"view",$this->data["Comment"]["to_board_id"]));

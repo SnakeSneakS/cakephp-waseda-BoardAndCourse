@@ -12,8 +12,10 @@ class UsersController extends AppController{
     //beforeFilterのAuth->allow以外で、isAuthorizedを突破した者のみアクセス許可
     public function isAuthorized($user){
         //debug($user);
-
         if($this->request->is("post")){
+            //ban fields
+            if($this->banFields($this->request->data,$user)){ return false; }
+
             //don't allow if [user is login] //to allow non-login user, must declare $this->Auth->allow & declare $this->isAuthorize in each [action function]
             if( in_array($this->action, ["add","login"]) ){
                 if($user===null || $user["role"]==="admin") return true;
@@ -22,6 +24,9 @@ class UsersController extends AppController{
             
             //allow to its owner
             if( in_array($this->action, ["edit"]) ){
+                //only admin user can set [role]
+                if(isset($this->request->data["User"]["role"]) && $user["role"]!=="admin"){ return false; }
+
                 if($this->request->data["User"]["id"]===$user["id"] && $this->request->data["Profile"]["user_id"]===$user["id"]) return true;
             }
 
@@ -144,7 +149,7 @@ class UsersController extends AppController{
             }
 
             //profile enter year //debug($this->request->data);
-            $this->request->data["Profile"]["enter_year"]=$this->request->data["Profile"]["enter_year"]["year"]?$this->request->data["Profile"]["enter_year"]["year"]:null;
+            
 
             /*
             //when handle image as input image file
@@ -177,21 +182,22 @@ class UsersController extends AppController{
                 return $this->redirect(array('action' => 'view',$id));  
             }else{
                 $this->Flash->error('edit Failed');
-                debug($this->request->data);
-                return $this->redirect(array('action' => 'index'));  
+                //debug($this->request->data);
+                return $this->redirect(array('action' => 'view',$id));  
             }
         } 
     }
 
     //see schoolDepartment index
     public function schoolDepartment() {
-        /* GET */
+        // GET 
         if ($this->request->is('get')){
             $this->set('schools',$this->School->find('all',array('order' => 'School.school asc')) );
             $this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
             $this->set('schoolDepartments',$this->SchoolDepartment->find('all',array('order' => 'SchoolDepartment.id asc')) );
         }
-        /* POST */
+        // POST
+        /* 
         else if ($this->request->is('post')) { 
             //if($this->request->data["SchoolDepartment"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
@@ -214,18 +220,19 @@ class UsersController extends AppController{
                     return $this->redirect(array('action' => 'schoolDepartment'));  
                 }
             }   
-        }  
+        }  */
     }
 
     //see facultySchool index
     public function facultySchool() {
-        /* GET */
+        // GET 
         if ($this->request->is('get')){
             $this->set('faculties',$this->Faculty->find('all',array('order' => 'Faculty.faculty asc')) );
             $this->set('schools',$this->School->find('all',array('order' => 'School.school asc')) );
             $this->set('facultySchools',$this->FacultySchool->find('all',array('order' => 'FacultySchool.id asc')) );
         }
-        /* POST */
+        // POST 
+        /*
         else if ($this->request->is('post')) { 
             //if($this->request->data["FacultySchool"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
@@ -248,28 +255,34 @@ class UsersController extends AppController{
                     return $this->redirect(array('action' => 'facultySchool'));  
                 }
             }   
-        }  
+        }  */
     }
 
     //see userDepartmentSelections index
+    /*
     public function userDepartmentSelection() {
-        /* GET */
+        // GET 
         if ($this->request->is('get')){
             //$this->set('departments',$this->Department->find('all',array('order' => 'Department.department asc')) );
             $this->set('availableDepartmentSelections',$this->AvailableDepartmentSelection->find('all',array('order' => 'AvailableDepartmentSelection.id asc','recursive'=>1)) );
             $this->set('userDepartmentSelections',$this->UserDepartmentSelection->find('all',array('order' => 'UserDepartmentSelection.id asc','recursive'=>1)) );
         }
-        /* POST */
+        // POST 
         else if ($this->request->is('post')) { 
             //if($this->request->data["UserDepartmentSelection"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
             if($this->request->data["UserDepartmentSelection"]["delete"]==true){
-                $delete=$this->UserDepartmentSelection->delete($this->request->data["UserDepartmentSelection"]["id"]);
-                if (!empty($delete)) { 
-                    $this->Flash->success('delete success!');
-                    return $this->redirect(array('action' => 'userDepartmentSelection'));  
+                if($this->request->data["UserDepartmentSelection"]["user_id"]===$this->Auth->user("id")){
+                    $delete=$this->UserDepartmentSelection->delete($this->request->data["UserDepartmentSelection"]["id"]);
+                    if (!empty($delete)) { 
+                        $this->Flash->success('delete success!');
+                        return $this->redirect(array('action' => 'userDepartmentSelection'));  
+                    }else{
+                        $this->Flash->error('delete Failed');
+                        return $this->redirect(array('action' => 'userDepartmentSelection'));  
+                    }
                 }else{
-                    $this->Flash->error('delete Failed');
+                    $this->Flash->error('delete Failed: access error!');
                     return $this->redirect(array('action' => 'userDepartmentSelection'));  
                 }
             }else{
@@ -283,7 +296,7 @@ class UsersController extends AppController{
                 }
             }   
         }  
-    }
+    }*/
 
     public function LimitedSchools(){ //for Ajax //need faculty_id
         $this->autoRender=false;

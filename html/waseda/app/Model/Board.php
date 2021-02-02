@@ -20,19 +20,80 @@ class Board extends AppModel{//table courses
         */
     ];
 
-    public $validation=array(
-        /*
-        $allow_board_to=$this->Board->findById($this->request->data["Board"]["to_board_id"],["recursive"=>-1,"fields"=>["Board.allow_board_to"] ] );
-            if( isset($allow_board_to) && $allow_board_to["Board"]["allow_board_to"]===true ){
-                return true;
-            }
-        */
+    public $validate=array(
+        "user_id"=>[
+            "number"=>[
+                "rule"=>"numeric",
+                "message"=>"整数です",
+            ],
+            "notBlank"=>[
+                "rule"=>"notBlank",
+                "message"=>"user is required",
+            ]
+        ],
+        "to_board_id"=>[
+            "number"=>[
+                "rule"=>"numeric",
+                "message"=>"整数です",
+            ],
+            "notBlank"=>[
+                "rule"=>"notBlank",
+                "message"=>"to board is required",
+                "required"=>true,
+            ]
+        ],
+        "title"=>[
+            /*"unique"=>[
+                "rule"=>"isUnique",
+                "notEmpty"=>true,
+            ],*/
+            "length"=>[
+                "rule"=>["maxLength",32],
+                "message"=>"最大32文字",
+            ],
+            "notBlank"=>[
+                "rule"=>"notBlank",
+                "message"=>"not blank",
+                "required"=>true,
+            ]
+        ],
+        "description"=>[
+            "length"=>[
+                "rule"=>["maxLength",255],
+                "message"=>"最大255文字",
+                "allowEmpty"=>true,
+            ],
+        ],
+        "allow_comment_to"=>[
+            
+        ],
+        "allow_board_to"=>[
+            
+        ],
+        "created"=>[
+            "rule"=>"blank"
+        ],
+        "modified"=>[
+            "rule"=>"blank"
+        ],
     );
 
-    /*
-    public function isOwnedBy($board_id, $user_id){
-        //if found column ("id"=>$board_id,"user_id"=>$user_id), return true
-        return $this->field("id",["id"=>$board_id,"user_id"=>$user_id]) !== false;
+    public function updateModifiedOfBoards($to_board_id=null){
+        //to update "modified" of board
+        //debug($data);
+        if($to_board_id==null){ debug($this->data); return; }
+        $i=0; $nowId=$to_board_id;
+        while(1){
+            $this->create();
+            $newId=$this->findById($nowId)["Board"]["to_board_id"];
+            $this->save([ "Board"=>["id"=>$nowId] ]); 
+
+            if($nowId==$newId){ break; }
+            else{ $nowId=$newId; }
+
+            if($i>30){ $this->Flash->error("Error! infinite loop happen :(");  break; }
+            else{$i++;}
+        }
     }
-    */
+
 }

@@ -9,7 +9,6 @@ class AdminsController extends AppController{
     //auth
     public function beforeFilter() {
         parent::beforeFilter();
-        //$this->Auth->allow("index");
     }
     public function isAuthorized($user)
     {        

@@ -16,8 +16,11 @@ class DepartmentSelectionsController extends AppController{
         //authentication check
 
         if($this->request->is("post")){ //POST
+            //ban fields
+            if($this->banFields($this->request->data,$user)){ return false; }
+
             //user
-            if( in_array($this->action, ["selection_add"]) ){
+            if( in_array($this->action, ["selection_add",]) ){
                 if (
                     //user_id check
                     $this->request->data["UserDepartmentSelection"]["user_id"]===$user["id"] 
@@ -35,6 +38,10 @@ class DepartmentSelectionsController extends AppController{
                     && $this->request->data["UserDepartmentSelection"]["now_department_id"]===$this->User->findById($user["id"],["fields"=>"Profile.department_id"])["Profile"]["department_id"]
                 );
                 */
+            }
+            //user selection delete
+            if( in_array($this->action, ["selection_delete_all"]) ){
+                if ($this->request->data["UserDepartmentSelection"]["user_id"]===$user["id"]) return true; 
             }
             //gpa
             if( in_array($this->action, ["edit_gpa"]) ){
@@ -92,6 +99,23 @@ class DepartmentSelectionsController extends AppController{
             $saved=$this->UserDepartmentSelection->save($this->request->data); 
             if (!empty($saved)) { 
                 $this->Flash->success('change success!');
+                return $this->redirect(array('action' => 'user_add',$id));  
+            }else{
+                $this->Flash->error('change Failed');
+                return $this->redirect(array('action' => 'user_add',$id));  
+            }
+            
+        }  
+    }
+
+    public function selection_delete_all($id=null) {
+        /* POST */
+        if ($this->request->is("post")) { 
+            if($this->request->data["UserDepartmentSelection"]["user_id"]!=$id) return $this->Flash->error('not match $id');
+            
+            $deleted=$this->UserDepartmentSelection->deleteAll(["UserDepartmentSelection.user_id"=>$this->request->data["UserDepartmentSelection"]["user_id"]]); 
+            if (!empty($deleted)) { 
+                $this->Flash->success('delete success!');
                 return $this->redirect(array('action' => 'user_add',$id));  
             }else{
                 $this->Flash->error('change Failed');

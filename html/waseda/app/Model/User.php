@@ -29,9 +29,11 @@ class User extends AppModel{
 
     public $validate = array(
         "username" => array(
-            "required" => true,
-            "rule" => "notBlank",
-            "message" => "A name is required"
+            'rule1' => [
+                'rule' => array('lengthBetween', 2, 32),
+                'message' => '名前は2文字以上32文字以内で入力してください',
+                "required"=>true,
+            ],
         ),
         "password" => array(
             "required" => "create",
@@ -46,7 +48,7 @@ class User extends AppModel{
                 "on" => "create"
             ],
             'update-rule' => [
-                'rule'=>[ 'inList', ['author'/*,'admin'*/] ],
+                'rule'=>[ 'inList', ['author','admin'] ],
                 'message' => 'Please enter a valid role',
                 'allowEmpty' => true,
                 "on" => "update"
