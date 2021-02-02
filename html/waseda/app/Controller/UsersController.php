@@ -189,7 +189,9 @@ class UsersController extends AppController{
     }
 
     //see schoolDepartment index
+    /*
     public function schoolDepartment() {
+        
         // GET 
         if ($this->request->is('get')){
             $this->set('schools',$this->School->find('all',array('order' => 'School.school asc')) );
@@ -197,7 +199,6 @@ class UsersController extends AppController{
             $this->set('schoolDepartments',$this->SchoolDepartment->find('all',array('order' => 'SchoolDepartment.id asc')) );
         }
         // POST
-        /* 
         else if ($this->request->is('post')) { 
             //if($this->request->data["SchoolDepartment"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
@@ -220,10 +221,11 @@ class UsersController extends AppController{
                     return $this->redirect(array('action' => 'schoolDepartment'));  
                 }
             }   
-        }  */
-    }
+        }  
+    }*/
 
     //see facultySchool index
+    /*
     public function facultySchool() {
         // GET 
         if ($this->request->is('get')){
@@ -232,7 +234,7 @@ class UsersController extends AppController{
             $this->set('facultySchools',$this->FacultySchool->find('all',array('order' => 'FacultySchool.id asc')) );
         }
         // POST 
-        /*
+        
         else if ($this->request->is('post')) { 
             //if($this->request->data["FacultySchool"]["id"]==0) return $this->Flash->error('$id=0のとき、updateされずinsertされてしまう');
             
@@ -255,8 +257,8 @@ class UsersController extends AppController{
                     return $this->redirect(array('action' => 'facultySchool'));  
                 }
             }   
-        }  */
-    }
+        }  
+    }*/
 
     //see userDepartmentSelections index
     /*
