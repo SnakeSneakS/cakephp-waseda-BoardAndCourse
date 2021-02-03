@@ -5,5 +5,5 @@
 /memo.md
 
 # mysqlの中身データを除外
-/mysql/*
-!/mysql/my.conf
+db/mysql/*
+!/db/my.conf
