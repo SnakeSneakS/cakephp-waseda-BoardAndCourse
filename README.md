@@ -15,7 +15,7 @@
 # how to run html/waseda/ application(using cakephp v2.10)
 - delete the last ".default" of html/waseda/app/Config/database.php.default. Set  host as {MYSQL_CONTAINER_NAME}, login as {MYSQL_USER}, password as {MYSQL_PASSWORD}, database as {MYSQL_DATABASE}, port as {MYSQL_PORT} in html/waseda/app/Config/database.php. {name} is reffering to {name} variable in .env file.
 - run docker. access to http://localhost:{SERVER_PORT}/waseda/ and confirm it works well.
-- <span style="color:red">Sorry... Database migration is not available now, so you can't test this application until you create mysql tables by your own. </span>
+- Sorry... Database migration is not available now, so you can't test this application until you create mysql tables by your own. SQL to create my test tables is [here](./TestMysqlTable/test.sql)
 
 # Thanks
 - I'm very beginner and wellcome your all help.
